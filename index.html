@@ -3,950 +3,577 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>One Day More — Interactive Classroom Presentation</title>
-
-  <!-- Google Fonts: Cinzel & Montserrat -->
+  <title>Les Misérables: "One Day More" - Classroom Presentation</title>
+  
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- FontAwesome Icons CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            mizGold: '#f5c358',
-            mizGoldLight: '#fef08a',
-            mizCrimson: '#b91c1c',
-            mizCrimsonBright: '#dc2626',
-            mizNavy: '#0c1322',
-            mizNavyDark: '#060a12',
-          },
-          fontFamily: {
-            cinzel: ['Cinzel', 'serif'],
-            montserrat: ['Montserrat', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
+  
   <style>
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+    body {
       font-family: 'Montserrat', sans-serif;
-      background-color: #060a12;
-      color: #f8fafc;
-      user-select: none;
+      background: #070c18;
+      color: #f3f4f6;
     }
-
-    /* Cinematic Les Misérables Blue & Crimson Watercolor Backdrop */
-    .miz-canvas {
-      background: 
-        linear-gradient(rgba(6, 10, 18, 0.88), rgba(6, 10, 18, 0.94)),
-        url('https://lh3.googleusercontent.com/gg/ACRwjasKIhtHPvngNOe34DziR9msKg9pqytkLoXNn6U9BD8-NjvxWI6lvqDhbOVsOo3ApllivPpSHYkNvLHVlGSz5kn7KB4K5CLVBse2TNoTPaZf72kUy3sHQwgpgTwQJ7-3hoIl5nfFBMcnqEAerBm68OwnxZg5CmMskI4AghOi-zjkQlig3tYEo6I9xxqvVJBf9EHxa0fu5xQpCvIxjtyfLFpv9A9vaQ60tmAcUA_66VB0SVkW_0gJrMv2JczphaSdBgnQGJuTTKEN-zr3Sud6MW6PgYYroLuW49s=s0') 
-        center/cover no-repeat;
+    .cinzel {
+      font-family: 'Cinzel', serif;
     }
-
-    /* High-contrast presentation cards designed for classroom readability */
-    .slide-card-light {
-      background: rgba(255, 255, 255, 0.97);
+    .theater-backdrop {
+      background: radial-gradient(circle at 50% 20%, rgba(27, 42, 74, 0.85) 0%, rgba(7, 12, 24, 0.98) 100%),
+                  url('https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=2000&q=80') center/cover fixed;
+    }
+    .card-glass {
+      background: rgba(13, 21, 38, 0.88);
       backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(212, 175, 55, 0.25);
     }
-
-    .slide-card-dark {
-      background: rgba(12, 19, 34, 0.96);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(245, 195, 88, 0.35);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
-    }
-
-    .gold-glow {
-      box-shadow: 0 0 25px rgba(245, 195, 88, 0.25), 0 14px 38px rgba(0, 0, 0, 0.7);
-    }
-
-    .custom-scroll::-webkit-scrollbar {
-      width: 7px;
-      height: 7px;
-    }
-    .custom-scroll::-webkit-scrollbar-track {
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 6px;
-    }
-    .custom-scroll::-webkit-scrollbar-thumb {
-      background: #475569;
-      border-radius: 6px;
-    }
-    .custom-scroll::-webkit-scrollbar-thumb:hover {
-      background: #f5c358;
-    }
-
-    /* Smooth slide view transitions without remounting parent */
-    .slide-pane {
-      display: none;
-      animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .slide-pane.active {
-      display: flex;
-    }
-
-    @keyframes fadeInSlide {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    .portrait-frame {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(212, 175, 55, 0.25);
     }
   </style>
 </head>
-<body class="miz-canvas flex flex-col justify-between h-screen w-screen overflow-hidden">
+<body class="theater-backdrop min-h-screen flex flex-col justify-between overflow-x-hidden">
 
-  <!-- Top Navigation & Timeline Chapter Bar -->
-  <header class="w-full bg-[#080d19]/95 backdrop-blur-md border-b border-mizGold/30 px-6 py-2.5 flex-shrink-0 z-50">
-    <div class="max-w-[1920px] mx-auto flex items-center justify-between gap-4">
-      
-      <!-- Brand & Title -->
-      <div class="flex items-center gap-3.5">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-mizCrimson to-red-950 flex items-center justify-center border-2 border-mizGold/60 text-mizGold font-cinzel font-black text-2xl shadow-lg">
-          M
-        </div>
-        <div>
-          <h1 class="text-lg sm:text-xl font-cinzel font-black tracking-wider text-white flex items-center gap-2.5">
-            One Day More
-            <span class="text-[11px] font-montserrat uppercase px-2.5 py-0.5 rounded-full bg-mizCrimson text-mizGold border border-mizGold/40 font-bold">
-              Classroom Companion
-            </span>
-          </h1>
-          <p class="text-xs text-slate-300 font-medium">Les Misérables • Interactive Presentation for Elementary Students</p>
-        </div>
+  <!-- Top Navigation & Sync Bar -->
+  <header class="w-full bg-[#0a101f]/90 border-b border-amber-500/20 px-6 py-3 flex items-center justify-between z-30">
+    <div class="flex items-center space-x-3">
+      <div class="w-3 h-8 bg-gradient-to-b from-blue-600 via-white to-red-600 rounded-sm"></div>
+      <div>
+        <h1 class="cinzel text-lg md:text-xl font-bold tracking-wide text-amber-100">Les Misérables</h1>
+        <p class="text-xs text-amber-400/80 font-medium">Musical Analysis: "One Day More"</p>
       </div>
-
-      <!-- Live Sync Controls & Fullscreen -->
-      <div class="flex items-center gap-3">
-        <!-- Auto-Sync Toggle -->
-        <button id="autoSyncBtn" onclick="toggleAutoSync()" class="px-3.5 py-1.5 rounded-lg border border-emerald-500/50 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-200 text-xs font-bold transition flex items-center gap-2 shadow" title="Toggle automatic slide advancement as video plays">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" id="syncDot"></span>
-          <span id="syncText">Auto-Sync: ON</span>
-        </button>
-
-        <!-- Fullscreen Button -->
-        <button onclick="toggleFullscreen()" class="bg-slate-900 hover:bg-slate-800 px-3.5 py-1.5 rounded-lg border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 shadow" title="Toggle Fullscreen">
-          <i class="fa-solid fa-expand text-mizGold"></i> Fullscreen
-        </button>
-      </div>
-
     </div>
 
-    <!-- Timeline Chapters Row -->
-    <div class="max-w-[1920px] mx-auto mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2 overflow-x-auto whitespace-nowrap custom-scroll">
-      <div class="flex items-center gap-1.5" id="timelineBar">
-        <!-- Injected via JavaScript -->
-      </div>
-      <div class="flex items-center gap-2 text-[11px] text-slate-400 pl-3 font-semibold flex-shrink-0">
-        <span>Use <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[10px]">←</kbd> and <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[10px]">→</kbd> to step manually</span>
-      </div>
+    <!-- Timeline Chapters -->
+    <div id="chapter-nav" class="hidden lg:flex items-center space-x-1"></div>
+
+    <!-- Controls -->
+    <div class="flex items-center space-x-3">
+      <button id="toggle-sync-btn" onclick="toggleAutoSync()" class="flex items-center space-x-2 text-xs font-semibold px-3 py-1.5 rounded-full border border-emerald-500/50 bg-emerald-950/60 text-emerald-300 hover:bg-emerald-900/60 transition">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="sync-status-text">Auto-Sync: ON</span>
+      </button>
+      <button onclick="toggleFullScreen()" title="Toggle Fullscreen" class="text-gray-400 hover:text-amber-300 transition p-2">
+        <i class="fa-solid fa-expand text-base"></i>
+      </button>
     </div>
   </header>
 
-  <main class="flex-1 w-full max-w-[1920px] mx-auto p-4 sm:p-5 lg:p-6 flex flex-col lg:flex-row gap-6 items-stretch overflow-hidden">
+  <!-- Main Stage (Split View) -->
+  <main class="flex-1 w-full max-w-[1750px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 p-4 md:p-6 items-center">
     
-    <!-- LEFT PANE: Persistent 16:9 Video Player (NEVER RELOADS) -->
-    <div class="w-full lg:w-[48%] xl:w-[46%] flex flex-col gap-3.5 flex-shrink-0">
-      
-      <!-- Video Container with IFrame API placeholder -->
-      <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black border-2 border-mizGold/50 shadow-2xl gold-glow flex items-center justify-center">
-        <!-- The YouTube IFrame API injects directly into this container -->
-        <div id="yt-player-container" class="w-full h-full"></div>
-      </div>
+    <!-- Left Column: Video Stage -->
+    <div class="lg:col-span-6 flex flex-col items-center">
+      <div class="w-full card-glass rounded-2xl p-3 sm:p-4 shadow-2xl relative border border-amber-500/30">
+        <!-- 16:9 Responsive Player Box -->
+        <div class="relative w-full pb-[56.25%] rounded-xl overflow-hidden bg-black shadow-inner">
+          <iframe 
+            id="yt-player"
+            class="absolute top-0 left-0 w-full h-full"
+            src="https://www.youtube.com/embed/fUToJj7OtSk?enablejsapi=1&list=RDfUToJj7OtSk&playsinline=1&rel=0" 
+            title="Les Misérables - One Day More" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
 
-      <!-- Timecode Cue Notification Bar -->
-      <div id="cueBanner" class="bg-gradient-to-r from-red-950 to-mizCrimson border border-mizGold/50 rounded-2xl p-3.5 shadow-xl flex items-center justify-between text-white transition-all duration-300">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-black/40 border border-mizGold/40 flex items-center justify-center text-mizGold text-lg font-black shadow-inner">
-            <i class="fa-solid fa-headphones-simple"></i>
+        <!-- Real-Time Musical Cue Banner -->
+        <div class="mt-3 flex items-center justify-between text-xs text-amber-200/90 bg-[#070b14]/70 px-4 py-2.5 rounded-lg border border-amber-500/20">
+          <div class="flex items-center space-x-2 truncate mr-2">
+            <i class="fa-solid fa-music text-amber-400 flex-shrink-0"></i>
+            <span id="active-cue-label" class="truncate">0:00 - Introduction & Title Roadmap</span>
           </div>
-          <div>
-            <div class="text-[10px] uppercase font-extrabold tracking-widest text-mizGold" id="cueSubtext">
-              OVERVIEW &amp; ROADMAP
-            </div>
-            <div class="text-sm sm:text-base font-bold tracking-wide" id="cueMainText">
-              Start Video at 0:00 (Paris, 1832)
-            </div>
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <span id="video-time-clock" class="font-mono text-amber-400 font-bold">0:00</span>
           </div>
         </div>
-        <button onclick="seekVideoToCurrentSlide()" class="px-3.5 py-2 rounded-xl bg-black/60 hover:bg-black/80 border border-mizGold/60 text-xs font-bold text-mizGold transition flex items-center gap-1.5 shadow hover:scale-105 active:scale-95" title="Seek video to current character timestamp">
-          <i class="fa-solid fa-bolt"></i> Jump Video
-        </button>
       </div>
-
-      <!-- Quick Chapter Seek Pad -->
-      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-3 shadow-lg flex items-center justify-between gap-2">
-        <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap">
-          <button onclick="quickJump(0)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition">
-            <i class="fa-solid fa-backward-step mr-1"></i> Start
-          </button>
-          <button onclick="quickJump(35)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs border border-slate-700 transition">
-            0:35 Duet
-          </button>
-          <button onclick="quickJump(78)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-red-400 font-bold text-xs border border-slate-700 transition">
-            1:18 Drums
-          </button>
-          <button onclick="quickJump(169)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs border border-slate-700 transition">
-            2:49 Finale
-          </button>
-        </div>
-        <button onclick="window.open('https://www.youtube.com/watch?v=fUToJj7OtSk', '_blank')" class="px-3 py-1.5 rounded-lg bg-red-950/80 hover:bg-red-900 text-red-200 font-bold text-xs border border-red-500/40 transition flex items-center gap-1.5 flex-shrink-0" title="Open in dedicated YouTube tab">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i> Popout
-        </button>
-      </div>
-
     </div>
 
-    <!-- RIGHT PANE: 10 Synchronized Slides (Toggled seamlessly in DOM) -->
-    <div class="flex-1 flex flex-col justify-between overflow-hidden">
-      
-      <!-- Slide Header Bar -->
-      <div class="flex items-center justify-between pb-3 mb-2 border-b border-mizGold/25 flex-shrink-0">
-        <div class="flex items-center gap-3">
-          <span class="text-xs sm:text-sm font-extrabold font-cinzel uppercase tracking-widest text-mizGold px-4 py-1.5 rounded-full bg-slate-900/90 border border-mizGold/40 shadow" id="slideBadgeText">
-            SLIDE 1 OF 10
-          </span>
-          <span class="text-xs sm:text-sm font-bold text-slate-300" id="slideTimecodeText">
-            Welcome &amp; Song Roadmap
-          </span>
-        </div>
-
-        <!-- Slide Navigator Buttons -->
-        <div class="flex items-center gap-2">
-          <button onclick="prevSlide()" class="px-4 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 text-xs sm:text-sm font-bold border border-slate-700 transition flex items-center gap-2 shadow hover:border-mizGold">
-            <i class="fa-solid fa-arrow-left"></i> Prev
-          </button>
-          <button onclick="nextSlide()" class="px-5 py-2 rounded-xl bg-mizCrimson hover:bg-red-700 text-white text-xs sm:text-sm font-bold border border-mizGold/50 transition flex items-center gap-2 shadow hover:scale-105 active:scale-95">
-            Next <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </div>
+    <!-- Right Column: Slide Stage -->
+    <div class="lg:col-span-6 flex flex-col justify-center min-h-[460px]">
+      <div id="slide-stage" class="card-glass rounded-2xl p-6 md:p-8 shadow-2xl transition-all duration-300">
+        <!-- Slide content renders dynamically -->
       </div>
-
-      <!-- Slides Container -->
-      <div class="flex-1 overflow-y-auto custom-scroll pr-2 flex flex-col justify-center">
-        
-        <!-- SLIDE 1: Welcome & Song Roadmap -->
-        <div id="slide-0" class="slide-pane active flex-col gap-4 max-w-[960px] mx-auto w-full py-1">
-          <div>
-            <p class="font-cinzel text-xs sm:text-sm font-bold text-mizGold tracking-widest uppercase mb-1">
-              A Kid's Guide to the Big Song • Les Misérables
-            </p>
-            <h2 class="font-cinzel text-3xl sm:text-5xl font-black text-white tracking-wide mb-2 drop-shadow-lg">
-              One Day More!
-            </h2>
-            <p class="text-sm sm:text-base text-slate-200 leading-relaxed font-medium">
-              Paris, 1832. Tomorrow is the most dangerous and exciting day of their lives! Here is how each character steps forward before the giant finish:
-            </p>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-lg border-l-8 border-mizCrimson">
-              <div class="font-cinzel text-xs font-extrabold text-red-700 mb-1 tracking-wider">0:00 – 0:34</div>
-              <h4 class="font-cinzel text-lg font-bold text-slate-950 mb-1">A Dad on the Run</h4>
-              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">Jean Valjean sings alone with slow, heavy marching music as he prepares to flee Paris.</p>
-            </div>
-            <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-lg border-l-8 border-amber-600">
-              <div class="font-cinzel text-xs font-extrabold text-amber-700 mb-1 tracking-wider">0:35 – 1:17</div>
-              <h4 class="font-cinzel text-lg font-bold text-slate-950 mb-1">Young Sweethearts</h4>
-              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">Marius and Cosette fall in love while loyal Éponine watches sadly from the rainy street.</p>
-            </div>
-            <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-lg border-l-8 border-sky-600">
-              <div class="font-cinzel text-xs font-extrabold text-sky-700 mb-1 tracking-wider">1:18 – 2:26</div>
-              <h4 class="font-cinzel text-lg font-bold text-slate-950 mb-1">Friends, Spies &amp; Foes</h4>
-              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">Enjolras rallies student rebels, Javert plots his spy mission, and thieves sneak below.</p>
-            </div>
-            <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-lg border-l-8 border-emerald-600">
-              <div class="font-cinzel text-xs font-extrabold text-emerald-700 mb-1 tracking-wider">2:27 – 3:40</div>
-              <h4 class="font-cinzel text-lg font-bold text-slate-950 mb-1">The Giant Climax</h4>
-              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">All 9 vocal lines sing at the exact same moment to shout one huge, unforgettable final note!</p>
-            </div>
-          </div>
-
-          <div class="slide-card-dark rounded-2xl p-4 border-l-8 border-mizGold flex items-center gap-3.5">
-            <div class="w-10 h-10 rounded-xl bg-mizCrimson flex items-center justify-center text-mizGold text-xl flex-shrink-0 shadow-inner">
-              <i class="fa-solid fa-play"></i>
-            </div>
-            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
-              <b class="text-white">Auto-Sync is ON:</b> Press <b class="text-mizGold">Play</b> on the video! As the music progresses, the slides will automatically advance at each character's entrance without you touching a clicker.
-            </p>
-          </div>
-        </div>
-
-        <!-- SLIDE 2: Jean Valjean (0:05 - 0:34) -->
-        <div id="slide-1" class="slide-pane flex-col gap-3.5 max-w-[960px] mx-auto w-full py-1">
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-center gap-5 sm:gap-6 border-l-8 border-red-700">
-            <div class="w-52 sm:w-60 h-36 sm:h-44 rounded-xl overflow-hidden border-2 border-slate-300 shadow-lg flex-shrink-0 bg-slate-900">
-              <img src="https://i.ytimg.com/vi/PD7d763u82Y/sddefault.jpg" alt="Jean Valjean" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/0f172a/d4af37?text=Jean+Valjean';">
-            </div>
-            <div class="flex-1 text-center sm:text-left">
-              <h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 leading-tight mb-1">
-                Jean Valjean
-              </h2>
-              <h3 class="text-lg sm:text-xl font-bold text-red-700 mb-2">
-                Hugh Jackman
-              </h3>
-              <p class="text-sm sm:text-base text-slate-600 font-semibold mb-3">
-                The kind adoptive dad with a secret past
-              </p>
-              <div class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold tracking-wider uppercase border border-slate-300 shadow-sm">
-                TIMECODE: 0:05 – 0:34
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col gap-3">
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-user-shield text-red-700"></i> Who He Is:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">A strong, gentle father who made mistakes long ago, turned his life around, and took in a lonely orphan named Cosette.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-person-running text-red-700"></i> His Big Dilemma:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">A ruthless police officer has discovered where he lives! Valjean must pack their bags and escape to England tomorrow to keep Cosette safe.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-headphones text-red-700"></i> What To Listen For:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">A slow, heavy marching beat that sounds just like a clock ticking down their final hours.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 3: Marius & Cosette (0:35 - 0:55) -->
-        <div id="slide-2" class="slide-pane flex-col gap-3.5 max-w-[960px] mx-auto w-full py-1">
-          <div>
-            <p class="font-cinzel text-xs font-bold text-amber-400 tracking-wider uppercase mb-0.5">PART 2 • TIMECODE 0:35 – 0:55</p>
-            <h2 class="font-cinzel text-2xl sm:text-3xl font-black text-white tracking-wide drop-shadow">
-              Marius &amp; Cosette: Love at First Sight &amp; Goodbye
-            </h2>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3.5">
-            <div class="slide-card-light rounded-2xl p-3.5 flex flex-col items-center text-center shadow-lg border-t-4 border-amber-600">
-              <div class="w-full h-32 sm:h-40 rounded-xl overflow-hidden border-2 border-slate-300 shadow mb-2.5 bg-slate-900">
-                <img src="https://i.ytimg.com/vi/QQezem-9h5I/hqdefault.jpg" alt="Marius" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/1e293b/d4af37?text=Marius';">
-              </div>
-              <h3 class="font-cinzel text-2xl font-black text-slate-950 leading-tight mb-0.5">Marius</h3>
-              <p class="text-xs sm:text-sm font-bold text-amber-700 mb-1">Eddie Redmayne</p>
-              <p class="text-xs text-slate-600 font-semibold">The lovestruck student</p>
-            </div>
-
-            <div class="slide-card-light rounded-2xl p-3.5 flex flex-col items-center text-center shadow-lg border-t-4 border-amber-600">
-              <div class="w-full h-32 sm:h-40 rounded-xl overflow-hidden border-2 border-slate-300 shadow mb-2.5 bg-slate-900">
-                <img src="https://static0.srcdn.com/wordpress/wp-content/uploads/2025/03/amanda-seyfried-as-cosette-singing-in-les-miserable.jpg" alt="Cosette" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/1e293b/d4af37?text=Cosette';">
-              </div>
-              <h3 class="font-cinzel text-2xl font-black text-slate-950 leading-tight mb-0.5">Cosette</h3>
-              <p class="text-xs sm:text-sm font-bold text-amber-700 mb-1">Amanda Seyfried</p>
-              <p class="text-xs text-slate-600 font-semibold">The hopeful daughter</p>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-4 shadow-lg flex flex-col gap-2.5">
-            <div>
-              <h4 class="font-bold text-slate-950 text-xs sm:text-sm flex items-center gap-2 mb-0.5">
-                <i class="fa-solid fa-heart text-amber-600"></i> Love at First Sight:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium pl-5">Marius and Cosette fell instantly in love! But Cosette’s father tells her they must pack up and flee Paris tomorrow to stay safe from the police.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-xs sm:text-sm flex items-center gap-2 mb-0.5">
-                <i class="fa-solid fa-scale-balanced text-amber-600"></i> Marius's Big Dilemma:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium pl-5">Should Marius run away to follow the girl he loves, or stay behind in Paris to stand up for justice alongside his school friends?</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-xs sm:text-sm flex items-center gap-2 mb-0.5">
-                <i class="fa-solid fa-headphones text-amber-600"></i> What To Listen For:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium pl-5">Sweet, gentle violins as Cosette floats high above, repeating Marius's melody like a musical echo across the garden wall.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 4: Éponine (0:56 - 1:17) -->
-        <div id="slide-3" class="slide-pane flex-col gap-3.5 max-w-[960px] mx-auto w-full py-1">
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-center gap-5 sm:gap-6 border-l-8 border-sky-600">
-            <div class="w-52 sm:w-60 h-36 sm:h-44 rounded-xl overflow-hidden border-2 border-slate-300 shadow-lg flex-shrink-0 bg-slate-900">
-              <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/6b7b6835-c02a-41d9-baca-61e197037867/d7h78eo-563e7be0-57ca-440a-bae8-50ddd3cdf16b.jpg/v1/fill/w_1024,h_1024,q_75,strp/samantha_barks_eponine_les_miserables_by_alonespinoxa_d7h78eo-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAyNCIsInBhdGgiOiIvZi82YjdiNjgzNS1jMDJhLTQxZDktYmFjYS02MWUxOTcwMzc4NjcvZDdoNzhlby01NjNlN2JlMC01N2NhLTQ0MGEtYmFlOC01MGRkZDNjZGYxNmIuanBnIiwid2lkdGgiOiI8PTEwMjQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.jTkDkXpcP-7IS6gcF9kEE7H4Dt2v6YZTPkOqmIJzMaE" alt="Éponine" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/0f172a/d4af37?text=Eponine';">
-            </div>
-            <div class="flex-1 text-center sm:text-left">
-              <h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 leading-tight mb-1">
-                Éponine
-              </h2>
-              <h3 class="text-lg sm:text-xl font-bold text-sky-700 mb-2">
-                Samantha Barks
-              </h3>
-              <p class="text-sm sm:text-base text-slate-600 font-semibold mb-3">
-                A true friend with a broken heart, left behind in the rain
-              </p>
-              <div class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold tracking-wider uppercase border border-slate-300 shadow-sm">
-                TIMECODE: 0:56 – 1:17
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col gap-3">
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-cloud-rain text-sky-600"></i> Her Sad Secret:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Éponine grew up poor on the city streets. She really likes Marius, but Marius only sees her as a good friend.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-shield-heart text-sky-600"></i> Her Unselfish Choice:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Even though her heart hurts watching Marius love Cosette, Éponine stays by his side to protect him no matter what.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-headphones text-sky-600"></i> What To Listen For:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Her voice sings the exact same tune as Marius and Cosette, but with sad, lonely words: 'One more day all on my own.'</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 5: Enjolras (1:18 - 1:44) -->
-        <div id="slide-4" class="slide-pane flex-col gap-3.5 max-w-[960px] mx-auto w-full py-1">
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-center gap-5 sm:gap-6 border-l-8 border-red-700">
-            <div class="w-52 sm:w-60 h-36 sm:h-44 rounded-xl overflow-hidden border-2 border-slate-300 shadow-lg flex-shrink-0 bg-slate-900">
-              <img src="https://amoleinbritain.wordpress.com/wp-content/uploads/2013/08/Enjolras-Clothing.jpg?w=584" alt="Enjolras" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/0f172a/d4af37?text=Enjolras';">
-            </div>
-            <div class="flex-1 text-center sm:text-left">
-              <h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 leading-tight mb-1">
-                Enjolras
-              </h2>
-              <h3 class="text-lg sm:text-xl font-bold text-red-700 mb-2">
-                Aaron Tveit
-              </h3>
-              <p class="text-sm sm:text-base text-slate-600 font-semibold mb-3">
-                The fearless student leader wearing the bright red vest
-              </p>
-              <div class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold tracking-wider uppercase border border-slate-300 shadow-sm">
-                TIMECODE: 1:18 – 1:44
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col gap-3">
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-flag text-red-700"></i> Standing Up For Others:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Enjolras is a passionate young leader fighting so that poor and hungry families in Paris get treated fairly by the king.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-users text-red-700"></i> Rallying His Friends:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">He turns to Marius and asks: 'Will you join in our crusade?' Marius has to choose between his friends and his love.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-headphones text-red-700"></i> What To Listen For:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Loud brass horns blast out and marching snare drums speed up the whole song with excitement!</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 6: Marius's Dilemma (1:45 - 2:00) -->
-        <div id="slide-5" class="slide-pane flex-col gap-3.5 max-w-[960px] mx-auto w-full py-1">
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-center gap-5 sm:gap-6 border-l-8 border-amber-600">
-            <div class="w-52 sm:w-60 h-36 sm:h-44 rounded-xl overflow-hidden border-2 border-slate-300 shadow-lg flex-shrink-0 bg-slate-900">
-              <img src="https://i.ytimg.com/vi/QQezem-9h5I/hqdefault.jpg" alt="Marius" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/0f172a/d4af37?text=Marius';">
-            </div>
-            <div class="flex-1 text-center sm:text-left">
-              <h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 leading-tight mb-1">
-                Marius's Choice
-              </h2>
-              <h3 class="text-lg sm:text-xl font-bold text-amber-700 mb-2">
-                Eddie Redmayne
-              </h3>
-              <p class="text-sm sm:text-base text-slate-600 font-semibold mb-3">
-                Heart torn in two: Follow his sweetheart or stand with his friends?
-              </p>
-              <div class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold tracking-wider uppercase border border-slate-300 shadow-sm">
-                TIMECODE: 1:45 – 2:00
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col gap-3">
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-scale-balanced text-amber-600"></i> The Heart vs. Duty:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Should Marius run to the harbour to catch Cosette before she sails away, or stay at the barricade with Enjolras?</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-hand-fist text-amber-600"></i> Making His Decision:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Marius decides to stand shoulder-to-shoulder with his friends to fight for freedom, even if it means losing Cosette.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-headphones text-amber-600"></i> What To Listen For:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Notice how his sweet love melody tries to fight through the loud marching military snare drum!</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 7: Inspector Javert (2:01 - 2:22) -->
-        <div id="slide-6" class="slide-pane flex-col gap-3.5 max-w-[960px] mx-auto w-full py-1">
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-center gap-5 sm:gap-6 border-l-8 border-slate-700">
-            <div class="w-52 sm:w-60 h-36 sm:h-44 rounded-xl overflow-hidden border-2 border-slate-300 shadow-lg flex-shrink-0 bg-slate-900">
-              <img src="https://i.redd.it/5poyqa08ffn51.jpg" alt="Inspector Javert" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/0f172a/d4af37?text=Javert';">
-            </div>
-            <div class="flex-1 text-center sm:text-left">
-              <h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 leading-tight mb-1">
-                Inspector Javert
-              </h2>
-              <h3 class="text-lg sm:text-xl font-bold text-slate-700 mb-2">
-                Russell Crowe
-              </h3>
-              <p class="text-sm sm:text-base text-slate-600 font-semibold mb-3">
-                The strict policeman dressed in dark blue, working as an undercover spy
-              </p>
-              <div class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold tracking-wider uppercase border border-slate-300 shadow-sm">
-                TIMECODE: 2:01 – 2:22
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col gap-3">
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-user-secret text-slate-700"></i> His Secret Plan:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">Javert believes rules should never be broken. He puts on a disguise to pretend he's on the students' side, but he's really spying!</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-handcuffs text-slate-700"></i> Stopping the Fight:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">He plans to tell the army all the students' secrets so the rebellion gets shut down before it even gets started.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-headphones text-slate-700"></i> What To Listen For:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">A deep, stern voice that sings in short, clipped notes that sound strict and sharp like a military commander.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 8: The Thénardiers (2:23 - 2:48) -->
-        <div id="slide-7" class="slide-pane flex-col gap-3.5 max-w-[960px] mx-auto w-full py-1">
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-center gap-5 sm:gap-6 border-l-8 border-purple-700">
-            <div class="w-52 sm:w-60 h-36 sm:h-44 rounded-xl overflow-hidden border-2 border-slate-300 shadow-lg flex-shrink-0 bg-slate-900">
-              <img src="https://cinergetica.com.mx/wp-content/uploads/2012/11/miserables-thenardiers-bonham-carter-baron-cohen.jpg" alt="The Thenardiers" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/0f172a/d4af37?text=Thenardiers';">
-            </div>
-            <div class="flex-1 text-center sm:text-left">
-              <h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 leading-tight mb-1">
-                The Thénardiers
-              </h2>
-              <h3 class="text-base sm:text-lg font-bold text-purple-700 mb-2">
-                Sacha Baron Cohen &amp; Helena Bonham Carter
-              </h3>
-              <p class="text-sm sm:text-base text-slate-600 font-semibold mb-3">
-                Funny but greedy innkeepers (Éponine's sneaky parents)
-              </p>
-              <div class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold tracking-wider uppercase border border-slate-300 shadow-sm">
-                TIMECODE: 2:23 – 2:48
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col gap-3">
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-masks-theater text-purple-700"></i> Only Out for Themselves:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">While others are fighting for freedom or love, this couple only cares about one thing: finding shiny coins and gold watches!</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-sack-dollar text-purple-700"></i> Their Greedy Scheme:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">They plan to sneak through the street chaos picking people's pockets while nobody is paying attention.</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-sm sm:text-base flex items-center gap-2 mb-1">
-                <i class="fa-solid fa-headphones text-purple-700"></i> What To Listen For:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-6">A bouncy, comical tune that sneaks under the music like a mischievous tiptoeing cartoon character!</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 9: The Grand Finale (2:49 - 3:39) -->
-        <div id="slide-8" class="slide-pane flex-col gap-3 max-w-[960px] mx-auto w-full py-1">
-          <div class="slide-card-light rounded-2xl p-4 shadow-xl flex flex-col sm:flex-row items-center gap-5 border-l-8 border-red-700">
-            <div class="w-48 sm:w-56 h-32 sm:h-36 rounded-xl overflow-hidden border-2 border-slate-300 shadow-lg flex-shrink-0 bg-slate-900">
-              <img src="http://farm9.staticflickr.com/8208/8263847803_a000ac1145.jpg" alt="Grand Finale" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/360x240/0f172a/d4af37?text=Finale';">
-            </div>
-            <div class="flex-1 text-center sm:text-left">
-              <h2 class="font-cinzel text-3xl sm:text-4xl font-black text-slate-950 leading-tight mb-0.5">
-                The Grand Finale
-              </h2>
-              <h3 class="text-base sm:text-lg font-bold text-red-700 mb-1.5">
-                All 9 Main Characters &amp; Chorus
-              </h3>
-              <p class="text-xs sm:text-sm text-slate-600 font-semibold">
-                The Polyphonic Puzzle: 9 Voices singing together into battle!
-              </p>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-3.5 shadow-lg">
-            <h4 class="font-cinzel text-xs font-bold text-slate-900 mb-2 uppercase tracking-wider flex items-center gap-2">
-              <i class="fa-solid fa-puzzle-piece text-red-700"></i> The 5 Simultaneous Vocal Lines:
-            </h4>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-              <div class="bg-slate-100/90 rounded-lg p-2 border border-slate-200">
-                <span class="font-bold text-slate-900">Jean Valjean:</span>
-                <span class="text-slate-700 font-medium"> Sings of praying to survive one more day on the run.</span>
-              </div>
-              <div class="bg-slate-100/90 rounded-lg p-2 border border-slate-200">
-                <span class="font-bold text-slate-900">Marius &amp; Cosette:</span>
-                <span class="text-slate-700 font-medium"> Sing of their aching love and the pain of being separated.</span>
-              </div>
-              <div class="bg-slate-100/90 rounded-lg p-2 border border-slate-200">
-                <span class="font-bold text-slate-900">Éponine:</span>
-                <span class="text-slate-700 font-medium"> Sings sadly of walking another day all on her own.</span>
-              </div>
-              <div class="bg-slate-100/90 rounded-lg p-2 border border-slate-200">
-                <span class="font-bold text-slate-900">Enjolras &amp; Students:</span>
-                <span class="text-slate-700 font-medium"> Shout marching chants to build the wooden barricades.</span>
-              </div>
-              <div class="bg-slate-100/90 rounded-lg p-2 border border-slate-200 sm:col-span-2">
-                <span class="font-bold text-slate-900">Javert &amp; Thénardiers:</span>
-                <span class="text-slate-700 font-medium"> Sing sharp counter-melodies of spying and looting.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-card-light rounded-2xl p-3.5 shadow-lg flex flex-col gap-2">
-            <div>
-              <h4 class="font-bold text-slate-950 text-xs sm:text-sm flex items-center gap-2 mb-0.5">
-                <i class="fa-solid fa-wand-magic-sparkles text-red-700"></i> What is Polyphony?
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-5">It means 'many voices at once'! 9 completely different melodies sung at the exact same moment, interlocking like colorful puzzle pieces!</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-950 text-xs sm:text-sm flex items-center gap-2 mb-0.5">
-                <i class="fa-solid fa-burst text-red-700"></i> The Giant Climax:
-              </h4>
-              <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed pl-5">Every voice unites on the final booming shout: 'MORE!' as giant cymbals and timpani drums shake the room!</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SLIDE 10: Classroom Discussion Questions -->
-        <div id="slide-9" class="slide-pane flex-col gap-4 max-w-[960px] mx-auto w-full py-2 text-center">
-          <div>
-            <p class="font-cinzel text-xs sm:text-sm font-bold text-mizGold tracking-widest uppercase mb-1">
-              Classroom Discussion • Your Turn to Think!
-            </p>
-            <h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-wide drop-shadow-lg mb-2">
-              What Would You Do?
-            </h2>
-            <p class="text-sm sm:text-base text-slate-200 font-medium">
-              Reflect on each character's tough choice on the eve of the barricade.
-            </p>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-left">
-            <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col justify-between border-t-4 border-amber-600">
-              <div>
-                <div class="w-10 h-10 rounded-full bg-red-100 text-red-700 flex items-center justify-center font-black text-base mb-3 shadow-inner">
-                  1
-                </div>
-                <h4 class="font-cinzel text-base sm:text-lg font-bold text-slate-950 mb-1.5">The Tough Choice</h4>
-                <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">If you were Marius, would you leave Paris with your sweetheart, or stay behind to help your school friends build the barricade?</p>
-              </div>
-            </div>
-
-            <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col justify-between border-t-4 border-amber-600">
-              <div>
-                <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-black text-base mb-3 shadow-inner">
-                  2
-                </div>
-                <h4 class="font-cinzel text-base sm:text-lg font-bold text-slate-950 mb-1.5">Musical Detective</h4>
-                <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">Which character's melody stood out the most to your ears when they were all singing at the exact same time?</p>
-              </div>
-            </div>
-
-            <div class="slide-card-light rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col justify-between border-t-4 border-amber-600">
-              <div>
-                <div class="w-10 h-10 rounded-full bg-sky-100 text-sky-800 flex items-center justify-center font-black text-base mb-3 shadow-inner">
-                  3
-                </div>
-                <h4 class="font-cinzel text-base sm:text-lg font-bold text-slate-950 mb-1.5">Tomorrow's Mystery</h4>
-                <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">Every character sings about what 'tomorrow' will bring. Which character do you think is facing the biggest challenge?</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="slide-card-dark rounded-2xl p-4 border-l-8 border-mizGold text-left text-xs sm:text-sm text-slate-200">
-            <i class="fa-solid fa-lightbulb text-mizGold mr-2"></i>
-            <b>Teacher's Reflection Prompt:</b> Ask students to vote with thumbs up / thumbs down: If they were in Paris in 1832, would they have stood with the students or stayed safely home with their family?
-          </div>
-        </div>
-
-      </div>
-
     </div>
-
   </main>
 
+  <!-- Bottom Presentation Controls -->
+  <footer class="w-full bg-[#0a101f]/90 border-t border-amber-500/20 px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <button onclick="prevSlide()" class="px-4 py-2 rounded-lg bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-200 text-sm font-semibold transition flex items-center space-x-2">
+        <i class="fa-solid fa-chevron-left"></i>
+        <span>Previous</span>
+      </button>
+      <button onclick="nextSlide()" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-sm font-bold transition flex items-center space-x-2">
+        <span>Next</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="text-xs text-gray-400">
+      Slide <span id="current-slide-num" class="text-amber-400 font-bold">1</span> of <span id="total-slides-num">10</span>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <button onclick="jumpToCurrentSlideVideo()" class="px-3 py-1.5 rounded-lg bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs font-semibold transition flex items-center space-x-2">
+        <i class="fa-solid fa-rotate-left"></i>
+        <span>Jump Video to Slide</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
   <script>
-    // 10 Slide definitions with precise start timestamps
-    const SLIDES_META = [
-      { id: 0, label: "Intro", time: 0, cue: "Start Video at 0:00 (Paris, 1832)", sub: "OVERVIEW & ROADMAP", grad: "from-red-950 to-mizCrimson" },
-      { id: 1, label: "Valjean", time: 5, cue: "0:05 – 0:34 (Slow Marching Rhythm)", sub: "A DAD ON THE RUN", grad: "from-red-950 to-red-800" },
-      { id: 2, label: "Marius & Cosette", time: 35, cue: "0:35 – 0:55 (Marius & Cosette Enter)", sub: "SWEETHEART DUET", grad: "from-amber-950 to-amber-700" },
-      { id: 3, label: "Éponine", time: 56, cue: "0:56 – 1:17 (Éponine Sings Alone)", sub: "SOLITARY LAMENT", grad: "from-sky-950 to-sky-700" },
-      { id: 4, label: "Enjolras", time: 78, cue: "1:18 – 1:44 (Enjolras & Fanfares)", sub: "CALL TO ACTION", grad: "from-red-950 to-red-700" },
-      { id: 5, label: "Marius's Choice", time: 105, cue: "1:45 – 2:00 (Marius's Conflict)", sub: "CRITICAL DECISION", grad: "from-amber-950 to-amber-800" },
-      { id: 6, label: "Javert", time: 121, cue: "2:01 – 2:22 (Javert Enters in Blue)", sub: "THE SPY'S SCHEME", grad: "from-slate-950 to-slate-700" },
-      { id: 7, label: "Thénardiers", time: 143, cue: "2:23 – 2:48 (Sewer Scene)", sub: "COMICAL GREED", grad: "from-purple-950 to-purple-800" },
-      { id: 8, label: "Finale", time: 169, cue: "2:49 – 3:39 (All 9 Voices Combine)", sub: "POLYPHONIC FINALE", grad: "from-red-950 to-red-800" },
-      { id: 9, label: "Discussion", time: 220, cue: "Song Complete • Student Discussion", sub: "CLASSROOM DEBRIEF", grad: "from-amber-950 to-amber-700" }
+    // -------------------------------------------------------------
+    // Calibrated Slide Timestamps & Elementary Content
+    // -------------------------------------------------------------
+    const slides = [
+      {
+        id: 0,
+        startTime: 0,     // 0:00
+        name: "Overview",
+        cueText: "0:00 - Introduction & Setting the Scene",
+        html: `
+          <div class="space-y-4">
+            <span class="inline-block px-3 py-1 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold rounded-full uppercase tracking-wider">Classroom Overview</span>
+            <h2 class="cinzel text-3xl md:text-4xl font-extrabold text-amber-100">"One Day More"</h2>
+            <p class="text-amber-400/90 text-sm font-medium">Act 1 Finale — Paris, 1832</p>
+            <p class="text-gray-300 text-sm md:text-base leading-relaxed">
+              Tomorrow is the day of the student rebellion in Paris. Every character is facing a major turning point in their life, yet they all sing together at the same time.
+            </p>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                <p class="text-amber-300 font-semibold text-xs uppercase mb-1">What to Listen For</p>
+                <p class="text-gray-300 text-xs">Each character brings their own melody and personal dilemma into the song.</p>
+              </div>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                <p class="text-amber-300 font-semibold text-xs uppercase mb-1">The Musical Climax</p>
+                <p class="text-gray-300 text-xs">By the finale, all independent melodies layer together in a 5-part counterpoint.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 1,
+        startTime: 12,    // 0:12
+        name: "Valjean",
+        cueText: "0:12 - 'One day more! Another day, another destiny...'",
+        html: `
+          <div class="flex flex-col md:flex-row gap-5 items-start">
+            <div class="w-full md:w-44 flex-shrink-0 text-center">
+              <div class="portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/70 bg-slate-900 aspect-[4/5] relative">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" alt="Jean Valjean" class="w-full h-full object-cover object-top">
+              </div>
+              <h3 class="cinzel text-xl font-bold text-amber-200 mt-2">Jean Valjean</h3>
+              <p class="text-xs text-red-400 font-semibold uppercase tracking-wider">Hugh Jackman</p>
+            </div>
+            <div class="space-y-3 flex-1">
+              <span class="px-2.5 py-0.5 bg-blue-950/80 border border-blue-500/40 text-blue-300 text-xs font-semibold rounded-md uppercase">The Protective Father</span>
+              <h4 class="text-lg font-bold text-white">Running to Protect Cosette</h4>
+              <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+                Valjean is an ex-convict who rebuilt his life. Inspector Javert is closing in on him, so he must pack his bags and flee Paris tonight to keep his adopted daughter Cosette safe.
+              </p>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1">
+                <p class="text-amber-300 font-semibold">Musical Signature:</p>
+                <p class="text-gray-300">Steady, heavy march rhythm that mirrors walking on foot carrying a heavy burden.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 2,
+        startTime: 28,    // 0:28
+        name: "Marius & Cosette",
+        cueText: "0:28 - 'I did not live until today / How can I live when we are parted?'",
+        html: `
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="text-center">
+                <div class="portrait-frame rounded-xl overflow-hidden border border-amber-400/60 bg-slate-900 aspect-video relative">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80" alt="Marius" class="w-full h-full object-cover">
+                </div>
+                <h3 class="cinzel text-lg font-bold text-amber-200 mt-1.5">Marius</h3>
+                <p class="text-xs text-red-400 font-semibold uppercase">Eddie Redmayne</p>
+              </div>
+              <div class="text-center">
+                <div class="portrait-frame rounded-xl overflow-hidden border border-amber-400/60 bg-slate-900 aspect-video relative">
+                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80" alt="Cosette" class="w-full h-full object-cover">
+                </div>
+                <h3 class="cinzel text-lg font-bold text-amber-200 mt-1.5">Cosette</h3>
+                <p class="text-xs text-red-400 font-semibold uppercase">Amanda Seyfried</p>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <span class="px-2.5 py-0.5 bg-rose-950/80 border border-rose-500/40 text-rose-300 text-xs font-semibold rounded-md uppercase">Love at First Sight</span>
+              <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+                Marius and Cosette fell instantly in love, but Cosette is being forced to leave Paris. They sing a lyrical duet wondering how their hearts will survive separation.
+              </p>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs">
+                <p class="text-amber-300 font-semibold">Musical Signature:</p>
+                <p class="text-gray-300">Flowing, romantic string harmonies that break into Valjean's tense marching pulse.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 3,
+        startTime: 53,    // 0:53
+        name: "Éponine",
+        cueText: "0:53 - 'One more day all on my own...'",
+        html: `
+          <div class="flex flex-col md:flex-row gap-5 items-start">
+            <div class="w-full md:w-44 flex-shrink-0 text-center">
+              <div class="portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/70 bg-slate-900 aspect-[4/5] relative">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Éponine" class="w-full h-full object-cover">
+              </div>
+              <h3 class="cinzel text-xl font-bold text-amber-200 mt-2">Éponine</h3>
+              <p class="text-xs text-red-400 font-semibold uppercase tracking-wider">Samantha Barks</p>
+            </div>
+            <div class="space-y-3 flex-1">
+              <span class="px-2.5 py-0.5 bg-purple-950/80 border border-purple-500/40 text-purple-300 text-xs font-semibold rounded-md uppercase">The Loyal Friend</span>
+              <h4 class="text-lg font-bold text-white">Loving From a Distance</h4>
+              <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+                Éponine is secretly in love with Marius. Even though it breaks her heart to see him in love with someone else, she chooses to look out for him and walk alongside him into the danger ahead.
+              </p>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1">
+                <p class="text-amber-300 font-semibold">Musical Signature:</p>
+                <p class="text-gray-300">A melancholic, solitary countermelody woven directly over the couple's romantic duet.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 4,
+        startTime: 82,    // 1:22
+        name: "Enjolras",
+        cueText: "1:22 - 'One more day before the storm! At the barricades of freedom!'",
+        html: `
+          <div class="flex flex-col md:flex-row gap-5 items-start">
+            <div class="w-full md:w-44 flex-shrink-0 text-center">
+              <div class="portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/70 bg-slate-900 aspect-[4/5] relative">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80" alt="Enjolras" class="w-full h-full object-cover">
+              </div>
+              <h3 class="cinzel text-xl font-bold text-amber-200 mt-2">Enjolras</h3>
+              <p class="text-xs text-red-400 font-semibold uppercase tracking-wider">Aaron Tveit</p>
+            </div>
+            <div class="space-y-3 flex-1">
+              <span class="px-2.5 py-0.5 bg-red-950/80 border border-red-500/40 text-red-300 text-xs font-semibold rounded-md uppercase">The Student Leader</span>
+              <h4 class="text-lg font-bold text-white">Rallying the Barricades</h4>
+              <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+                Enjolras is the passionate student commander leading the rebellion against poverty and injustice. He calls upon every citizen to unite and stand up for freedom.
+              </p>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1">
+                <p class="text-amber-300 font-semibold">Musical Signature:</p>
+                <p class="text-gray-300">Driving military snare drums and powerful brass fanfares that signal the coming battle.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 5,
+        startTime: 110,   // 1:50
+        name: "Javert",
+        cueText: "1:50 - 'One more day to revolution, we will nip it in the bud!'",
+        html: `
+          <div class="flex flex-col md:flex-row gap-5 items-start">
+            <div class="w-full md:w-44 flex-shrink-0 text-center">
+              <div class="portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/70 bg-slate-900 aspect-[4/5] relative">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80" alt="Javert" class="w-full h-full object-cover">
+              </div>
+              <h3 class="cinzel text-xl font-bold text-amber-200 mt-2">Javert</h3>
+              <p class="text-xs text-red-400 font-semibold uppercase tracking-wider">Russell Crowe</p>
+            </div>
+            <div class="space-y-3 flex-1">
+              <span class="px-2.5 py-0.5 bg-indigo-950/80 border border-indigo-500/40 text-indigo-300 text-xs font-semibold rounded-md uppercase">The Undercover Spy</span>
+              <h4 class="text-lg font-bold text-white">Stopping the Rebellion</h4>
+              <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+                The strict police inspector plans to disguise himself and infiltrate the students as a volunteer, intending to learn their plans and have the army crush them.
+              </p>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1">
+                <p class="text-amber-300 font-semibold">Musical Signature:</p>
+                <p class="text-gray-300">Staccato, calculating vocal lines backed by a rigid, disciplined march tempo.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 6,
+        startTime: 122,   // 2:02
+        name: "Thénardiers",
+        cueText: "2:02 - 'Watch 'em run amuck, catch 'em as they fall...'",
+        html: `
+          <div class="flex flex-col md:flex-row gap-5 items-start">
+            <div class="w-full md:w-44 flex-shrink-0 text-center">
+              <div class="portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/70 bg-slate-900 aspect-[4/5] relative">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80" alt="The Thenardiers" class="w-full h-full object-cover">
+              </div>
+              <h3 class="cinzel text-xl font-bold text-amber-200 mt-2">Thénardiers</h3>
+              <p class="text-xs text-red-400 font-semibold uppercase tracking-wider">Cohen & Bonham Carter</p>
+            </div>
+            <div class="space-y-3 flex-1">
+              <span class="px-2.5 py-0.5 bg-amber-950/80 border border-amber-500/40 text-amber-300 text-xs font-semibold rounded-md uppercase">The Greedy Thieves</span>
+              <h4 class="text-lg font-bold text-white">Profiting from Chaos</h4>
+              <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+                While everyone else is fighting for their lives, their love, or their country, these crooked innkeepers plot to sneak through the shadows and loot whatever is left behind.
+              </p>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1">
+                <p class="text-amber-300 font-semibold">Musical Signature:</p>
+                <p class="text-gray-300">Bouncy, mischievous waltz rhythm that contrasts sharply with the high drama around them.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 7,
+        startTime: 140,   // 2:20
+        name: "To the Barricades",
+        cueText: "2:20 - Battle Preparation & Marching to the Barricades",
+        html: `
+          <div class="space-y-4">
+            <span class="px-2.5 py-0.5 bg-red-950/80 border border-red-500/40 text-red-300 text-xs font-semibold rounded-md uppercase">The Gathering Storm</span>
+            <h2 class="cinzel text-2xl md:text-3xl font-bold text-amber-100">To the Barricades!</h2>
+            <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+              The streets of Paris begin to empty as the students, soldiers, and citizens assemble. The tension peaks as red flags are raised and weapons are distributed across the city.
+            </p>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1">
+                <p class="text-amber-300 font-semibold">What’s Happening:</p>
+                <p class="text-gray-300">The revolution moves from secret planning into open confrontation in the streets.</p>
+              </div>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1">
+                <p class="text-amber-300 font-semibold">Musical Texture:</p>
+                <p class="text-gray-300">The rhythmic undercurrent intensifies as the chorus begins to join the lead characters.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 8,
+        startTime: 153,   // 2:33
+        name: "Finale",
+        cueText: "2:33 - 'My place is here, I fight with you!' / The 5-Part Polyphonic Finale",
+        html: `
+          <div class="space-y-4">
+            <span class="px-2.5 py-0.5 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold rounded-md uppercase">Musical Climax & Decision</span>
+            <h2 class="cinzel text-2xl md:text-3xl font-bold text-amber-100">The Polyphonic Puzzle</h2>
+            <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
+              <strong>Marius makes his decision:</strong> <em>"My place is here, I fight with you!"</em> At this moment, every vocal line joins in <strong>polyphony</strong> (multiple distinct melodies sung simultaneously):
+            </p>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2.5 bg-slate-900/60 rounded-lg border border-blue-500/30">
+                <span class="text-blue-300 font-bold">Valjean:</span> Escape & Safety
+              </div>
+              <div class="p-2.5 bg-slate-900/60 rounded-lg border border-rose-500/30">
+                <span class="text-rose-300 font-bold">Cosette:</span> Lost Love
+              </div>
+              <div class="p-2.5 bg-slate-900/60 rounded-lg border border-purple-500/30">
+                <span class="text-purple-300 font-bold">Éponine:</span> Secret Devotion
+              </div>
+              <div class="p-2.5 bg-slate-900/60 rounded-lg border border-red-500/30">
+                <span class="text-red-300 font-bold">Enjolras & Marius:</span> Freedom & Honor
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 9,
+        startTime: 200,   // 3:20
+        name: "Discussion",
+        cueText: "3:20 - Classroom Reflection & Questions",
+        html: `
+          <div class="space-y-4">
+            <span class="px-2.5 py-0.5 bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-semibold rounded-md uppercase">Student Reflection</span>
+            <h2 class="cinzel text-2xl md:text-3xl font-bold text-amber-100">What Would You Do?</h2>
+            <div class="space-y-3 pt-1">
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60 text-xs md:text-sm">
+                <p class="text-amber-300 font-semibold mb-1">1. Marius's Decision (at 2:33):</p>
+                <p class="text-gray-300">Marius chose to stand with his friends at the barricade instead of running away with Cosette. Do you think he made the right choice? What would you have done?</p>
+              </div>
+              <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60 text-xs md:text-sm">
+                <p class="text-amber-300 font-semibold mb-1">2. Musical Storytelling:</p>
+                <p class="text-gray-300">When all 5 melodies overlap at the end, did it feel chaotic, exciting, or powerful? Why do you think the composer wrote it that way?</p>
+              </div>
+            </div>
+          </div>
+        `
+      }
     ];
 
-    let currentSlide = 0;
+    let currentSlideIndex = 0;
     let autoSyncEnabled = true;
     let ytPlayer = null;
-    let syncInterval = null;
+    let timeTrackingInterval = null;
 
-    // Load official YouTube IFrame API
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    // Build timeline buttons dynamically
+    function initChapterNav() {
+      const nav = document.getElementById('chapter-nav');
+      nav.innerHTML = '';
+      slides.forEach((s, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `nav-pill-${idx}`;
+        btn.className = `px-2 py-1 text-xs font-medium rounded-md transition ${idx === 0 ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-amber-200'}`;
+        btn.innerText = s.name;
+        btn.onclick = () => {
+          goToSlide(idx);
+          jumpVideoToSeconds(s.startTime);
+        };
+        nav.appendChild(btn);
+      });
+      document.getElementById('total-slides-num').innerText = slides.length;
+    }
 
+    // YouTube API Ready callback
     function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('yt-player-container', {
-        videoId: 'fUToJj7OtSk',
-        playerVars: {
-          autoplay: 0,
-          controls: 1,
-          rel: 0,
-          modestbranding: 1,
-          origin: window.location.origin
-        },
+      ytPlayer = new YT.Player('yt-player', {
         events: {
-          'onReady': onPlayerReady,
           'onStateChange': onPlayerStateChange
         }
       });
     }
 
-    function onPlayerReady(event) {
-      startSyncClock();
-    }
-
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.PLAYING) {
-        startSyncClock();
+        startTimeTracking();
       } else {
-        stopSyncClock();
+        stopTimeTracking();
       }
     }
 
-    // High frequency timecode monitor
-    function startSyncClock() {
-      stopSyncClock();
-      syncInterval = setInterval(() => {
-        if (!autoSyncEnabled || !ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+    function startTimeTracking() {
+      stopTimeTracking();
+      timeTrackingInterval = setInterval(() => {
+        if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+        const currentSec = Math.floor(ytPlayer.getCurrentTime());
         
-        try {
-          const currentTime = ytPlayer.getCurrentTime();
-          syncSlideWithTime(currentTime);
-        } catch (e) {}
-      }, 400);
-    }
+        // Update digital time display
+        const mins = Math.floor(currentSec / 60);
+        const secs = currentSec % 60;
+        document.getElementById('video-time-clock').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 
-    function stopSyncClock() {
-      if (syncInterval) {
-        clearInterval(syncInterval);
-        syncInterval = null;
-      }
-    }
-
-    // Match playback seconds to correct slide
-    function syncSlideWithTime(seconds) {
-      let targetSlide = 0;
-      for (let i = SLIDES_META.length - 1; i >= 0; i--) {
-        if (seconds >= SLIDES_META[i].time) {
-          targetSlide = i;
-          break;
+        // Auto-advance matching slides
+        if (autoSyncEnabled) {
+          for (let i = slides.length - 1; i >= 0; i--) {
+            if (currentSec >= slides[i].startTime) {
+              if (currentSlideIndex !== i) {
+                goToSlide(i, false);
+              }
+              break;
+            }
+          }
         }
+      }, 500);
+    }
+
+    function stopTimeTracking() {
+      if (timeTrackingInterval) {
+        clearInterval(timeTrackingInterval);
+        timeTrackingInterval = null;
       }
-      if (targetSlide !== currentSlide) {
-        showSlide(targetSlide);
-      }
     }
 
-    // Render Timeline Pills
-    function initTimeline() {
-      const bar = document.getElementById('timelineBar');
-      bar.innerHTML = SLIDES_META.map((s, idx) => `
-        <button 
-          onclick="goToSlide(${idx})"
-          id="timePill-${idx}"
-          class="px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-900/90 text-slate-300 hover:border-mizGold transition text-xs font-bold flex items-center gap-1.5 flex-shrink-0"
-        >
-          <span class="text-[10px] text-mizGold font-mono">${formatTime(s.time)}</span>
-          <span>${s.label}</span>
-        </button>
-      `).join('');
-    }
+    function goToSlide(index, manualSeek = false) {
+      if (index < 0 || index >= slides.length) return;
+      currentSlideIndex = index;
 
-    function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${m}:${s < 10 ? '0' : ''}${s}`;
-    }
+      const slide = slides[index];
+      const stage = document.getElementById('slide-stage');
+      
+      stage.style.opacity = '0';
+      setTimeout(() => {
+        stage.innerHTML = slide.html;
+        stage.style.opacity = '1';
+      }, 150);
 
-    // Switch active slide without touching video iframe
-    function showSlide(idx) {
-      if (idx < 0 || idx >= SLIDES_META.length) return;
-      currentSlide = idx;
-      const meta = SLIDES_META[idx];
+      document.getElementById('active-cue-label').innerText = slide.cueText;
+      document.getElementById('current-slide-num').innerText = index + 1;
 
-      // Update header badges
-      document.getElementById('slideBadgeText').textContent = `SLIDE ${idx + 1} OF 10`;
-      document.getElementById('slideTimecodeText').textContent = meta.sub;
-      document.getElementById('cueSubtext').textContent = meta.sub;
-      document.getElementById('cueMainText').textContent = meta.cue;
-
-      const banner = document.getElementById('cueBanner');
-      banner.className = `bg-gradient-to-r ${meta.grad} border border-mizGold/50 rounded-2xl p-3.5 shadow-xl flex items-center justify-between text-white transition-all duration-300`;
-
-      // Update timeline pills
-      SLIDES_META.forEach((_, i) => {
-        const pill = document.getElementById(`timePill-${i}`);
+      // Update chapter buttons
+      slides.forEach((_, i) => {
+        const pill = document.getElementById(`nav-pill-${i}`);
         if (pill) {
-          if (i === idx) {
-            pill.className = 'px-2.5 py-1 rounded-lg border border-mizGold bg-mizCrimson text-white font-bold transition text-xs flex items-center gap-1.5 flex-shrink-0 shadow-lg';
+          if (i === index) {
+            pill.className = 'px-2 py-1 text-xs font-bold rounded-md bg-amber-500 text-slate-950 transition';
           } else {
-            pill.className = 'px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-900/90 text-slate-300 hover:border-mizGold transition text-xs font-bold flex items-center gap-1.5 flex-shrink-0';
+            pill.className = 'px-2 py-1 text-xs font-medium rounded-md text-gray-400 hover:text-amber-200 transition';
           }
         }
       });
-
-      // Toggle slide visibility purely in DOM
-      for (let i = 0; i < SLIDES_META.length; i++) {
-        const pane = document.getElementById(`slide-${i}`);
-        if (pane) {
-          if (i === idx) {
-            pane.classList.add('active');
-          } else {
-            pane.classList.remove('active');
-          }
-        }
-      }
-    }
-
-    function goToSlide(idx) {
-      showSlide(idx);
     }
 
     function nextSlide() {
-      if (currentSlide < SLIDES_META.length - 1) {
-        showSlide(currentSlide + 1);
+      if (currentSlideIndex < slides.length - 1) {
+        goToSlide(currentSlideIndex + 1);
       }
     }
 
     function prevSlide() {
-      if (currentSlide > 0) {
-        showSlide(currentSlide - 1);
+      if (currentSlideIndex > 0) {
+        goToSlide(currentSlideIndex - 1);
       }
     }
 
-    // Video Seek Commands
-    function jumpVideoTo(seconds) {
-      if (ytPlayer && typeof ytPlayer.seekTo === 'function') {
-        ytPlayer.seekTo(seconds, true);
-        ytPlayer.playVideo();
+    function jumpVideoToSeconds(sec) {
+      if (ytPlayer && ytPlayer.seekTo) {
+        ytPlayer.seekTo(sec, true);
+        if (ytPlayer.playVideo) ytPlayer.playVideo();
       }
     }
 
-    function seekVideoToCurrentSlide() {
-      jumpVideoTo(SLIDES_META[currentSlide].time);
+    function jumpToCurrentSlideVideo() {
+      jumpVideoToSeconds(slides[currentSlideIndex].startTime);
     }
 
-    function quickJump(seconds) {
-      jumpVideoTo(seconds);
-      syncSlideWithTime(seconds);
-    }
-
-    // Toggle Auto-Sync
     function toggleAutoSync() {
       autoSyncEnabled = !autoSyncEnabled;
-      const dot = document.getElementById('syncDot');
-      const text = document.getElementById('syncText');
-      const btn = document.getElementById('autoSyncBtn');
+      const btn = document.getElementById('toggle-sync-btn');
+      const txt = document.getElementById('sync-status-text');
 
       if (autoSyncEnabled) {
-        dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse";
-        text.textContent = "Auto-Sync: ON";
-        btn.className = "px-3.5 py-1.5 rounded-lg border border-emerald-500/50 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-200 text-xs font-bold transition flex items-center gap-2 shadow";
+        btn.className = 'flex items-center space-x-2 text-xs font-semibold px-3 py-1.5 rounded-full border border-emerald-500/50 bg-emerald-950/60 text-emerald-300 hover:bg-emerald-900/60 transition';
+        txt.innerText = 'Auto-Sync: ON';
       } else {
-        dot.className = "w-2.5 h-2.5 rounded-full bg-slate-500";
-        text.textContent = "Auto-Sync: OFF";
-        btn.className = "px-3.5 py-1.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-400 text-xs font-bold transition flex items-center gap-2 shadow";
+        btn.className = 'flex items-center space-x-2 text-xs font-semibold px-3 py-1.5 rounded-full border border-gray-600 bg-gray-900/80 text-gray-400 hover:bg-gray-800 transition';
+        txt.innerText = 'Auto-Sync: OFF';
       }
     }
 
-    // Fullscreen API toggle
-    function toggleFullscreen() {
+    function toggleFullScreen() {
       if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      } else {
-        document.exitFullscreen().catch(() => {});
+        document.documentElement.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
       }
     }
 
-    // Arrow keys manual navigation
+    // Keyboard navigation (Arrow keys / PageUp / PageDown)
     window.addEventListener('keydown', (e) => {
-      if (e.code === 'ArrowRight') {
-        e.preventDefault();
-        nextSlide();
-      } else if (e.code === 'ArrowLeft') {
-        e.preventDefault();
-        prevSlide();
-      }
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
     });
 
-    // Initialize on page load
-    initTimeline();
-    showSlide(0);
+    // Start on load
+    window.onload = () => {
+      initChapterNav();
+      goToSlide(0);
+    };
   </script>
 </body>
 </html>
