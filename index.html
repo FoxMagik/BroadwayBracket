@@ -7,7 +7,7 @@
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -24,24 +24,24 @@
       font-family: 'Cinzel', serif;
     }
     .theater-backdrop {
-      background: radial-gradient(circle at 45% 25%, rgba(20, 32, 58, 0.9) 0%, rgba(6, 10, 20, 0.98) 100%),
-                  url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg/1920px-Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg') center/cover fixed;
+      background: radial-gradient(circle at 45% 25%, rgba(20, 32, 58, 0.92) 0%, rgba(6, 10, 20, 0.98) 100%), #060a14;
     }
     .card-glass {
-      background: rgba(11, 18, 33, 0.92);
+      background: rgba(11, 18, 33, 0.94);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(212, 175, 55, 0.28);
     }
     .portrait-frame {
-      box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.8), 0 0 16px rgba(212, 175, 55, 0.22);
+      box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.8), 0 0 14px rgba(212, 175, 55, 0.22);
     }
-    /* Smooth custom scrollbar for narrow card container */
-    .custom-scroll::-webkit-scrollbar {
-      width: 5px;
-    }
-    .custom-scroll::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.3);
-      border-radius: 4px;
+    /* Fallback style for broken/missing images */
+    .img-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111a2e;
+      color: #d4af37;
+      font-size: 1.75rem;
     }
   </style>
 </head>
@@ -50,7 +50,7 @@
   <!-- Top Navigation & Sync Bar -->
   <header class="w-full bg-[#080d1a]/95 border-b border-amber-500/20 px-4 md:px-6 py-2.5 flex items-center justify-between z-30">
     <div class="flex items-center space-x-3">
-      <div class="w-3 h-7 bg-gradient-to-b from-blue-600 via-white to-red-600 rounded-sm"></div>
+      <div class="w-2.5 h-7 bg-gradient-to-b from-blue-600 via-white to-red-600 rounded-sm"></div>
       <div>
         <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100">Les Misérables</h1>
         <p class="text-[11px] text-amber-400/80 font-medium leading-none">Classroom Listening Guide: "One Day More"</p>
@@ -72,10 +72,10 @@
     </div>
   </header>
 
-  <!-- Main Stage: 7-5 Layout prioritizing large video -->
+  <!-- Main Stage: 7-5 Layout -->
   <main class="flex-1 w-full max-w-[1900px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5 p-3 md:p-6 items-stretch">
     
-    <!-- Left Column: Enlarged Video Stage (7 of 12 columns) -->
+    <!-- Left Column: Video Stage (7 of 12 columns) -->
     <div class="lg:col-span-7 flex flex-col justify-center">
       <div class="w-full card-glass rounded-2xl p-3 md:p-4 shadow-2xl relative border border-amber-500/35">
         <!-- 16:9 Responsive Player Box -->
@@ -104,9 +104,9 @@
       </div>
     </div>
 
-    <!-- Right Column: Taller, Narrower Character Dossier (5 of 12 columns) -->
+    <!-- Right Column: Character Dossier (5 of 12 columns, fixed no-scroll frame) -->
     <div class="lg:col-span-5 flex flex-col justify-center">
-      <div id="slide-stage" class="card-glass rounded-2xl p-5 md:p-6 shadow-2xl transition-all duration-300 h-full max-h-[640px] overflow-y-auto custom-scroll flex flex-col justify-between">
+      <div id="slide-stage" class="card-glass rounded-2xl p-5 md:p-6 shadow-2xl transition-all duration-300 h-full max-h-[640px] flex flex-col justify-center overflow-hidden">
         <!-- Slide content renders dynamically -->
       </div>
     </div>
@@ -141,8 +141,14 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
+    // Helper to handle image fallback gracefully
+    function handleImgError(img) {
+      img.onerror = null;
+      img.parentElement.innerHTML = '<div class="w-full h-full img-fallback"><i class="fa-solid fa-user-tie"></i></div>';
+    }
+
     // -------------------------------------------------------------
-    // Calibrated Slide Timestamps with Cast Images
+    // Calibrated Timestamps & Balanced Layouts
     // -------------------------------------------------------------
     const slides = [
       {
@@ -152,13 +158,13 @@
         cueText: "0:00 - Introduction & Setting the Scene",
         html: `
           <div class="space-y-4 my-auto">
-            <span class="inline-block px-3 py-1 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[11px] font-bold rounded-full uppercase tracking-wider">Musical Roadmap</span>
+            <span class="inline-block px-3 py-0.5 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[11px] font-bold rounded-full uppercase tracking-wider">Musical Roadmap</span>
             <h2 class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100">"One Day More"</h2>
             <p class="text-amber-400/90 text-xs font-medium">Act 1 Finale — Paris, June 1832</p>
             <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
               Tomorrow is the student-led June Rebellion. Every character faces a life-changing crisis, each with their own personal musical theme, leading into one grand counterpoint.
             </p>
-            <div class="space-y-2.5 pt-2">
+            <div class="space-y-2.5 pt-1">
               <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-700/60">
                 <p class="text-amber-300 font-semibold text-xs uppercase tracking-wide mb-1 flex items-center gap-1.5">
                   <i class="fa-solid fa-ear-listen text-amber-400"></i> What to Listen For
@@ -183,8 +189,8 @@
         html: `
           <div class="space-y-3.5 my-auto">
             <div class="flex items-center gap-4">
-              <div class="w-28 h-36 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Hugh_Jackman_TIFF_2013.jpg/440px-Hugh_Jackman_TIFF_2013.jpg" alt="Hugh Jackman as Jean Valjean" class="w-full h-full object-cover object-top">
+              <div class="w-36 h-48 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
+                <img src="images/valjean.jpg" alt="Jean Valjean" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
               </div>
               <div>
                 <span class="px-2 py-0.5 bg-blue-950/90 border border-blue-500/40 text-blue-300 text-[10px] font-bold rounded uppercase">The Father</span>
@@ -195,12 +201,12 @@
             </div>
             
             <div class="space-y-2 text-xs md:text-sm">
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-white mb-1">His Dilemma</h4>
-                <p class="text-gray-300 leading-relaxed text-xs">Inspector Javert is hunting him down. To protect his adopted daughter Cosette, he must pack up and escape Paris before daylight.</p>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-white mb-0.5">His Dilemma</h4>
+                <p class="text-gray-300 leading-relaxed text-xs">Inspector Javert is closing in. To protect his daughter Cosette, he must pack up and escape Paris before daylight.</p>
               </div>
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-amber-300 mb-1">Musical Detective Cue</h4>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-amber-300 mb-0.5">Musical Detective Cue</h4>
                 <p class="text-gray-300 leading-relaxed text-xs">A heavy, determined walking march that sounds like someone carrying a secret burden on the run.</p>
               </div>
             </div>
@@ -213,31 +219,38 @@
         name: "Marius & Cosette",
         cueText: "0:28 - 'I did not live until today / How can I live when we are parted?'",
         html: `
-          <div class="space-y-3.5 my-auto">
+          <div class="space-y-2.5 my-auto">
             <div class="grid grid-cols-2 gap-3">
-              <div class="text-center">
-                <div class="portrait-frame rounded-xl overflow-hidden border border-amber-400/60 bg-slate-950 aspect-[4/5]">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Eddie_Redmayne_2015_%28cropped%29.jpg/440px-Eddie_Redmayne_2015_%28cropped%29.jpg" alt="Eddie Redmayne as Marius" class="w-full h-full object-cover">
+              <div class="flex items-center gap-2 p-1.5 bg-slate-900/50 rounded-xl border border-slate-800">
+                <div class="w-16 h-20 flex-shrink-0 portrait-frame rounded-lg overflow-hidden border border-amber-400/60 bg-slate-950">
+                  <img src="images/marius.jpg" alt="Marius" onerror="handleImgError(this)" class="w-full h-full object-cover">
                 </div>
-                <h3 class="cinzel text-sm font-bold text-amber-200 mt-1.5">Marius</h3>
-                <p class="text-[10px] text-red-400 font-semibold uppercase">Eddie Redmayne</p>
+                <div>
+                  <h3 class="cinzel text-sm font-bold text-amber-200 leading-tight">Marius</h3>
+                  <p class="text-[10px] text-red-400 font-semibold uppercase">Eddie Redmayne</p>
+                </div>
               </div>
-              <div class="text-center">
-                <div class="portrait-frame rounded-xl overflow-hidden border border-amber-400/60 bg-slate-950 aspect-[4/5]">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Amanda_Seyfried_2019_by_Glenn_Francis.jpg/440px-Amanda_Seyfried_2019_by_Glenn_Francis.jpg" alt="Amanda Seyfried as Cosette" class="w-full h-full object-cover">
+              <div class="flex items-center gap-2 p-1.5 bg-slate-900/50 rounded-xl border border-slate-800">
+                <div class="w-16 h-20 flex-shrink-0 portrait-frame rounded-lg overflow-hidden border border-amber-400/60 bg-slate-950">
+                  <img src="images/cosette.jpg" alt="Cosette" onerror="handleImgError(this)" class="w-full h-full object-cover">
                 </div>
-                <h3 class="cinzel text-sm font-bold text-amber-200 mt-1.5">Cosette</h3>
-                <p class="text-[10px] text-red-400 font-semibold uppercase">Amanda Seyfried</p>
+                <div>
+                  <h3 class="cinzel text-sm font-bold text-amber-200 leading-tight">Cosette</h3>
+                  <p class="text-[10px] text-red-400 font-semibold uppercase">Amanda Seyfried</p>
+                </div>
               </div>
             </div>
 
-            <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800 text-xs space-y-1.5">
+            <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800 text-xs space-y-1">
               <span class="px-2 py-0.5 bg-rose-950/90 border border-rose-500/40 text-rose-300 text-[10px] font-bold rounded uppercase">Love at First Sight</span>
-              <p class="text-gray-300 leading-relaxed">
-                They fell deeply in love, but Cosette is being whisked away across the sea. They sing a romantic duet wondering how they can endure tomorrow's separation.
+              <p class="text-gray-300 leading-relaxed text-[11px]">
+                They fell deeply in love, but Cosette is being forced to leave Paris. They sing a lyrical duet wondering how they can endure tomorrow's separation.
               </p>
-              <p class="text-amber-300 font-semibold pt-1">Musical Signature:</p>
-              <p class="text-gray-300">Flowing violin melodies that break into Valjean's tense, rhythmic marching bassline.</p>
+            </div>
+
+            <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800 text-xs">
+              <p class="text-amber-300 font-semibold text-[11px]">Musical Signature:</p>
+              <p class="text-gray-300 leading-relaxed text-[11px]">Flowing violin melodies that break into Valjean's tense, rhythmic marching bassline.</p>
             </div>
           </div>
         `
@@ -250,8 +263,8 @@
         html: `
           <div class="space-y-3.5 my-auto">
             <div class="flex items-center gap-4">
-              <div class="w-28 h-36 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Samantha_Barks_%2814881803737%29.jpg/440px-Samantha_Barks_%2814881803737%29.jpg" alt="Samantha Barks as Éponine" class="w-full h-full object-cover object-top">
+              <div class="w-36 h-48 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
+                <img src="images/eponine.jpg" alt="Éponine" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
               </div>
               <div>
                 <span class="px-2 py-0.5 bg-purple-950/90 border border-purple-500/40 text-purple-300 text-[10px] font-bold rounded uppercase">The Unselfish Friend</span>
@@ -262,12 +275,12 @@
             </div>
             
             <div class="space-y-2 text-xs md:text-sm">
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-white mb-1">Her Heartbreak</h4>
-                <p class="text-gray-300 leading-relaxed text-xs">Éponine loves Marius, but knows he loves Cosette. Rather than leaving him, she selflessly chooses to disguise herself and follow him to the barricades to keep him safe.</p>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-white mb-0.5">Her Heartbreak</h4>
+                <p class="text-gray-300 leading-relaxed text-xs">Éponine loves Marius, but knows he loves Cosette. She chooses to disguise herself and follow him to the barricades to keep him safe.</p>
               </div>
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-amber-300 mb-1">Musical Detective Cue</h4>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-amber-300 mb-0.5">Musical Detective Cue</h4>
                 <p class="text-gray-300 leading-relaxed text-xs">A sad, solitary countermelody sung in direct contrast against Marius and Cosette's warm love theme.</p>
               </div>
             </div>
@@ -282,8 +295,8 @@
         html: `
           <div class="space-y-3.5 my-auto">
             <div class="flex items-center gap-4">
-              <div class="w-28 h-36 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Aaron_Tveit_2019.jpg/440px-Aaron_Tveit_2019.jpg" alt="Aaron Tveit as Enjolras" class="w-full h-full object-cover object-top">
+              <div class="w-36 h-48 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
+                <img src="images/enjolras.jpg" alt="Enjolras" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
               </div>
               <div>
                 <span class="px-2 py-0.5 bg-red-950/90 border border-red-500/40 text-red-300 text-[10px] font-bold rounded uppercase">The Student Commander</span>
@@ -294,12 +307,12 @@
             </div>
             
             <div class="space-y-2 text-xs md:text-sm">
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-white mb-1">The Cause</h4>
-                <p class="text-gray-300 leading-relaxed text-xs">Enjolras is rallying the students and workers of Paris to overthrow injustice. He believes freedom is worth risking everything for.</p>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-white mb-0.5">The Cause</h4>
+                <p class="text-gray-300 leading-relaxed text-xs">Enjolras is rallying the students and workers to stand against injustice. He believes freedom is worth risking everything for.</p>
               </div>
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-amber-300 mb-1">Musical Detective Cue</h4>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-amber-300 mb-0.5">Musical Detective Cue</h4>
                 <p class="text-gray-300 leading-relaxed text-xs">A military snare drum rhythm crashes in, accompanied by heroic brass calls signaling armed revolution.</p>
               </div>
             </div>
@@ -314,8 +327,8 @@
         html: `
           <div class="space-y-3.5 my-auto">
             <div class="flex items-center gap-4">
-              <div class="w-28 h-36 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Russell_Crowe_Taormina_2023.jpg/440px-Russell_Crowe_Taormina_2023.jpg" alt="Russell Crowe as Javert" class="w-full h-full object-cover object-top">
+              <div class="w-36 h-48 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
+                <img src="images/javert.jpg" alt="Javert" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
               </div>
               <div>
                 <span class="px-2 py-0.5 bg-indigo-950/90 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold rounded uppercase">The Undercover Spy</span>
@@ -326,13 +339,13 @@
             </div>
             
             <div class="space-y-2 text-xs md:text-sm">
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-white mb-1">The Infiltration</h4>
-                <p class="text-gray-300 leading-relaxed text-xs">Javert views the students as dangerous rebels. He disguises himself to slip behind the barricade, gather intelligence, and crush their rebellion from inside.</p>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-white mb-0.5">The Infiltration</h4>
+                <p class="text-gray-300 leading-relaxed text-xs">Javert disguises himself to slip behind the barricades, gather intelligence, and have the army crush the rebellion.</p>
               </div>
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-amber-300 mb-1">Musical Detective Cue</h4>
-                <p class="text-gray-300 leading-relaxed text-xs">A crisp, rigid, staccato military cadence that shows his unbending loyalty to the law.</p>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-amber-300 mb-0.5">Musical Detective Cue</h4>
+                <p class="text-gray-300 leading-relaxed text-xs">A crisp, rigid, staccato military cadence that shows his unbending adherence to the law.</p>
               </div>
             </div>
           </div>
@@ -346,8 +359,8 @@
         html: `
           <div class="space-y-3.5 my-auto">
             <div class="flex items-center gap-4">
-              <div class="w-28 h-36 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Helena_Bonham_Carter_2011.jpg/440px-Helena_Bonham_Carter_2011.jpg" alt="The Thénardiers" class="w-full h-full object-cover object-top">
+              <div class="w-36 h-48 flex-shrink-0 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/80 bg-slate-950">
+                <img src="images/thenardiers.jpg" alt="The Thénardiers" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
               </div>
               <div>
                 <span class="px-2 py-0.5 bg-amber-950/90 border border-amber-500/40 text-amber-300 text-[10px] font-bold rounded uppercase">The Greedy Thieves</span>
@@ -358,12 +371,12 @@
             </div>
             
             <div class="space-y-2 text-xs md:text-sm">
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-white mb-1">Opportunists</h4>
-                <p class="text-gray-300 leading-relaxed text-xs">While others fight for freedom, justice, or love, these dishonest innkeepers plan to sneak across the battlefield to rob fallen soldiers and citizens.</p>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-white mb-0.5">Opportunists</h4>
+                <p class="text-gray-300 leading-relaxed text-xs">While others fight for freedom or love, these dishonest thieves plan to loot the fallen in the battle's aftermath.</p>
               </div>
-              <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800">
-                <h4 class="font-bold text-amber-300 mb-1">Musical Detective Cue</h4>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-800">
+                <h4 class="font-bold text-amber-300 mb-0.5">Musical Detective Cue</h4>
                 <p class="text-gray-300 leading-relaxed text-xs">A bouncy, comedic carnival waltz in 3/4 time that injects cynical humor into the song's tension.</p>
               </div>
             </div>
@@ -380,16 +393,16 @@
             <span class="px-2.5 py-0.5 bg-red-950/90 border border-red-500/40 text-red-300 text-[10px] font-bold rounded uppercase tracking-wider">The Climax Begins</span>
             <h2 class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100 leading-tight">To the Barricades!</h2>
             <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
-              The streets of Paris begin to swarm with students, workers, and soldiers. Weapons are passed out and furniture is dragged into the road to build barricades.
+              The streets of Paris swarm with students, workers, and soldiers. Weapons are passed out and barricades are erected across the streets.
             </p>
             <div class="space-y-2.5 pt-1">
               <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800 text-xs space-y-1">
                 <p class="text-amber-300 font-semibold">What’s Happening on Screen:</p>
-                <p class="text-gray-300">The revolution transitions from whispered meetings into open rebellion across the city.</p>
+                <p class="text-gray-300">The rebellion moves from whispered planning into open confrontation in the streets.</p>
               </div>
               <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800 text-xs space-y-1">
                 <p class="text-amber-300 font-semibold">Musical Build-Up:</p>
-                <p class="text-gray-300">The underlying orchestral rhythm doubles in intensity as all characters prepare for their entrance.</p>
+                <p class="text-gray-300">The orchestral rhythm doubles in intensity as all characters prepare for their vocal entrances.</p>
               </div>
             </div>
           </div>
@@ -405,7 +418,7 @@
             <span class="px-2.5 py-0.5 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[10px] font-bold rounded uppercase tracking-wider">The Turning Point</span>
             <h2 class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100 leading-tight">"I Fight with You!"</h2>
             <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
-              Marius makes his fateful choice: choosing his brothers in arms over running away with Cosette. At this exact moment, all vocal parts begin layering together.
+              Marius makes his choice: standing with his friends over fleeing with Cosette. At this exact moment, all vocal parts begin layering together.
             </p>
             <div class="grid grid-cols-2 gap-2 text-xs pt-1">
               <div class="p-2.5 bg-slate-900/70 rounded-lg border border-blue-500/30">
@@ -436,15 +449,15 @@
             <p class="text-amber-400/90 text-xs font-semibold uppercase">3:03 - The Final Grand Ensemble</p>
             
             <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
-              Every single soloist marches together in lockstep as the red flag of revolution billows high above Paris. 
+              Every soloist marches together as the red flag of revolution billows high above Paris.
             </p>
 
-            <div class="p-3.5 bg-gradient-to-br from-slate-900/90 to-amber-950/40 rounded-xl border border-amber-400/40 text-xs space-y-2">
+            <div class="p-3 bg-gradient-to-br from-slate-900/90 to-amber-950/40 rounded-xl border border-amber-400/40 text-xs space-y-1.5">
               <h4 class="font-bold text-amber-300 uppercase tracking-wide">The Power of Polyphony:</h4>
-              <p class="text-gray-200 leading-relaxed">
-                Notice how they are all singing <em>completely different words and motives</em>, yet harmonizing as one massive wall of sound.
+              <p class="text-gray-200 leading-relaxed text-[11px]">
+                Notice how they are all singing <em>completely different lyrics and motives</em>, yet harmonizing as one massive wall of sound.
               </p>
-              <div class="text-[11px] text-amber-200/80 font-mono pt-1">
+              <div class="text-[11px] text-amber-200/90 font-mono pt-1">
                 "One more dawn... One more day... ONE DAY MORE!"
               </div>
             </div>
@@ -461,13 +474,13 @@
             <span class="px-2.5 py-0.5 bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold rounded uppercase tracking-wider">Classroom Reflection</span>
             <h2 class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100 leading-tight">What Would You Do?</h2>
             
-            <div class="space-y-3 pt-1">
+            <div class="space-y-2.5 pt-1">
               <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800 text-xs md:text-sm">
-                <p class="text-amber-300 font-bold mb-1">1. Loyalty vs. Safety (Marius's Choice):</p>
+                <p class="text-amber-300 font-bold mb-0.5">1. Loyalty vs. Safety (Marius's Choice):</p>
                 <p class="text-gray-300 text-xs leading-relaxed">Marius could have stayed safe with Cosette, but chose to stand beside his friends. Have you ever had to choose between something comfortable and standing up for your friends?</p>
               </div>
               <div class="p-3 bg-slate-900/70 rounded-xl border border-slate-800 text-xs md:text-sm">
-                <p class="text-amber-300 font-bold mb-1">2. Musical Detective Question:</p>
+                <p class="text-amber-300 font-bold mb-0.5">2. Musical Detective Question:</p>
                 <p class="text-gray-300 text-xs leading-relaxed">When all the characters sang together at 3:03, did you hear chaos or teamwork? How did the composer make so many different voices fit together?</p>
               </div>
             </div>
