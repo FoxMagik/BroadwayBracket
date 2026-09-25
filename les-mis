@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Les Misérables: "One Day More" - Classroom Companion</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #060a14;
+      color: #f3f4f6;
+    }
+    .cinzel {
+      font-family: 'Cinzel', serif;
+    }
+    .theater-backdrop {
+      background: radial-gradient(circle at 45% 25%, rgba(20, 32, 58, 0.92) 0%, rgba(6, 10, 20, 0.98) 100%), #060a14;
+    }
+    .card-glass {
+      background: rgba(11, 18, 33, 0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+    }
+    .portrait-frame {
+      box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.8), 0 0 14px rgba(212, 175, 55, 0.22);
+    }
+    .img-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111a2e;
+      color: #d4af37;
+      font-size: 2rem;
+    }
+    /* Sleek slim scrollbar if vertical height is constrained */
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.35);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="theater-backdrop min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- Top Navigation & Sync Bar -->
+  <header class="w-full bg-[#080d1a]/95 border-b border-amber-500/20 px-4 md:px-6 py-2 flex items-center justify-between z-30">
+    <div class="flex items-center space-x-3">
+      <div class="w-2.5 h-7 bg-gradient-to-b from-blue-600 via-white to-red-600 rounded-sm"></div>
+      <div>
+        <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">Les Misérables</h1>
+        <p class="text-[10px] text-amber-400/80 font-medium leading-none">Classroom Listening Guide: "One Day More"</p>
+      </div>
+    </div>
+
+    <!-- Timeline Chapters -->
+    <div id="chapter-nav" class="hidden 2xl:flex items-center space-x-1"></div>
+
+    <!-- Controls -->
+    <div class="flex items-center space-x-2">
+      <button id="toggle-sync-btn" onclick="toggleAutoSync()" class="flex items-center space-x-2 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/50 bg-emerald-950/60 text-emerald-300 hover:bg-emerald-900/60 transition">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="sync-status-text">Auto-Sync: ON</span>
+      </button>
+      <button onclick="toggleFullScreen()" title="Toggle Fullscreen" class="text-gray-400 hover:text-amber-300 transition p-1">
+        <i class="fa-solid fa-expand text-base"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Stage: 9-3 Layout (75% Video, 25% Dossier) -->
+  <main class="flex-1 w-full max-w-[2000px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-4 p-3 md:p-5 items-stretch">
+    
+    <!-- Left Column: Giant Video Stage (9 of 12 columns = 75%) -->
+    <div class="lg:col-span-9 flex flex-col justify-center">
+      <div class="w-full card-glass rounded-2xl p-2.5 md:p-3.5 shadow-2xl relative border border-amber-500/35">
+        <!-- 16:9 Responsive Player Box -->
+        <div class="relative w-full pb-[56.25%] rounded-xl overflow-hidden bg-black shadow-inner">
+          <iframe 
+            id="yt-player"
+            class="absolute top-0 left-0 w-full h-full"
+            src="https://www.youtube.com/embed/fUToJj7OtSk?enablejsapi=1&list=RDfUToJj7OtSk&playsinline=1&rel=0" 
+            title="Les Misérables - One Day More" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- Real-Time Musical Cue Bar -->
+        <div class="mt-2.5 flex items-center justify-between text-xs text-amber-200/90 bg-[#060a14]/80 px-4 py-2 rounded-lg border border-amber-500/25">
+          <div class="flex items-center space-x-2 truncate mr-2">
+            <i class="fa-solid fa-music text-amber-400 flex-shrink-0"></i>
+            <span id="active-cue-label" class="truncate font-medium">0:00 - Introduction & Title Roadmap</span>
+          </div>
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <span id="video-time-clock" class="font-mono text-amber-300 font-bold bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/30">0:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Thinner 25% Character Dossier (3 of 12 columns = 25%) -->
+    <div class="lg:col-span-3 flex flex-col justify-center">
+      <div id="slide-stage" class="card-glass rounded-2xl p-4 md:p-5 shadow-2xl transition-all duration-300 h-full max-h-[750px] flex flex-col justify-center overflow-y-auto custom-scroll">
+        <!-- Slide content renders dynamically -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Presentation Controls -->
+  <footer class="w-full bg-[#080d1a]/95 border-t border-amber-500/20 px-4 md:px-6 py-2 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <button onclick="prevSlide()" class="px-3.5 py-1.5 rounded-lg bg-[#11192e] hover:bg-[#1a2542] border border-amber-500/30 text-amber-200 text-xs md:text-sm font-semibold transition flex items-center space-x-2">
+        <i class="fa-solid fa-chevron-left"></i>
+        <span>Prev</span>
+      </button>
+      <button onclick="nextSlide()" class="px-4 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs md:text-sm font-bold transition flex items-center space-x-2 shadow-lg shadow-amber-500/20">
+        <span>Next</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="text-xs text-gray-400 font-medium">
+      Slide <span id="current-slide-num" class="text-amber-400 font-bold">1</span> of <span id="total-slides-num">11</span>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <button onclick="jumpToCurrentSlideVideo()" class="px-3 py-1.5 rounded-lg bg-[#11192e] hover:bg-[#1a2542] border border-amber-500/30 text-amber-300 text-xs font-semibold transition flex items-center space-x-1.5">
+        <i class="fa-solid fa-rotate-left text-[11px]"></i>
+        <span>Sync Video</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    function handleImgError(img) {
+      img.onerror = null;
+      img.parentElement.innerHTML = '<div class="w-full h-full img-fallback"><i class="fa-solid fa-user-tie"></i></div>';
+    }
+
+    // -------------------------------------------------------------
+    // Calibrated Timestamps & 25% Column Balanced Layout
+    // -------------------------------------------------------------
+    const slides = [
+      {
+        id: 0,
+        startTime: 0,     // 0:00
+        name: "Overview",
+        cueText: "0:00 - Introduction & Setting the Scene",
+        html: `
+          <div class="space-y-3.5 my-auto text-center">
+            <span class="inline-block px-2.5 py-0.5 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[10px] font-bold rounded-full uppercase tracking-wider">Musical Roadmap</span>
+            <h2 class="cinzel text-xl md:text-2xl font-extrabold text-amber-100 leading-tight">"One Day More"</h2>
+            <p class="text-amber-400/90 text-xs font-medium">Act 1 Finale — Paris, 1832</p>
+            <p class="text-gray-300 text-xs leading-relaxed text-left">
+              Tomorrow is the student rebellion. Every character faces a turning point, with their own musical rhythm leading toward one combined climax.
+            </p>
+            <div class="space-y-2 text-left pt-1">
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-700/60">
+                <p class="text-amber-300 font-semibold text-[11px] uppercase tracking-wide mb-0.5 flex items-center gap-1.5">
+                  <i class="fa-solid fa-ear-listen text-amber-400"></i> What to Listen For
+                </p>
+                <p class="text-gray-300 text-[11px] leading-relaxed">Each new character introduces a completely distinct style: march, romance, or military snare.</p>
+              </div>
+              <div class="p-2.5 bg-slate-900/70 rounded-xl border border-slate-700/60">
+                <p class="text-amber-300 font-semibold text-[11px] uppercase tracking-wide mb-0.5 flex items-center gap-1.5">
+                  <i class="fa-solid fa-layer-group text-amber-400"></i> Climax (3:03)
+                </p>
+                <p class="text-gray-300 text-[11px] leading-relaxed">All soloists converge on "Tomorrow!" singing 5 separate melodies at once.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 1,
+        startTime: 12,    // 0:12
+        name: "Valjean",
+        cueText: "0:12 - 'One day more! Another day, another destiny...'",
+        html: `
+          <div class="space-y-3 my-auto flex flex-col items-center text-center">
+            <!-- Uniform 160x208 portrait -->
+            <div class="w-40 h-52 portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/80 bg-slate-950 flex-shrink-0">
+              <img src="images/valjean.jpg" alt="Jean Valjean" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <div>
+              <h3 class="cinzel text-lg font-bold text-amber-100 leading-tight">Jean Valjean</h3>
+              <p class="text-[11px] text-red-400 font-semibold uppercase tracking-wider">Hugh Jackman</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-blue-950/90 border border-blue-500/40 text-blue-300 text-[9px] font-bold rounded uppercase">The Father</span>
+            </div>
+            
+            <div class="w-full space-y-1.5 text-left text-xs">
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-white text-[11px] mb-0.5">His Dilemma</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">Javert is closing in. Valjean must flee Paris tonight to keep his adopted daughter Cosette safe.</p>
+              </div>
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-amber-300 text-[11px] mb-0.5">Musical Signature</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">A heavy, steady march that echoes walking under a secret burden.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 2,
+        startTime: 28,    // 0:28
+        name: "Marius & Cosette",
+        cueText: "0:28 - 'I did not live until today / How can I live when we are parted?'",
+        html: `
+          <div class="space-y-2.5 my-auto flex flex-col items-center text-center">
+            <!-- Two identical 160x208 portraits stacked with labels underneath -->
+            <div class="flex flex-col gap-2 items-center">
+              <div class="flex flex-col items-center">
+                <div class="w-40 h-52 portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/80 bg-slate-950 flex-shrink-0">
+                  <img src="images/marius.jpg" alt="Marius" onerror="handleImgError(this)" class="w-full h-full object-cover">
+                </div>
+                <h3 class="cinzel text-sm font-bold text-amber-200 mt-1 leading-tight">Marius</h3>
+                <p class="text-[10px] text-red-400 font-semibold uppercase">Eddie Redmayne</p>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="w-40 h-52 portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/80 bg-slate-950 flex-shrink-0">
+                  <img src="images/cosette.jpg" alt="Cosette" onerror="handleImgError(this)" class="w-full h-full object-cover">
+                </div>
+                <h3 class="cinzel text-sm font-bold text-amber-200 mt-1 leading-tight">Cosette</h3>
+                <p class="text-[10px] text-red-400 font-semibold uppercase">Amanda Seyfried</p>
+              </div>
+            </div>
+
+            <div class="w-full p-2 bg-slate-900/70 rounded-lg border border-slate-800 text-left text-[11px] space-y-1">
+              <span class="inline-block px-1.5 py-0.5 bg-rose-950/90 border border-rose-500/40 text-rose-300 text-[9px] font-bold rounded uppercase">Love at First Sight</span>
+              <p class="text-gray-300 leading-relaxed">They fell in love, but Cosette is forced to leave Paris. They sing a lyrical duet wondering how they can endure separation.</p>
+              <p class="text-amber-300 font-semibold text-[10px] pt-0.5">Musical Signature: Flowing, romantic strings.</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 3,
+        startTime: 53,    // 0:53
+        name: "Éponine",
+        cueText: "0:53 - 'One more day all on my own...'",
+        html: `
+          <div class="space-y-3 my-auto flex flex-col items-center text-center">
+            <div class="w-40 h-52 portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/80 bg-slate-950 flex-shrink-0">
+              <img src="images/eponine.jpg" alt="Éponine" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <div>
+              <h3 class="cinzel text-lg font-bold text-amber-100 leading-tight">Éponine</h3>
+              <p class="text-[11px] text-red-400 font-semibold uppercase tracking-wider">Samantha Barks</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-purple-950/90 border border-purple-500/40 text-purple-300 text-[9px] font-bold rounded uppercase">The Unselfish Friend</span>
+            </div>
+            
+            <div class="w-full space-y-1.5 text-left text-xs">
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-white text-[11px] mb-0.5">Her Heartbreak</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">She loves Marius, but knows he loves Cosette. She chooses to follow him to the barricades to keep him safe.</p>
+              </div>
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-amber-300 text-[11px] mb-0.5">Musical Signature</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">A solitary countermelody sung in contrast against the couple's love theme.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 4,
+        startTime: 82,    // 1:22
+        name: "Enjolras",
+        cueText: "1:22 - 'One more day before the storm! At the barricades of freedom!'",
+        html: `
+          <div class="space-y-3 my-auto flex flex-col items-center text-center">
+            <div class="w-40 h-52 portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/80 bg-slate-950 flex-shrink-0">
+              <img src="images/enjolras.jpg" alt="Enjolras" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <div>
+              <h3 class="cinzel text-lg font-bold text-amber-100 leading-tight">Enjolras</h3>
+              <p class="text-[11px] text-red-400 font-semibold uppercase tracking-wider">Aaron Tveit</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-red-950/90 border border-red-500/40 text-red-300 text-[9px] font-bold rounded uppercase">Student Leader</span>
+            </div>
+            
+            <div class="w-full space-y-1.5 text-left text-xs">
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-white text-[11px] mb-0.5">The Cause</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">He rallies the students and workers to oppose injustice, believing freedom is worth everything.</p>
+              </div>
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-amber-300 text-[11px] mb-0.5">Musical Signature</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">Military snare drum pulse accompanied by heroic brass fanfares.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 5,
+        startTime: 110,   // 1:50
+        name: "Javert",
+        cueText: "1:50 - 'One more day to revolution, we will nip it in the bud!'",
+        html: `
+          <div class="space-y-3 my-auto flex flex-col items-center text-center">
+            <div class="w-40 h-52 portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/80 bg-slate-950 flex-shrink-0">
+              <img src="images/javert.jpg" alt="Javert" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <div>
+              <h3 class="cinzel text-lg font-bold text-amber-100 leading-tight">Javert</h3>
+              <p class="text-[11px] text-red-400 font-semibold uppercase tracking-wider">Russell Crowe</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-indigo-950/90 border border-indigo-500/40 text-indigo-300 text-[9px] font-bold rounded uppercase">Undercover Spy</span>
+            </div>
+            
+            <div class="w-full space-y-1.5 text-left text-xs">
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-white text-[11px] mb-0.5">Infiltration</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">Javert slips behind the barricades to spy on their battle plans and have the army crush them.</p>
+              </div>
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-amber-300 text-[11px] mb-0.5">Musical Signature</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">Crisp, rigid, staccato cadence reflecting his strict adherence to the law.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 6,
+        startTime: 122,   // 2:02
+        name: "Thénardiers",
+        cueText: "2:02 - 'Watch 'em run amuck, catch 'em as they fall...'",
+        html: `
+          <div class="space-y-3 my-auto flex flex-col items-center text-center">
+            <div class="w-40 h-52 portrait-frame rounded-2xl overflow-hidden border-2 border-amber-400/80 bg-slate-950 flex-shrink-0">
+              <img src="images/thenardiers.jpg" alt="The Thénardiers" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <div>
+              <h3 class="cinzel text-lg font-bold text-amber-100 leading-tight">Thénardiers</h3>
+              <p class="text-[11px] text-red-400 font-semibold uppercase tracking-wider">Cohen & Bonham Carter</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-amber-950/90 border border-amber-500/40 text-amber-300 text-[9px] font-bold rounded uppercase">Greedy Thieves</span>
+            </div>
+            
+            <div class="w-full space-y-1.5 text-left text-xs">
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-white text-[11px] mb-0.5">Opportunists</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">While others fight for freedom, these thieves plan to loot the fallen in the battle's aftermath.</p>
+              </div>
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800">
+                <h4 class="font-bold text-amber-300 text-[11px] mb-0.5">Musical Signature</h4>
+                <p class="text-gray-300 text-[11px] leading-relaxed">A playful, comedic 3/4 waltz contrasting the surrounding tension.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 7,
+        startTime: 140,   // 2:20
+        name: "To the Barricades",
+        cueText: "2:20 - Battle Preparation & Assembling at the Barricades",
+        html: `
+          <div class="space-y-3 my-auto text-center">
+            <span class="inline-block px-2.5 py-0.5 bg-red-950/90 border border-red-500/40 text-red-300 text-[9px] font-bold rounded uppercase tracking-wider">The Climax Begins</span>
+            <h2 class="cinzel text-xl md:text-2xl font-extrabold text-amber-100 leading-tight">To the Barricades!</h2>
+            <p class="text-gray-300 text-xs leading-relaxed text-left">
+              The streets of Paris swarm as citizens drag furniture into roads to construct defenses. The revolution is officially underway.
+            </p>
+            <div class="space-y-2 text-left pt-1">
+              <div class="p-2.5 bg-slate-900/70 rounded-lg border border-slate-800 text-xs">
+                <p class="text-amber-300 font-semibold text-[11px] mb-0.5">On Screen:</p>
+                <p class="text-gray-300 text-[11px] leading-relaxed">The movement shifts from secret meetings to open confrontation in Paris.</p>
+              </div>
+              <div class="p-2.5 bg-slate-900/70 rounded-lg border border-slate-800 text-xs">
+                <p class="text-amber-300 font-semibold text-[11px] mb-0.5">Musical Texture:</p>
+                <p class="text-gray-300 text-[11px] leading-relaxed">The underlying rhythm doubles in tempo as the chorus joins the soloists.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 8,
+        startTime: 153,   // 2:33
+        name: "Marius's Choice",
+        cueText: "2:33 - 'My place is here, I fight with you!' / The Polyphonic Weave",
+        html: `
+          <div class="space-y-3 my-auto text-center">
+            <span class="inline-block px-2.5 py-0.5 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[9px] font-bold rounded uppercase tracking-wider">The Turning Point</span>
+            <h2 class="cinzel text-xl md:text-2xl font-extrabold text-amber-100 leading-tight">"I Fight with You!"</h2>
+            <p class="text-gray-300 text-xs leading-relaxed text-left">
+              Marius chooses his friends over fleeing with Cosette. At this moment, every vocal line begins overlapping.
+            </p>
+            <div class="grid grid-cols-1 gap-1.5 text-left text-xs pt-1">
+              <div class="p-1.5 bg-slate-900/70 rounded border border-blue-500/30 text-[11px]">
+                <span class="text-blue-300 font-bold">Valjean:</span> Protection
+              </div>
+              <div class="p-1.5 bg-slate-900/70 rounded border border-rose-500/30 text-[11px]">
+                <span class="text-rose-300 font-bold">Cosette:</span> Parting Heart
+              </div>
+              <div class="p-1.5 bg-slate-900/70 rounded border border-purple-500/30 text-[11px]">
+                <span class="text-purple-300 font-bold">Éponine:</span> Secret Devotion
+              </div>
+              <div class="p-1.5 bg-slate-900/70 rounded border border-red-500/30 text-[11px]">
+                <span class="text-red-300 font-bold">Enjolras:</span> The Barricade
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 9,
+        startTime: 183,   // 3:03
+        name: "Tomorrow!",
+        cueText: "3:03 - 'Tomorrow we'll discover what our God in Heaven has in store!'",
+        html: `
+          <div class="space-y-3 my-auto text-center">
+            <span class="inline-block px-2.5 py-0.5 bg-gradient-to-r from-red-600 via-amber-500 to-blue-600 text-white text-[9px] font-extrabold rounded uppercase tracking-wider">Vocal Climax</span>
+            <h2 class="cinzel text-2xl md:text-3xl font-black text-amber-200 leading-tight">"TOMORROW!"</h2>
+            <p class="text-amber-400/90 text-xs font-semibold uppercase">3:03 - Grand Ensemble</p>
+            
+            <p class="text-gray-300 text-xs leading-relaxed text-left">
+              Every soloist marches together as the red flag of revolution billows high above Paris.
+            </p>
+
+            <div class="p-2.5 bg-gradient-to-br from-slate-900/90 to-amber-950/40 rounded-xl border border-amber-400/40 text-left space-y-1">
+              <h4 class="font-bold text-amber-300 uppercase tracking-wide text-[11px]">Power of Polyphony:</h4>
+              <p class="text-gray-200 text-[11px] leading-relaxed">
+                They all sing <em>different lyrics and melodies</em> simultaneously, harmonizing into one wall of sound.
+              </p>
+              <div class="text-[10px] text-amber-200/90 font-mono pt-0.5">
+                "One more dawn... ONE DAY MORE!"
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 10,
+        startTime: 214,   // 3:34
+        name: "Discussion",
+        cueText: "3:34 - Song Cutoff & Student Discussion Prompts",
+        html: `
+          <div class="space-y-3 my-auto text-center">
+            <span class="inline-block px-2.5 py-0.5 bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 text-[9px] font-bold rounded uppercase tracking-wider">Student Reflection</span>
+            <h2 class="cinzel text-xl md:text-2xl font-extrabold text-amber-100 leading-tight">Class Discussion</h2>
+            
+            <div class="space-y-2 text-left pt-1">
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800 text-xs">
+                <p class="text-amber-300 font-bold text-[11px] mb-0.5">1. Loyalty vs. Safety:</p>
+                <p class="text-gray-300 text-[11px] leading-relaxed">Marius chose his friends over safety with Cosette. Have you ever had to choose between something comfortable and standing up for your friends?</p>
+              </div>
+              <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800 text-xs">
+                <p class="text-amber-300 font-bold text-[11px] mb-0.5">2. Musical Detective:</p>
+                <p class="text-gray-300 text-[11px] leading-relaxed">At 3:03, did all voices singing together feel chaotic or united? Why did the composer write it that way?</p>
+              </div>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    let currentSlideIndex = 0;
+    let autoSyncEnabled = true;
+    let ytPlayer = null;
+    let timeTrackingInterval = null;
+
+    function initChapterNav() {
+      const nav = document.getElementById('chapter-nav');
+      nav.innerHTML = '';
+      slides.forEach((s, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `nav-pill-${idx}`;
+        btn.className = `px-2 py-0.5 text-[10px] font-semibold rounded transition ${idx === 0 ? 'bg-amber-500 text-slate-950 font-bold' : 'text-gray-400 hover:text-amber-200'}`;
+        btn.innerText = s.name;
+        btn.onclick = () => {
+          goToSlide(idx);
+          jumpVideoToSeconds(s.startTime);
+        };
+        nav.appendChild(btn);
+      });
+      document.getElementById('total-slides-num').innerText = slides.length;
+    }
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('yt-player', {
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        startTimeTracking();
+      } else {
+        stopTimeTracking();
+      }
+    }
+
+    function startTimeTracking() {
+      stopTimeTracking();
+      timeTrackingInterval = setInterval(() => {
+        if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+        const currentSec = Math.floor(ytPlayer.getCurrentTime());
+        
+        const mins = Math.floor(currentSec / 60);
+        const secs = currentSec % 60;
+        document.getElementById('video-time-clock').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+        if (autoSyncEnabled) {
+          for (let i = slides.length - 1; i >= 0; i--) {
+            if (currentSec >= slides[i].startTime) {
+              if (currentSlideIndex !== i) {
+                goToSlide(i, false);
+              }
+              break;
+            }
+          }
+        }
+      }, 400);
+    }
+
+    function stopTimeTracking() {
+      if (timeTrackingInterval) {
+        clearInterval(timeTrackingInterval);
+        timeTrackingInterval = null;
+      }
+    }
+
+    function goToSlide(index, manualSeek = false) {
+      if (index < 0 || index >= slides.length) return;
+      currentSlideIndex = index;
+
+      const slide = slides[index];
+      const stage = document.getElementById('slide-stage');
+      
+      stage.style.opacity = '0';
+      setTimeout(() => {
+        stage.innerHTML = slide.html;
+        stage.style.opacity = '1';
+      }, 120);
+
+      document.getElementById('active-cue-label').innerText = slide.cueText;
+      document.getElementById('current-slide-num').innerText = index + 1;
+
+      slides.forEach((_, i) => {
+        const pill = document.getElementById(`nav-pill-${i}`);
+        if (pill) {
+          if (i === index) {
+            pill.className = 'px-2 py-0.5 text-[10px] font-bold rounded bg-amber-500 text-slate-950 transition';
+          } else {
+            pill.className = 'px-2 py-0.5 text-[10px] font-semibold rounded text-gray-400 hover:text-amber-200 transition';
+          }
+        }
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex < slides.length - 1) {
+        goToSlide(currentSlideIndex + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        goToSlide(currentSlideIndex - 1);
+      }
+    }
+
+    function jumpVideoToSeconds(sec) {
+      if (ytPlayer && ytPlayer.seekTo) {
+        ytPlayer.seekTo(sec, true);
+        if (ytPlayer.playVideo) ytPlayer.playVideo();
+      }
+    }
+
+    function jumpToCurrentSlideVideo() {
+      jumpVideoToSeconds(slides[currentSlideIndex].startTime);
+    }
+
+    function toggleAutoSync() {
+      autoSyncEnabled = !autoSyncEnabled;
+      const btn = document.getElementById('toggle-sync-btn');
+      const txt = document.getElementById('sync-status-text');
+
+      if (autoSyncEnabled) {
+        btn.className = 'flex items-center space-x-2 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/50 bg-emerald-950/60 text-emerald-300 hover:bg-emerald-900/60 transition';
+        txt.innerText = 'Auto-Sync: ON';
+      } else {
+        btn.className = 'flex items-center space-x-2 text-xs font-semibold px-3 py-1 rounded-full border border-gray-600 bg-gray-900/80 text-gray-400 hover:bg-gray-800 transition';
+        txt.innerText = 'Auto-Sync: OFF';
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+    });
+
+    window.onload = () => {
+      initChapterNav();
+      goToSlide(0);
+    };
+  </script>
+</body>
+</html>
