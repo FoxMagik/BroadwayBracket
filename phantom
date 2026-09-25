@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Phantom of the Opera - Classroom Listening Companion</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #06080e;
+      color: #f3f4f6;
+    }
+    .cinzel {
+      font-family: 'Cinzel', serif;
+    }
+    .gothic-backdrop {
+      background: radial-gradient(circle at 50% 20%, rgba(45, 12, 18, 0.85) 0%, rgba(6, 8, 14, 0.98) 100%),
+                  url('https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=2000&q=80') center/cover fixed;
+    }
+    .card-glass {
+      background: rgba(14, 10, 15, 0.94);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+    }
+    .portrait-frame {
+      box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.9), 0 0 14px rgba(220, 38, 38, 0.25);
+    }
+    .img-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #180d12;
+      color: #d4af37;
+      font-size: 1.5rem;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.35);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="gothic-backdrop min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- Top Navigation Bar -->
+  <header class="w-full bg-[#0a070b]/95 border-b border-amber-500/25 px-4 md:px-6 py-2.5 flex items-center justify-between z-30">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" title="Back to Championship Hub" class="w-8 h-8 rounded-lg bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-200 flex items-center justify-center transition">
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+      </a>
+      <div>
+        <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">The Phantom of the Opera</h1>
+        <p class="text-[10px] text-red-400 font-medium leading-none">Classroom Listening Guide: Title Song (2004 Film)</p>
+      </div>
+    </div>
+
+    <!-- Hub Link & Fullscreen -->
+    <div class="flex items-center space-x-2">
+      <a href="index.html" class="px-3 py-1 bg-[#1a0f14] hover:bg-[#2a1721] border border-amber-500/30 text-amber-300 text-xs font-semibold rounded-lg transition flex items-center gap-1.5">
+        <i class="fa-solid fa-trophy text-[11px]"></i>
+        <span>Bracket Hub</span>
+      </a>
+      <button onclick="toggleFullScreen()" title="Toggle Fullscreen" class="text-gray-400 hover:text-amber-300 transition p-1">
+        <i class="fa-solid fa-expand text-base"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Stage: 75% Video, 25% Persistent Info Dossier -->
+  <main class="flex-1 w-full max-w-[2000px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-4 p-3 md:p-5 items-stretch">
+    
+    <!-- Left Column: 75% Video Container -->
+    <div class="lg:col-span-9 flex flex-col justify-center">
+      <div class="w-full card-glass rounded-2xl p-2.5 md:p-3.5 shadow-2xl relative border border-red-500/30">
+        <!-- 16:9 Video Box -->
+        <div class="relative w-full pb-[56.25%] rounded-xl overflow-hidden bg-black shadow-inner">
+          <iframe 
+            id="yt-player"
+            class="absolute top-0 left-0 w-full h-full"
+            src="https://www.youtube.com/embed/pgz6PnHkmpY?enablejsapi=1&playsinline=1&rel=0" 
+            title="The Phantom of the Opera - Gerard Butler & Emmy Rossum" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- Musical Cue Bar -->
+        <div class="mt-2.5 flex items-center justify-between text-xs text-amber-200/90 bg-[#070508]/80 px-4 py-2 rounded-lg border border-amber-500/20">
+          <div class="flex items-center space-x-2 truncate mr-2">
+            <i class="fa-solid fa-music text-red-400 flex-shrink-0"></i>
+            <span id="active-cue-label" class="truncate font-medium">The Descent into the Catacombs &bull; Subterranean Lake</span>
+          </div>
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <span id="video-time-clock" class="font-mono text-amber-300 font-bold bg-red-950/40 px-2 py-0.5 rounded border border-red-500/30">0:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: 25% Persistent Characters & Listening Dossier -->
+    <div class="lg:col-span-3 flex flex-col justify-center">
+      <div class="card-glass rounded-2xl p-4 md:p-5 shadow-2xl h-full max-h-[750px] flex flex-col justify-between overflow-y-auto custom-scroll border border-amber-500/30">
+        
+        <!-- Header Tag -->
+        <div class="text-center pb-2 border-b border-red-950/80">
+          <span class="inline-block px-2.5 py-0.5 bg-red-950/80 border border-red-500/40 text-red-300 text-[10px] font-bold rounded-full uppercase tracking-wider">
+            Lead Duo
+          </span>
+          <h2 class="cinzel text-lg font-bold text-amber-100 mt-1">The Strange Duet</h2>
+          <p class="text-[11px] text-gray-400">Andrew Lloyd Webber (1986)</p>
+        </div>
+
+        <!-- Characters: Stacked Portraits (160x208) with Labels Underneath -->
+        <div class="flex flex-col items-center gap-3 my-auto py-2">
+          
+          <!-- The Phantom -->
+          <div class="flex flex-col items-center text-center">
+            <div class="w-36 h-44 portrait-frame rounded-xl overflow-hidden border-2 border-red-500/60 bg-slate-950 flex-shrink-0">
+              <img src="images/phantom.jpg" alt="The Phantom" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <h3 class="cinzel text-sm font-bold text-amber-100 mt-1 leading-tight">The Phantom</h3>
+            <p class="text-[10px] text-red-400 font-semibold uppercase tracking-wider">Gerard Butler</p>
+          </div>
+
+          <!-- Christine -->
+          <div class="flex flex-col items-center text-center">
+            <div class="w-36 h-44 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/60 bg-slate-950 flex-shrink-0">
+              <img src="images/christine.jpg" alt="Christine Daaé" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <h3 class="cinzel text-sm font-bold text-amber-100 mt-1 leading-tight">Christine Daaé</h3>
+            <p class="text-[10px] text-red-400 font-semibold uppercase tracking-wider">Emmy Rossum</p>
+          </div>
+
+        </div>
+
+        <!-- Persistent Listening Prompts for Elementary Students -->
+        <div class="space-y-2 pt-2 border-t border-red-950/80 text-left text-xs">
+          
+          <div class="p-2 bg-black/40 rounded-lg border border-red-900/40">
+            <p class="text-amber-300 font-bold text-[11px] flex items-center gap-1.5 mb-0.5">
+              <i class="fa-solid fa-compact-disc text-red-400"></i> The Pipe Organ Theme
+            </p>
+            <p class="text-gray-300 text-[11px] leading-relaxed">
+              Listen to the famous 5-note descending theme that sounds mysterious, dark, and powerful.
+            </p>
+          </div>
+
+          <div class="p-2 bg-black/40 rounded-lg border border-red-900/40">
+            <p class="text-amber-300 font-bold text-[11px] flex items-center gap-1.5 mb-0.5">
+              <i class="fa-solid fa-microphone-lines text-red-400"></i> Rock Beat vs. Opera
+            </p>
+            <p class="text-gray-300 text-[11px] leading-relaxed">
+              Notice how 1980s synth-rock drums drive the song while Christine sings in an operatic classical style.
+            </p>
+          </div>
+
+          <div class="p-2 bg-black/40 rounded-lg border border-red-900/40">
+            <p class="text-amber-300 font-bold text-[11px] flex items-center gap-1.5 mb-0.5">
+              <i class="fa-solid fa-arrow-trend-up text-red-400"></i> The Climax (High E)
+            </p>
+            <p class="text-gray-300 text-[11px] leading-relaxed">
+              At the end, the Phantom tells Christine to sing higher and higher until she hits a piercing high operatic note.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Bar with Matchup Quick Switch -->
+  <footer class="w-full bg-[#0a070b]/95 border-t border-amber-500/20 px-4 md:px-6 py-2 flex items-center justify-between text-xs">
+    <div class="flex items-center space-x-2">
+      <a href="index.html" class="px-3.5 py-1.5 rounded-lg bg-[#180e14] hover:bg-[#25151f] border border-amber-500/30 text-amber-200 font-semibold transition flex items-center space-x-1.5">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back to Ballot Box</span>
+      </a>
+    </div>
+
+    <div class="text-gray-400 hidden sm:block">
+      Matchup: <span class="text-blue-400 font-semibold">Les Misérables</span> vs. <span class="text-red-400 font-semibold">The Phantom of the Opera</span>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <a href="les-mis.html" class="px-3.5 py-1.5 rounded-lg bg-blue-950/80 hover:bg-blue-900 border border-blue-500/40 text-blue-300 font-semibold transition flex items-center space-x-1.5">
+        <span>Go to Les Mis</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </footer>
+
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    function handleImgError(img) {
+      img.onerror = null;
+      img.parentElement.innerHTML = '<div class="w-full h-full img-fallback"><i class="fa-solid fa-mask"></i></div>';
+    }
+
+    let ytPlayer = null;
+    let timeTrackingInterval = null;
+
+    // Descriptive milestone cues for the video clock
+    const cues = [
+      { time: 0, text: "The Descent into the Catacombs • Heavy Organ Theme" },
+      { time: 42, text: "Christine's Verse: 'In sleep he sang to me...'" },
+      { time: 82, text: "The Phantom's Verse: 'Sing once again with me...'" },
+      { time: 124, text: "Duet on the Subterranean Lake • Rock Drums Drive the Beat" },
+      { time: 175, text: "The Vocal Cadenza Begins: 'Sing, my Angel of Music!'" },
+      { time: 210, text: "Christine's High E Climax • Arrival at the Underground Lair" }
+    ];
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('yt-player', {
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        startTimeTracking();
+      } else {
+        stopTimeTracking();
+      }
+    }
+
+    function startTimeTracking() {
+      stopTimeTracking();
+      timeTrackingInterval = setInterval(() => {
+        if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+        const currentSec = Math.floor(ytPlayer.getCurrentTime());
+        
+        // Digital clock
+        const mins = Math.floor(currentSec / 60);
+        const secs = currentSec % 60;
+        document.getElementById('video-time-clock').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+        // Update active banner cue dynamically
+        for (let i = cues.length - 1; i >= 0; i--) {
+          if (currentSec >= cues[i].time) {
+            document.getElementById('active-cue-label').innerText = cues[i].text;
+            break;
+          }
+        }
+      }, 500);
+    }
+
+    function stopTimeTracking() {
+      if (timeTrackingInterval) {
+        clearInterval(timeTrackingInterval);
+        timeTrackingInterval = null;
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  </script>
+</body>
+</html>
