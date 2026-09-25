@@ -33,7 +33,7 @@
       border: 1px solid rgba(212, 175, 55, 0.28);
     }
     .poster-frame {
-      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.9), 0 0 16px rgba(212, 175, 55, 0.2);
     }
     .roster-portrait {
       box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.8), 0 0 12px rgba(212, 175, 55, 0.2);
@@ -55,285 +55,278 @@
     }
   </style>
 </head>
-<body class="hub-backdrop min-h-screen flex flex-col justify-between overflow-x-hidden">
+<body class="hub-backdrop h-screen flex flex-col justify-between overflow-hidden select-none">
 
   <!-- Top Hub Header -->
-  <header class="w-full bg-[#080d1a]/95 border-b border-amber-500/25 px-4 md:px-6 py-3 flex items-center justify-between z-30">
+  <header class="w-full bg-[#080d1a]/95 border-b border-amber-500/25 px-4 md:px-6 py-2 flex items-center justify-between z-30 flex-shrink-0">
     <div class="flex items-center space-x-3">
-      <div class="w-3 h-8 bg-gradient-to-b from-blue-600 via-white to-red-600 rounded-sm"></div>
+      <div class="w-2.5 h-6 bg-gradient-to-b from-blue-600 via-white to-red-600 rounded-sm"></div>
       <div>
-        <h1 class="cinzel text-lg md:text-xl font-bold tracking-wide text-amber-100">Musical Bracket Championship</h1>
-        <p class="text-xs text-amber-400/80 font-medium">Round of 16 Finale &bull; Final Spot in the Quarterfinals</p>
+        <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">Musical Bracket Championship</h1>
+        <p class="text-[11px] text-amber-400/80 font-medium leading-none">Round of 16 Finale &bull; Final Spot in the Quarterfinals</p>
       </div>
     </div>
     
     <div class="flex items-center space-x-3">
-      <span class="px-3 py-1 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold rounded-full uppercase tracking-wider">
+      <span class="px-2.5 py-0.5 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[11px] font-bold rounded-full uppercase tracking-wider">
         Matchup 8 of 8 &bull; Round 1
       </span>
-      <button onclick="toggleFullScreen()" title="Toggle Fullscreen" class="text-gray-400 hover:text-amber-300 transition p-1.5">
-        <i class="fa-solid fa-expand text-base"></i>
+      <button onclick="toggleFullScreen()" title="Toggle Fullscreen" class="text-gray-400 hover:text-amber-300 transition p-1">
+        <i class="fa-solid fa-expand text-sm"></i>
       </button>
     </div>
   </header>
 
-  <!-- Main Content Hub: Tale of the Tape -->
-  <main class="flex-1 w-full max-w-[1700px] mx-auto p-4 md:p-8 flex flex-col justify-center">
+  <!-- Main Content Hub: Fits strictly within the screen height -->
+  <main class="flex-1 w-full max-w-[1700px] mx-auto p-3 md:p-5 flex flex-col justify-between min-h-0">
     
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-2 px-3 py-1 bg-red-950/80 border border-red-500/40 rounded-full text-red-300 text-xs font-bold uppercase tracking-wider mb-2">
-        <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
-        Final Opening Round Matchup
-      </div>
-      <h2 class="cinzel text-3xl md:text-5xl font-black text-amber-100 tracking-wide drop-shadow-md">
+    <!-- Title Header Banner -->
+    <div class="text-center flex-shrink-0 mb-2">
+      <h2 class="cinzel text-2xl md:text-4xl font-black text-amber-100 tracking-wide drop-shadow-md leading-tight">
         Les Misérables <span class="text-red-500 font-normal mx-2">VS</span> The Phantom of the Opera
       </h2>
-      <p class="text-gray-300 text-sm md:text-base mt-2 max-w-2xl mx-auto">
-        Two Broadway heavyweights battle for the final seed in the Quarterfinal 8. Compare the two productions, review the preshow character rosters, or launch the interactive presentations.
+      <p class="text-gray-300 text-xs mt-0.5 max-w-2xl mx-auto line-clamp-1">
+        Review the Tale of the Tape, examine the character rosters, launch the presentation, and cast your votes.
       </p>
     </div>
 
-    <!-- Head-to-Head Comparison Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mb-8">
+    <!-- Head-to-Head Comparison Grid with Integrated Voting -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-stretch flex-1 min-h-0 my-auto">
       
       <!-- CONTENDER 1: Les Misérables -->
-      <div class="card-glass rounded-2xl p-6 md:p-8 flex flex-col justify-between border-2 border-blue-500/40 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest">
-          Round of 16 Contender
+      <div class="card-glass rounded-2xl p-4 md:p-5 flex flex-col justify-between border-2 border-blue-500/40 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 bg-blue-600 text-white text-[9px] font-bold px-3 py-0.5 rounded-bl-xl uppercase tracking-widest">
+          Seed #1
         </div>
 
+        <!-- Upper Section: Poster & Show Details -->
         <div>
-          <div class="flex flex-col sm:flex-row gap-6 items-center mb-6">
-            <div class="w-32 h-44 sm:w-36 sm:h-52 flex-shrink-0 poster-frame rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
+          <div class="flex gap-4 items-center mb-3">
+            <div class="w-24 h-36 sm:w-28 sm:h-40 flex-shrink-0 poster-frame rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
               <img src="images/lesmisposter.jpg" alt="Les Misérables Poster" onerror="handleImgError(this)" class="w-full h-full object-cover">
             </div>
-            <div class="space-y-2 text-center sm:text-left">
-              <h3 class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100">Les Misérables</h3>
-              <p class="text-xs text-amber-400 font-semibold uppercase tracking-wider">Act 1 Finale: "One Day More"</p>
-              <div class="text-xs text-gray-300 space-y-1 pt-1">
-                <p><strong class="text-amber-200">Composers:</strong> Claude-Michel Schönberg & Alain Boublil</p>
-                <p><strong class="text-amber-200">Premiere:</strong> Paris (1980) / London (1985)</p>
-                <p><strong class="text-amber-200">Accolades:</strong> 8 Tony Awards, World's Longest-Running Musical</p>
+            <div class="space-y-1 text-left flex-1 min-w-0">
+              <h3 class="cinzel text-xl md:text-2xl font-extrabold text-amber-100 truncate">Les Misérables</h3>
+              <p class="text-[11px] text-amber-400 font-semibold uppercase tracking-wider">Act 1 Finale: "One Day More"</p>
+              <div class="text-[11px] text-gray-300 space-y-0.5 pt-0.5">
+                <p class="truncate"><strong class="text-amber-200">Composers:</strong> Schönberg & Boublil</p>
+                <p class="truncate"><strong class="text-amber-200">Premiere:</strong> Paris (1980) / London (1985)</p>
+                <p class="truncate"><strong class="text-amber-200">Accolades:</strong> 8 Tony Awards, Longest-Running Musical</p>
               </div>
             </div>
           </div>
 
-          <div class="p-3.5 bg-slate-900/80 rounded-xl border border-slate-700/60 text-xs mb-6 space-y-1">
-            <p class="text-amber-300 font-bold uppercase tracking-wide">Musical Style & Vibe:</p>
-            <p class="text-gray-300">A sweeping historical revolutionary march driven by a 5-part polyphonic vocal puzzle where every character sings simultaneously.</p>
+          <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-700/60 text-[11px] space-y-0.5">
+            <p class="text-amber-300 font-bold uppercase tracking-wide text-[10px]">Musical Style & Vibe:</p>
+            <p class="text-gray-300 leading-snug line-clamp-2">A sweeping historical revolutionary march driven by a 5-part polyphonic vocal puzzle where every character sings simultaneously.</p>
           </div>
         </div>
 
-        <div class="flex flex-wrap gap-3 items-center justify-between pt-2 border-t border-slate-800">
-          <button onclick="openRosterModal('lesmis')" class="px-4 py-2 rounded-xl bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs font-semibold transition flex items-center space-x-2">
-            <i class="fa-solid fa-users"></i>
+        <!-- Integrated Voting Section -->
+        <div class="my-2 p-2.5 bg-blue-950/40 rounded-xl border border-blue-500/30 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="text-center pl-1">
+              <span id="vote-count-lesmis" class="font-mono text-2xl font-black text-blue-400 leading-none">0</span>
+              <p class="text-[9px] text-blue-300 uppercase font-bold tracking-wider mt-0.5">Votes</p>
+            </div>
+            <div class="h-8 w-px bg-blue-500/30"></div>
+            <span class="text-xs font-semibold text-blue-200 hidden sm:inline">Cast Ballots:</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <button onclick="addVote('lesmis', 1)" class="px-3 py-1.5 bg-blue-900/80 hover:bg-blue-800 active:scale-95 border border-blue-400/50 text-blue-100 text-xs font-bold rounded-lg transition shadow">+1</button>
+            <button onclick="addVote('lesmis', 5)" class="px-3 py-1.5 bg-blue-900/80 hover:bg-blue-800 active:scale-95 border border-blue-400/50 text-blue-100 text-xs font-bold rounded-lg transition shadow">+5</button>
+            <button onclick="addVote('lesmis', -1)" title="Subtract 1" class="px-2 py-1.5 bg-slate-900/80 hover:bg-slate-800 active:scale-95 border border-slate-700 text-gray-400 text-xs font-bold rounded-lg transition">-1</button>
+          </div>
+        </div>
+
+        <!-- Bottom Action Buttons -->
+        <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+          <button onclick="openRosterModal('lesmis')" class="px-3 py-1.5 rounded-lg bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs font-semibold transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-users text-[11px]"></i>
             <span>Preshow Roster</span>
           </button>
           
-          <a href="les-mis.html" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex items-center space-x-2 shadow-lg shadow-blue-600/30">
+          <a href="les-mis.html" class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex items-center space-x-1.5 shadow-lg shadow-blue-600/30">
             <span>Launch Presentation</span>
-            <i class="fa-solid fa-arrow-right"></i>
+            <i class="fa-solid fa-arrow-right text-[11px]"></i>
           </a>
         </div>
       </div>
 
       <!-- CONTENDER 2: Phantom of the Opera -->
-      <div class="card-glass rounded-2xl p-6 md:p-8 flex flex-col justify-between border-2 border-red-500/40 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest">
-          Round of 16 Contender
+      <div class="card-glass rounded-2xl p-4 md:p-5 flex flex-col justify-between border-2 border-red-500/40 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 bg-red-600 text-white text-[9px] font-bold px-3 py-0.5 rounded-bl-xl uppercase tracking-widest">
+          Seed #2
         </div>
 
+        <!-- Upper Section: Poster & Show Details -->
         <div>
-          <div class="flex flex-col sm:flex-row gap-6 items-center mb-6">
-            <div class="w-32 h-44 sm:w-36 sm:h-52 flex-shrink-0 poster-frame rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
+          <div class="flex gap-4 items-center mb-3">
+            <div class="w-24 h-36 sm:w-28 sm:h-40 flex-shrink-0 poster-frame rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
               <img src="images/phantomposter.jpg" alt="Phantom of the Opera Poster" onerror="handleImgError(this)" class="w-full h-full object-cover">
             </div>
-            <div class="space-y-2 text-center sm:text-left">
-              <h3 class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100">The Phantom of the Opera</h3>
-              <p class="text-xs text-amber-400 font-semibold uppercase tracking-wider">Title Song: "The Phantom of the Opera"</p>
-              <div class="text-xs text-gray-300 space-y-1 pt-1">
-                <p><strong class="text-amber-200">Composer:</strong> Andrew Lloyd Webber</p>
-                <p><strong class="text-amber-200">Premiere:</strong> West End (1986) / Broadway (1988)</p>
-                <p><strong class="text-amber-200">Accolades:</strong> 7 Tony Awards, Broadway's Longest-Running Show</p>
+            <div class="space-y-1 text-left flex-1 min-w-0">
+              <h3 class="cinzel text-xl md:text-2xl font-extrabold text-amber-100 truncate">The Phantom of the Opera</h3>
+              <p class="text-[11px] text-amber-400 font-semibold uppercase tracking-wider">Title Song: "The Phantom of the Opera"</p>
+              <div class="text-[11px] text-gray-300 space-y-0.5 pt-0.5">
+                <p class="truncate"><strong class="text-amber-200">Composer:</strong> Andrew Lloyd Webber</p>
+                <p class="truncate"><strong class="text-amber-200">Premiere:</strong> West End (1986) / Broadway (1988)</p>
+                <p class="truncate"><strong class="text-amber-200">Accolades:</strong> 7 Tony Awards, Broadway's Longest-Running Show</p>
               </div>
             </div>
           </div>
 
-          <div class="p-3.5 bg-slate-900/80 rounded-xl border border-slate-700/60 text-xs mb-6 space-y-1">
-            <p class="text-amber-300 font-bold uppercase tracking-wide">Musical Style & Vibe:</p>
-            <p class="text-gray-300">A dark, gothic rock-opera duet featuring a chilling pipe organ theme, subterranean lake boat ride, and soaring operatic high notes.</p>
+          <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-700/60 text-[11px] space-y-0.5">
+            <p class="text-amber-300 font-bold uppercase tracking-wide text-[10px]">Musical Style & Vibe:</p>
+            <p class="text-gray-300 leading-snug line-clamp-2">A dark, gothic rock-opera duet featuring a chilling pipe organ theme, subterranean lake boat ride, and soaring operatic high notes.</p>
           </div>
         </div>
 
-        <div class="flex flex-wrap gap-3 items-center justify-between pt-2 border-t border-slate-800">
-          <button onclick="openRosterModal('phantom')" class="px-4 py-2 rounded-xl bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs font-semibold transition flex items-center space-x-2">
-            <i class="fa-solid fa-users"></i>
+        <!-- Integrated Voting Section -->
+        <div class="my-2 p-2.5 bg-red-950/40 rounded-xl border border-red-500/30 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="text-center pl-1">
+              <span id="vote-count-phantom" class="font-mono text-2xl font-black text-red-400 leading-none">0</span>
+              <p class="text-[9px] text-red-300 uppercase font-bold tracking-wider mt-0.5">Votes</p>
+            </div>
+            <div class="h-8 w-px bg-red-500/30"></div>
+            <span class="text-xs font-semibold text-red-200 hidden sm:inline">Cast Ballots:</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <button onclick="addVote('phantom', 1)" class="px-3 py-1.5 bg-red-900/80 hover:bg-red-800 active:scale-95 border border-red-400/50 text-red-100 text-xs font-bold rounded-lg transition shadow">+1</button>
+            <button onclick="addVote('phantom', 5)" class="px-3 py-1.5 bg-red-900/80 hover:bg-red-800 active:scale-95 border border-red-400/50 text-red-100 text-xs font-bold rounded-lg transition shadow">+5</button>
+            <button onclick="addVote('phantom', -1)" title="Subtract 1" class="px-2 py-1.5 bg-slate-900/80 hover:bg-slate-800 active:scale-95 border border-slate-700 text-gray-400 text-xs font-bold rounded-lg transition">-1</button>
+          </div>
+        </div>
+
+        <!-- Bottom Action Buttons -->
+        <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+          <button onclick="openRosterModal('phantom')" class="px-3 py-1.5 rounded-lg bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs font-semibold transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-users text-[11px]"></i>
             <span>Preshow Roster</span>
           </button>
           
-          <a href="phantom.html" class="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition flex items-center space-x-2 shadow-lg shadow-red-600/30">
+          <a href="phantom.html" class="px-4 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition flex items-center space-x-1.5 shadow-lg shadow-red-600/30">
             <span>Launch Presentation</span>
-            <i class="fa-solid fa-arrow-right"></i>
+            <i class="fa-solid fa-arrow-right text-[11px]"></i>
           </a>
         </div>
       </div>
 
     </div>
 
-    <!-- Classroom Smartboard Ballot Box with Live Visual Momentum Bar -->
-    <div class="card-glass rounded-2xl p-6 md:p-7 border border-amber-500/30 shadow-2xl max-w-4xl mx-auto w-full">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b border-slate-800">
-        <div>
-          <h3 class="cinzel text-lg md:text-xl font-bold text-amber-100 flex items-center gap-2">
-            <i class="fa-solid fa-square-poll-vertical text-amber-400"></i> Smartboard Class Ballot Box
-          </h3>
-          <p class="text-xs text-gray-300 mt-0.5">Tally student votes across your classes in real time.</p>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <div class="text-xs text-gray-400">
-            Total Ballots: <span id="vote-total-count" class="font-mono text-amber-300 font-bold text-sm">0</span>
-          </div>
-          <button onclick="resetVotes()" title="Reset votes for new class" class="text-xs text-gray-500 hover:text-red-400 transition p-1">
-            <i class="fa-solid fa-arrow-rotate-right mr-1"></i>Reset
+    <!-- Compact Dual Visual Momentum Bar at Bottom -->
+    <div class="card-glass rounded-xl p-3 border border-amber-500/30 shadow-xl max-w-4xl mx-auto w-full flex-shrink-0 mt-2">
+      <div class="flex justify-between items-center text-[11px] font-bold mb-1 px-1">
+        <span id="bar-label-lesmis" class="text-blue-400 flex items-center gap-1">
+          <i class="fa-solid fa-circle text-[7px]"></i> Les Mis: <span id="bar-pct-lesmis">50%</span>
+        </span>
+        <div class="text-[10px] text-gray-400 font-normal">
+          Total Ballots: <span id="vote-total-count" class="font-mono text-amber-300 font-bold">0</span>
+          <button onclick="resetVotes()" title="Reset votes for new class" class="ml-2 text-gray-500 hover:text-red-400 transition">
+            <i class="fa-solid fa-arrow-rotate-right text-[10px]"></i>
           </button>
         </div>
+        <span id="bar-label-phantom" class="text-red-400 flex items-center gap-1">
+          Phantom: <span id="bar-pct-phantom">50%</span> <i class="fa-solid fa-circle text-[7px]"></i>
+        </span>
       </div>
-
-      <!-- Live Dual Visual Momentum Bar -->
-      <div class="my-5">
-        <div class="flex justify-between items-center text-xs font-bold mb-1.5 px-1">
-          <span id="bar-label-lesmis" class="text-blue-400 flex items-center gap-1">
-            <i class="fa-solid fa-circle text-[8px]"></i> Les Misérables: <span id="bar-pct-lesmis">50%</span>
-          </span>
-          <span id="bar-label-phantom" class="text-red-400 flex items-center gap-1">
-            The Phantom: <span id="bar-pct-phantom">50%</span> <i class="fa-solid fa-circle text-[8px]"></i>
-          </span>
-        </div>
-        
-        <div class="w-full h-5 bg-slate-950 rounded-full overflow-hidden flex border border-amber-500/40 p-0.5 shadow-inner">
-          <div id="bar-fill-lesmis" class="h-full bg-gradient-to-r from-blue-700 to-blue-500 rounded-l-full transition-all duration-500 flex items-center justify-end pr-2 text-[10px] font-bold text-white shadow-lg" style="width: 50%;"></div>
-          <div id="bar-fill-phantom" class="h-full bg-gradient-to-r from-red-500 to-red-700 rounded-r-full transition-all duration-500 flex items-center justify-start pl-2 text-[10px] font-bold text-white shadow-lg" style="width: 50%;"></div>
-        </div>
-      </div>
-
-      <!-- Controls & Numerical Counters -->
-      <div class="flex items-center justify-around gap-6 pt-2">
-        <!-- Les Mis Controls -->
-        <div class="text-center">
-          <span id="vote-count-lesmis" class="font-mono text-3xl font-extrabold text-blue-400">0</span>
-          <p class="text-[11px] text-blue-300/80 uppercase font-bold tracking-wider mt-0.5">Les Misérables</p>
-          <div class="flex items-center gap-1.5 mt-2">
-            <button onclick="addVote('lesmis', 1)" class="px-3 py-1.5 bg-blue-950 hover:bg-blue-900 border border-blue-500/50 text-blue-200 text-xs font-bold rounded-lg transition active:scale-95 shadow">+1</button>
-            <button onclick="addVote('lesmis', 5)" class="px-3 py-1.5 bg-blue-950 hover:bg-blue-900 border border-blue-500/50 text-blue-200 text-xs font-bold rounded-lg transition active:scale-95 shadow">+5</button>
-            <button onclick="addVote('lesmis', -1)" title="Subtract 1" class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-gray-400 text-xs font-bold rounded-lg transition active:scale-95">-1</button>
-          </div>
-        </div>
-
-        <div class="text-center px-4">
-          <span class="cinzel text-amber-500/80 font-black text-xl">VS</span>
-        </div>
-
-        <!-- Phantom Controls -->
-        <div class="text-center">
-          <span id="vote-count-phantom" class="font-mono text-3xl font-extrabold text-red-400">0</span>
-          <p class="text-[11px] text-red-300/80 uppercase font-bold tracking-wider mt-0.5">Phantom</p>
-          <div class="flex items-center gap-1.5 mt-2">
-            <button onclick="addVote('phantom', 1)" class="px-3 py-1.5 bg-red-950 hover:bg-red-900 border border-red-500/50 text-red-200 text-xs font-bold rounded-lg transition active:scale-95 shadow">+1</button>
-            <button onclick="addVote('phantom', 5)" class="px-3 py-1.5 bg-red-950 hover:bg-red-900 border border-red-500/50 text-red-200 text-xs font-bold rounded-lg transition active:scale-95 shadow">+5</button>
-            <button onclick="addVote('phantom', -1)" title="Subtract 1" class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-gray-400 text-xs font-bold rounded-lg transition active:scale-95">-1</button>
-          </div>
-        </div>
+      
+      <div class="w-full h-3.5 bg-slate-950 rounded-full overflow-hidden flex border border-amber-500/30 p-0.5 shadow-inner">
+        <div id="bar-fill-lesmis" class="h-full bg-gradient-to-r from-blue-700 to-blue-500 rounded-l-full transition-all duration-500 flex items-center justify-end pr-2 text-[9px] font-bold text-white shadow-lg" style="width: 50%;"></div>
+        <div id="bar-fill-phantom" class="h-full bg-gradient-to-r from-red-500 to-red-700 rounded-r-full transition-all duration-500 flex items-center justify-start pl-2 text-[9px] font-bold text-white shadow-lg" style="width: 50%;"></div>
       </div>
     </div>
 
   </main>
 
   <!-- Footer -->
-  <footer class="w-full bg-[#080d1a]/95 border-t border-amber-500/20 px-6 py-3 text-center text-xs text-gray-400">
+  <footer class="w-full bg-[#080d1a]/95 border-t border-amber-500/20 px-4 py-1.5 text-center text-[10px] text-gray-400 flex-shrink-0">
     Musical Bracket Championship Hub &bull; Designed for Classroom Smartboards
   </footer>
 
 
   <!-- ================================================= -->
-  <!-- PRESHOW ROSTER MODALS (Enlarged Theater Playbills) -->
+  <!-- PRESHOW ROSTER MODALS (Playbills)                 -->
   <!-- ================================================= -->
 
   <!-- Les Mis Modal -->
   <div id="modal-lesmis" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
     <div class="card-glass rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col border border-amber-500/40 shadow-2xl overflow-hidden">
-      <div class="p-5 border-b border-amber-500/20 flex items-center justify-between bg-[#080d1a]">
+      <div class="p-4 border-b border-amber-500/20 flex items-center justify-between bg-[#080d1a]">
         <div class="flex items-center space-x-3">
-          <div class="w-3 h-6 bg-blue-600 rounded-sm"></div>
-          <h3 class="cinzel text-xl font-bold text-amber-100">Les Misérables: Preshow Character Roster</h3>
+          <div class="w-2.5 h-6 bg-blue-600 rounded-sm"></div>
+          <h3 class="cinzel text-lg font-bold text-amber-100">Les Misérables: Preshow Character Roster</h3>
         </div>
-        <button onclick="closeRosterModal('lesmis')" class="text-gray-400 hover:text-amber-300 p-2 text-lg">
+        <button onclick="closeRosterModal('lesmis')" class="text-gray-400 hover:text-amber-300 p-1.5 text-base">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <div class="p-6 overflow-y-auto modal-scroll space-y-6">
+      <div class="p-5 overflow-y-auto modal-scroll space-y-4">
         <p class="text-gray-300 text-xs">Review these characters with your students before starting the song so they can spot each musical theme as it enters:</p>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           <!-- Valjean -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/valjean.jpg" alt="Jean Valjean" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Jean Valjean</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Hugh Jackman</p>
-            <p class="text-gray-300 text-[11px] mt-1">Ex-convict running to protect his adopted daughter.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Jean Valjean</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Hugh Jackman</p>
+            <p class="text-gray-300 text-[10px] mt-1">Ex-convict running to protect his adopted daughter.</p>
           </div>
           <!-- Marius & Cosette -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="flex gap-2 mb-3">
-              <div class="w-13 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 w-14">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="flex gap-1.5 mb-2">
+              <div class="w-12 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
                 <img src="images/marius.jpg" alt="Marius" onerror="handleImgError(this)" class="w-full h-full object-cover">
               </div>
-              <div class="w-13 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 w-14">
+              <div class="w-12 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
                 <img src="images/cosette.jpg" alt="Cosette" onerror="handleImgError(this)" class="w-full h-full object-cover">
               </div>
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Marius & Cosette</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Redmayne & Seyfried</p>
-            <p class="text-gray-300 text-[11px] mt-1">Star-crossed lovers facing forced separation.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Marius & Cosette</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Redmayne & Seyfried</p>
+            <p class="text-gray-300 text-[10px] mt-1">Star-crossed lovers facing forced separation.</p>
           </div>
           <!-- Éponine -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/eponine.jpg" alt="Éponine" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Éponine</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Samantha Barks</p>
-            <p class="text-gray-300 text-[11px] mt-1">Secretly in love with Marius, walking alone.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Éponine</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Samantha Barks</p>
+            <p class="text-gray-300 text-[10px] mt-1">Secretly in love with Marius, walking alone.</p>
           </div>
           <!-- Enjolras -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/enjolras.jpg" alt="Enjolras" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Enjolras</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Aaron Tveit</p>
-            <p class="text-gray-300 text-[11px] mt-1">Passionate student commander leading the rebellion.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Enjolras</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Aaron Tveit</p>
+            <p class="text-gray-300 text-[10px] mt-1">Passionate student commander leading rebellion.</p>
           </div>
           <!-- Javert -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/javert.jpg" alt="Javert" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Inspector Javert</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Russell Crowe</p>
-            <p class="text-gray-300 text-[11px] mt-1">Strict police inspector planning to infiltrate.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Inspector Javert</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Russell Crowe</p>
+            <p class="text-gray-300 text-[10px] mt-1">Strict police inspector planning to infiltrate.</p>
           </div>
           <!-- Thénardiers -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/thenardiers.jpg" alt="Thénardiers" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Thénardiers</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Cohen & Bonham Carter</p>
-            <p class="text-gray-300 text-[11px] mt-1">Crooked innkeepers plotting to loot the chaos.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Thénardiers</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Cohen & Bonham Carter</p>
+            <p class="text-gray-300 text-[10px] mt-1">Crooked innkeepers plotting to loot the chaos.</p>
           </div>
         </div>
       </div>
@@ -343,55 +336,55 @@
   <!-- Phantom Modal -->
   <div id="modal-phantom" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
     <div class="card-glass rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col border border-amber-500/40 shadow-2xl overflow-hidden">
-      <div class="p-5 border-b border-amber-500/20 flex items-center justify-between bg-[#080d1a]">
+      <div class="p-4 border-b border-amber-500/20 flex items-center justify-between bg-[#080d1a]">
         <div class="flex items-center space-x-3">
-          <div class="w-3 h-6 bg-red-600 rounded-sm"></div>
-          <h3 class="cinzel text-xl font-bold text-amber-100">The Phantom of the Opera: Preshow Character Roster</h3>
+          <div class="w-2.5 h-6 bg-red-600 rounded-sm"></div>
+          <h3 class="cinzel text-lg font-bold text-amber-100">The Phantom of the Opera: Preshow Character Roster</h3>
         </div>
-        <button onclick="closeRosterModal('phantom')" class="text-gray-400 hover:text-amber-300 p-2 text-lg">
+        <button onclick="closeRosterModal('phantom')" class="text-gray-400 hover:text-amber-300 p-1.5 text-base">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <div class="p-6 overflow-y-auto modal-scroll space-y-6">
+      <div class="p-5 overflow-y-auto modal-scroll space-y-4">
         <p class="text-gray-300 text-xs">Review these key figures before launching the title track so students can track the dramatic opera house rivalry:</p>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           <!-- Phantom -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/phantom.jpg" alt="The Phantom" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">The Phantom</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Gerard Butler</p>
-            <p class="text-gray-300 text-[11px] mt-1">The masked musical genius haunting the opera vaults.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">The Phantom</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Gerard Butler</p>
+            <p class="text-gray-300 text-[10px] mt-1">The masked musical genius haunting the opera vaults.</p>
           </div>
           <!-- Christine -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/christine.jpg" alt="Christine Daaé" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Christine Daaé</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Emmy Rossum</p>
-            <p class="text-gray-300 text-[11px] mt-1">Young chorus girl drawn through the mirror.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Christine Daaé</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Emmy Rossum</p>
+            <p class="text-gray-300 text-[10px] mt-1">Young chorus girl drawn through the mirror.</p>
           </div>
           <!-- Raoul -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/raoul.jpg" alt="Viscount Raoul" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Viscount Raoul</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Patrick Wilson</p>
-            <p class="text-gray-300 text-[11px] mt-1">Christine's childhood sweetheart and protector.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Viscount Raoul</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Patrick Wilson</p>
+            <p class="text-gray-300 text-[10px] mt-1">Christine's childhood sweetheart and protector.</p>
           </div>
           <!-- Carlotta -->
-          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-28 h-36 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-3">
+          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
+            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
               <img src="images/carlotta.jpg" alt="Carlotta Guidicelli" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
             </div>
-            <h4 class="cinzel font-bold text-amber-100 text-sm">Carlotta</h4>
-            <p class="text-[11px] text-red-400 font-semibold uppercase">Minnie Driver</p>
-            <p class="text-gray-300 text-[11px] mt-1">The opera house's reigning prima donna diva.</p>
+            <h4 class="cinzel font-bold text-amber-100 text-xs">Carlotta</h4>
+            <p class="text-[10px] text-red-400 font-semibold uppercase">Minnie Driver</p>
+            <p class="text-gray-300 text-[10px] mt-1">The opera house's reigning prima donna diva.</p>
           </div>
         </div>
       </div>
@@ -427,12 +420,10 @@
       const phantom = votes.phantom;
       const total = lesmis + phantom;
 
-      // Update numerical counters
       document.getElementById('vote-count-lesmis').innerText = lesmis;
       document.getElementById('vote-count-phantom').innerText = phantom;
       document.getElementById('vote-total-count').innerText = total;
 
-      // Calculate percentage width for visual bar
       let lesmisPct = 50;
       let phantomPct = 50;
 
@@ -441,7 +432,6 @@
         phantomPct = 100 - lesmisPct;
       }
 
-      // Update progress bar widths and labels
       const fillLesMis = document.getElementById('bar-fill-lesmis');
       const fillPhantom = document.getElementById('bar-fill-phantom');
       const pctLabelLesMis = document.getElementById('bar-pct-lesmis');
@@ -453,7 +443,6 @@
       pctLabelLesMis.innerText = `${lesmisPct}%`;
       pctLabelPhantom.innerText = `${phantomPct}%`;
 
-      // Visual indicator on the bar if large enough
       fillLesMis.innerText = lesmisPct >= 15 ? `${lesmis}` : '';
       fillPhantom.innerText = phantomPct >= 15 ? `${phantom}` : '';
     }
