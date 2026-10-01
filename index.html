@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Musical Bracket Championship: Round of 16 Finale</title>
+  <title>Musical Bracket Championship: Elite 8 Quarterfinals</title>
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,9 +35,6 @@
     .poster-frame {
       box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.9), 0 0 16px rgba(212, 175, 55, 0.2);
     }
-    .roster-portrait {
-      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.8), 0 0 12px rgba(212, 175, 55, 0.2);
-    }
     .img-fallback {
       display: flex;
       align-items: center;
@@ -46,12 +43,11 @@
       color: #d4af37;
       font-size: 1.5rem;
     }
-    .modal-scroll::-webkit-scrollbar {
-      width: 6px;
-    }
-    .modal-scroll::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.4);
-      border-radius: 4px;
+    .tab-btn.active {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: #d4af37;
+      color: #fef3c7;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
     }
   </style>
 </head>
@@ -60,16 +56,16 @@
   <!-- Top Hub Header -->
   <header class="w-full bg-[#080d1a]/95 border-b border-amber-500/25 px-4 md:px-6 py-2 flex items-center justify-between z-30 flex-shrink-0">
     <div class="flex items-center space-x-3">
-      <div class="w-2.5 h-6 bg-gradient-to-b from-blue-600 via-white to-red-600 rounded-sm"></div>
+      <div class="w-2.5 h-6 bg-gradient-to-b from-amber-400 via-amber-200 to-amber-600 rounded-sm"></div>
       <div>
         <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">Musical Bracket Championship</h1>
-        <p class="text-[11px] text-amber-400/80 font-medium leading-none">Round of 16 Finale &bull; Final Spot in the Quarterfinals</p>
+        <p class="text-[11px] text-amber-400/80 font-medium leading-none">Quarterfinals &bull; The Elite 8 Showdowns</p>
       </div>
     </div>
     
     <div class="flex items-center space-x-3">
       <span class="px-2.5 py-0.5 bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[11px] font-bold rounded-full uppercase tracking-wider">
-        Matchup 8 of 8 &bull; Round 1
+        Elite 8 Round
       </span>
       <button onclick="toggleFullScreen()" title="Toggle Fullscreen" class="text-gray-400 hover:text-amber-300 transition p-1">
         <i class="fa-solid fa-expand text-sm"></i>
@@ -77,50 +73,70 @@
     </div>
   </header>
 
-  <!-- Main Content Hub: Zero-scroll fit -->
+  <!-- Matchup Navigation Strip (Tabs 1 to 4) -->
+  <nav class="w-full max-w-[1750px] mx-auto px-4 pt-2.5 flex items-center justify-center gap-2 md:gap-4 flex-shrink-0">
+    <button onclick="selectMatchup(0)" id="tab-0" class="tab-btn active px-3.5 py-1.5 rounded-xl border border-slate-700 bg-slate-900/80 text-xs font-bold transition flex items-center gap-2">
+      <span class="w-5 h-5 rounded-full bg-amber-500/30 text-amber-300 text-[10px] flex items-center justify-center font-mono">1</span>
+      <span>Hamilton <span class="text-amber-400/60">vs</span> Footloose</span>
+    </button>
+    <button onclick="selectMatchup(1)" id="tab-1" class="tab-btn px-3.5 py-1.5 rounded-xl border border-slate-700 bg-slate-900/80 text-xs font-bold transition flex items-center gap-2 text-gray-300 hover:text-white">
+      <span class="w-5 h-5 rounded-full bg-slate-800 text-gray-400 text-[10px] flex items-center justify-center font-mono">2</span>
+      <span>Hadestown <span class="text-amber-400/60">vs</span> In the Heights</span>
+    </button>
+    <button onclick="selectMatchup(2)" id="tab-2" class="tab-btn px-3.5 py-1.5 rounded-xl border border-slate-700 bg-slate-900/80 text-xs font-bold transition flex items-center gap-2 text-gray-300 hover:text-white">
+      <span class="w-5 h-5 rounded-full bg-slate-800 text-gray-400 text-[10px] flex items-center justify-center font-mono">3</span>
+      <span>Shrek <span class="text-amber-400/60">vs</span> SIX</span>
+    </button>
+    <button onclick="selectMatchup(3)" id="tab-3" class="tab-btn px-3.5 py-1.5 rounded-xl border border-slate-700 bg-slate-900/80 text-xs font-bold transition flex items-center gap-2 text-gray-300 hover:text-white">
+      <span class="w-5 h-5 rounded-full bg-slate-800 text-gray-400 text-[10px] flex items-center justify-center font-mono">4</span>
+      <span>Newsies <span class="text-amber-400/60">vs</span> Les Misérables</span>
+    </button>
+  </nav>
+
+  <!-- Main Content Hub: Dynamic Tale of the Tape -->
   <main class="flex-1 w-full max-w-[1750px] mx-auto p-3 md:p-5 flex flex-col justify-between min-h-0">
     
     <!-- Title Header Banner -->
     <div class="text-center flex-shrink-0 mb-1">
-      <h2 class="cinzel text-2xl md:text-4xl font-black text-amber-100 tracking-wide drop-shadow-md leading-tight">
-        Les Misérables <span class="text-red-500 font-normal mx-2">VS</span> The Phantom of the Opera
+      <h2 id="matchup-header-title" class="cinzel text-2xl md:text-4xl font-black text-amber-100 tracking-wide drop-shadow-md leading-tight">
+        Hamilton <span class="text-red-500 font-normal mx-2">VS</span> Footloose
       </h2>
-      <p class="text-gray-300 text-xs md:text-sm mt-0.5 max-w-2xl mx-auto line-clamp-1">
-        Classic Broadway Masterpieces
+      <p id="matchup-header-desc" class="text-gray-300 text-xs md:text-sm mt-0.5 max-w-2xl mx-auto line-clamp-1">
+        Elite 8 &bull; Matchup 1: Cast classroom ballots to advance a contender to the Final Four.
       </p>
     </div>
 
-    <!-- Head-to-Head Comparison Grid with Enlarged Details & Bottom Voting -->
+    <!-- Head-to-Head Comparison Grid with Anchored Bottom Voting -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-stretch flex-1 min-h-0 my-auto">
       
-      <!-- CONTENDER 1: Les Misérables -->
-      <div class="card-glass rounded-2xl p-5 md:p-6 flex flex-col justify-between border-2 border-blue-500/40 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3.5 py-1 rounded-bl-xl uppercase tracking-widest">
-          Seed #1
+      <!-- CONTENDER A -->
+      <div id="card-show-a" class="card-glass rounded-2xl p-5 md:p-6 flex flex-col justify-between border-2 border-amber-500/40 shadow-2xl relative overflow-hidden">
+        <div id="seed-badge-a" class="absolute top-0 right-0 bg-amber-600 text-white text-[10px] font-bold px-3.5 py-1 rounded-bl-xl uppercase tracking-widest">
+          Contender A
         </div>
 
-        <!-- Upper Section: Larger Poster & Expanded Info -->
+        <!-- Upper Section: Poster & Show Details -->
         <div class="space-y-3">
           <div class="flex gap-5 items-center">
             <div class="w-28 h-40 sm:w-32 sm:h-48 flex-shrink-0 poster-frame rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
-              <img src="images/lesmisposter.jpg" alt="Les Misérables Poster" onerror="handleImgError(this)" class="w-full h-full object-cover">
+              <img id="poster-show-a" src="images/hamiltonposter.jpg" alt="Poster A" onerror="handleImgError(this)" class="w-full h-full object-cover">
             </div>
             <div class="space-y-1.5 text-left flex-1 min-w-0">
-              <h3 class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100 leading-tight">Les Misérables</h3>
-              <p class="text-xs md:text-sm text-amber-400 font-semibold uppercase tracking-wider">Act 1 Finale: "One Day More"</p>
+              <h3 id="title-show-a" class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100 leading-tight truncate">Hamilton</h3>
+              <p id="subtitle-show-a" class="text-xs md:text-sm text-amber-400 font-semibold uppercase tracking-wider truncate">Hip-Hop History Phenomenon</p>
               <div class="text-xs md:text-sm text-gray-200 space-y-1 pt-1 leading-snug">
-                <p><strong class="text-amber-200">Composers:</strong> Claude-Michel Schönberg & Alain Boublil</p>
-                <p><strong class="text-amber-200">Premiere:</strong> Paris (1980) &bull; London West End (1985)</p>
-                <p><strong class="text-amber-200">Accolades:</strong> 8 Tony Awards &bull; World's Longest-Running Musical</p>
+                <p><strong class="text-amber-200">Composer:</strong> <span id="composer-show-a">Lin-Manuel Miranda</span></p>
+                <p><strong class="text-amber-200">Premiere:</strong> <span id="premiere-show-a">Broadway (2015)</span></p>
+                <p><strong class="text-amber-200">Accolades:</strong> <span id="accolades-show-a">11 Tony Awards, Pulitzer Prize, Grammy</span></p>
               </div>
             </div>
           </div>
 
-          <!-- Enlarged Musical Style & Vibe Box -->
+          <!-- Musical Style & Vibe Box -->
           <div class="p-3 bg-slate-900/85 rounded-xl border border-slate-700/70 text-xs md:text-sm space-y-1">
             <p class="text-amber-300 font-bold uppercase tracking-wide text-xs">Musical Style & Vibe:</p>
-            <p class="text-gray-300 leading-relaxed">
-              A sweeping historical revolutionary march driven by a 5-part polyphonic vocal puzzle where every character sings their own independent melody at the same time.
+            <p id="style-show-a" class="text-gray-300 leading-relaxed line-clamp-2">
+              Revolutionary blend of hip-hop, R&B, and traditional showtunes with rapid-fire lyrical density and polyphonic motifs.
             </p>
           </div>
         </div>
@@ -128,66 +144,66 @@
         <!-- Bottom Anchored Voting & Launch Controls -->
         <div class="mt-3 pt-3 border-t border-slate-800 space-y-2.5">
           <!-- Integrated Voting Section -->
-          <div class="p-2 sm:p-2.5 bg-blue-950/45 rounded-xl border border-blue-500/35 flex items-center justify-between">
+          <div class="p-2 sm:p-2.5 bg-amber-950/40 rounded-xl border border-amber-500/35 flex items-center justify-between">
             <div class="flex items-center gap-3">
               <div class="text-center pl-1">
-                <span id="vote-count-lesmis" class="font-mono text-2xl sm:text-3xl font-black text-blue-400 leading-none">0</span>
-                <p class="text-[9px] text-blue-300 uppercase font-bold tracking-wider mt-0.5">Votes</p>
+                <span id="vote-count-a" class="font-mono text-2xl sm:text-3xl font-black text-amber-400 leading-none">0</span>
+                <p class="text-[9px] text-amber-300 uppercase font-bold tracking-wider mt-0.5">Votes</p>
               </div>
-              <div class="h-8 w-px bg-blue-500/30"></div>
-              <span class="text-xs sm:text-sm font-semibold text-blue-200">Vote Les Mis:</span>
+              <div class="h-8 w-px bg-amber-500/30"></div>
+              <span id="vote-btn-label-a" class="text-xs sm:text-sm font-semibold text-amber-200">Vote Hamilton:</span>
             </div>
 
             <div class="flex items-center gap-1.5 sm:gap-2">
-              <button onclick="addVote('lesmis', 1)" class="px-3.5 py-1.5 bg-blue-900/80 hover:bg-blue-800 active:scale-95 border border-blue-400/50 text-blue-100 text-xs sm:text-sm font-bold rounded-lg transition shadow">+1</button>
-              <button onclick="addVote('lesmis', 5)" class="px-3.5 py-1.5 bg-blue-900/80 hover:bg-blue-800 active:scale-95 border border-blue-400/50 text-blue-100 text-xs sm:text-sm font-bold rounded-lg transition shadow">+5</button>
-              <button onclick="addVote('lesmis', -1)" title="Subtract 1" class="px-2.5 py-1.5 bg-slate-900/80 hover:bg-slate-800 active:scale-95 border border-slate-700 text-gray-400 text-xs font-bold rounded-lg transition">-1</button>
+              <button onclick="addVote('a', 1)" class="px-3.5 py-1.5 bg-amber-900/80 hover:bg-amber-800 active:scale-95 border border-amber-400/50 text-amber-100 text-xs sm:text-sm font-bold rounded-lg transition shadow">+1</button>
+              <button onclick="addVote('a', 5)" class="px-3.5 py-1.5 bg-amber-900/80 hover:bg-amber-800 active:scale-95 border border-amber-400/50 text-amber-100 text-xs sm:text-sm font-bold rounded-lg transition shadow">+5</button>
+              <button onclick="addVote('a', -1)" title="Subtract 1" class="px-2.5 py-1.5 bg-slate-900/80 hover:bg-slate-800 active:scale-95 border border-slate-700 text-gray-400 text-xs font-bold rounded-lg transition">-1</button>
             </div>
           </div>
 
           <!-- Action Buttons -->
           <div class="flex items-center justify-between">
-            <button onclick="openRosterModal('lesmis')" class="px-3.5 py-1.5 rounded-lg bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5">
-              <i class="fa-solid fa-users text-xs"></i>
-              <span>Preshow Roster</span>
+            <button onclick="showShowSynopsis('a')" class="px-3.5 py-1.5 rounded-lg bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5">
+              <i class="fa-solid fa-book-open text-xs"></i>
+              <span>Show Synopsis</span>
             </button>
             
-            <a href="les-mis.html" class="px-4.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold transition flex items-center space-x-1.5 shadow-lg shadow-blue-600/30">
-              <span>Launch Presentation</span>
+            <a id="launch-link-a" href="hamilton.html" class="px-4.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center space-x-1.5 shadow-lg shadow-amber-600/30">
+              <span>Launch Companion</span>
               <i class="fa-solid fa-arrow-right text-xs"></i>
             </a>
           </div>
         </div>
       </div>
 
-      <!-- CONTENDER 2: Phantom of the Opera -->
-      <div class="card-glass rounded-2xl p-5 md:p-6 flex flex-col justify-between border-2 border-red-500/40 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-3.5 py-1 rounded-bl-xl uppercase tracking-widest">
-          Seed #2
+      <!-- CONTENDER B -->
+      <div id="card-show-b" class="card-glass rounded-2xl p-5 md:p-6 flex flex-col justify-between border-2 border-red-500/40 shadow-2xl relative overflow-hidden">
+        <div id="seed-badge-b" class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-3.5 py-1 rounded-bl-xl uppercase tracking-widest">
+          Contender B
         </div>
 
-        <!-- Upper Section: Larger Poster & Expanded Info -->
+        <!-- Upper Section: Poster & Show Details -->
         <div class="space-y-3">
           <div class="flex gap-5 items-center">
             <div class="w-28 h-40 sm:w-32 sm:h-48 flex-shrink-0 poster-frame rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
-              <img src="images/phantomposter.jpg" alt="Phantom of the Opera Poster" onerror="handleImgError(this)" class="w-full h-full object-cover">
+              <img id="poster-show-b" src="images/footlooseposter.jpg" alt="Poster B" onerror="handleImgError(this)" class="w-full h-full object-cover">
             </div>
             <div class="space-y-1.5 text-left flex-1 min-w-0">
-              <h3 class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100 leading-tight">The Phantom of the Opera</h3>
-              <p class="text-xs md:text-sm text-amber-400 font-semibold uppercase tracking-wider">Title Song: "The Phantom of the Opera"</p>
+              <h3 id="title-show-b" class="cinzel text-2xl md:text-3xl font-extrabold text-amber-100 leading-tight truncate">Footloose</h3>
+              <p id="subtitle-show-b" class="text-xs md:text-sm text-red-400 font-semibold uppercase tracking-wider truncate">80s Pop-Rock Dance Explosion</p>
               <div class="text-xs md:text-sm text-gray-200 space-y-1 pt-1 leading-snug">
-                <p><strong class="text-amber-200">Composer:</strong> Andrew Lloyd Webber</p>
-                <p><strong class="text-amber-200">Premiere:</strong> West End (1986) &bull; Broadway (1988)</p>
-                <p><strong class="text-amber-200">Accolades:</strong> 7 Tony Awards &bull; Broadway's Longest-Running Show</p>
+                <p><strong class="text-amber-200">Composers:</strong> <span id="composer-show-b">Tom Snow, Dean Pitchford & Kenny Loggins</span></p>
+                <p><strong class="text-amber-200">Premiere:</strong> <span id="premiere-show-b">Broadway (1998)</span></p>
+                <p><strong class="text-amber-200">Accolades:</strong> <span id="accolades-show-b">4 Tony Award Nominations, Multi-Platinum Songs</span></p>
               </div>
             </div>
           </div>
 
-          <!-- Enlarged Musical Style & Vibe Box -->
+          <!-- Musical Style & Vibe Box -->
           <div class="p-3 bg-slate-900/85 rounded-xl border border-slate-700/70 text-xs md:text-sm space-y-1">
             <p class="text-amber-300 font-bold uppercase tracking-wide text-xs">Musical Style & Vibe:</p>
-            <p class="text-gray-300 leading-relaxed">
-              A dark, gothic rock-opera duet featuring a chilling pipe organ theme, candlelit subterranean lake boat ride, and soaring operatic high notes.
+            <p id="style-show-b" class="text-gray-300 leading-relaxed line-clamp-2">
+              High-octane 1980s pop-rock celebration filled with explosive driving rhythm sections, soaring synthesizers, and athletic dance breaks.
             </p>
           </div>
         </div>
@@ -195,32 +211,32 @@
         <!-- Bottom Anchored Voting & Launch Controls -->
         <div class="mt-3 pt-3 border-t border-slate-800 space-y-2.5">
           <!-- Integrated Voting Section -->
-          <div class="p-2 sm:p-2.5 bg-red-950/45 rounded-xl border border-red-500/35 flex items-center justify-between">
+          <div class="p-2 sm:p-2.5 bg-red-950/40 rounded-xl border border-red-500/35 flex items-center justify-between">
             <div class="flex items-center gap-3">
               <div class="text-center pl-1">
-                <span id="vote-count-phantom" class="font-mono text-2xl sm:text-3xl font-black text-red-400 leading-none">0</span>
+                <span id="vote-count-b" class="font-mono text-2xl sm:text-3xl font-black text-red-400 leading-none">0</span>
                 <p class="text-[9px] text-red-300 uppercase font-bold tracking-wider mt-0.5">Votes</p>
               </div>
               <div class="h-8 w-px bg-red-500/30"></div>
-              <span class="text-xs sm:text-sm font-semibold text-red-200">Vote Phantom:</span>
+              <span id="vote-btn-label-b" class="text-xs sm:text-sm font-semibold text-red-200">Vote Footloose:</span>
             </div>
 
             <div class="flex items-center gap-1.5 sm:gap-2">
-              <button onclick="addVote('phantom', 1)" class="px-3.5 py-1.5 bg-red-900/80 hover:bg-red-800 active:scale-95 border border-red-400/50 text-red-100 text-xs sm:text-sm font-bold rounded-lg transition shadow">+1</button>
-              <button onclick="addVote('phantom', 5)" class="px-3.5 py-1.5 bg-red-900/80 hover:bg-red-800 active:scale-95 border border-red-400/50 text-red-100 text-xs sm:text-sm font-bold rounded-lg transition shadow">+5</button>
-              <button onclick="addVote('phantom', -1)" title="Subtract 1" class="px-2.5 py-1.5 bg-slate-900/80 hover:bg-slate-800 active:scale-95 border border-slate-700 text-gray-400 text-xs font-bold rounded-lg transition">-1</button>
+              <button onclick="addVote('b', 1)" class="px-3.5 py-1.5 bg-red-900/80 hover:bg-red-800 active:scale-95 border border-red-400/50 text-red-100 text-xs sm:text-sm font-bold rounded-lg transition shadow">+1</button>
+              <button onclick="addVote('b', 5)" class="px-3.5 py-1.5 bg-red-900/80 hover:bg-red-800 active:scale-95 border border-red-400/50 text-red-100 text-xs sm:text-sm font-bold rounded-lg transition shadow">+5</button>
+              <button onclick="addVote('b', -1)" title="Subtract 1" class="px-2.5 py-1.5 bg-slate-900/80 hover:bg-slate-800 active:scale-95 border border-slate-700 text-gray-400 text-xs font-bold rounded-lg transition">-1</button>
             </div>
           </div>
 
           <!-- Action Buttons -->
           <div class="flex items-center justify-between">
-            <button onclick="openRosterModal('phantom')" class="px-3.5 py-1.5 rounded-lg bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5">
-              <i class="fa-solid fa-users text-xs"></i>
-              <span>Preshow Roster</span>
+            <button onclick="showShowSynopsis('b')" class="px-3.5 py-1.5 rounded-lg bg-[#141d33] hover:bg-[#1d2b4d] border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5">
+              <i class="fa-solid fa-book-open text-xs"></i>
+              <span>Show Synopsis</span>
             </button>
             
-            <a href="phantom.html" class="px-4.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-bold transition flex items-center space-x-1.5 shadow-lg shadow-red-600/30">
-              <span>Launch Presentation</span>
+            <a id="launch-link-b" href="footloose.html" class="px-4.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs sm:text-sm transition flex items-center space-x-1.5 shadow-lg shadow-red-600/30">
+              <span>Launch Companion</span>
               <i class="fa-solid fa-arrow-right text-xs"></i>
             </a>
           </div>
@@ -232,23 +248,23 @@
     <!-- Compact Dual Visual Momentum Bar at Bottom -->
     <div class="card-glass rounded-xl p-2.5 border border-amber-500/30 shadow-xl max-w-4xl mx-auto w-full flex-shrink-0 mt-1">
       <div class="flex justify-between items-center text-[11px] sm:text-xs font-bold mb-1 px-1">
-        <span id="bar-label-lesmis" class="text-blue-400 flex items-center gap-1">
-          <i class="fa-solid fa-circle text-[7px]"></i> Les Mis: <span id="bar-pct-lesmis">50%</span>
+        <span id="bar-label-a" class="text-amber-400 flex items-center gap-1">
+          <i class="fa-solid fa-circle text-[7px]"></i> <span id="bar-name-a">Hamilton</span>: <span id="bar-pct-a">50%</span>
         </span>
         <div class="text-[10px] sm:text-[11px] text-gray-400 font-normal">
           Total Ballots: <span id="vote-total-count" class="font-mono text-amber-300 font-bold">0</span>
-          <button onclick="resetVotes()" title="Reset votes for new class" class="ml-2 text-gray-500 hover:text-red-400 transition">
+          <button onclick="resetCurrentVotes()" title="Reset votes for new class" class="ml-2 text-gray-500 hover:text-red-400 transition">
             <i class="fa-solid fa-arrow-rotate-right text-[10px]"></i>
           </button>
         </div>
-        <span id="bar-label-phantom" class="text-red-400 flex items-center gap-1">
-          Phantom: <span id="bar-pct-phantom">50%</span> <i class="fa-solid fa-circle text-[7px]"></i>
+        <span id="bar-label-b" class="text-red-400 flex items-center gap-1">
+          <span id="bar-name-b">Footloose</span>: <span id="bar-pct-b">50%</span> <i class="fa-solid fa-circle text-[7px]"></i>
         </span>
       </div>
       
       <div class="w-full h-3.5 bg-slate-950 rounded-full overflow-hidden flex border border-amber-500/30 p-0.5 shadow-inner">
-        <div id="bar-fill-lesmis" class="h-full bg-gradient-to-r from-blue-700 to-blue-500 rounded-l-full transition-all duration-500 flex items-center justify-end pr-2 text-[9px] font-bold text-white shadow-lg" style="width: 50%;"></div>
-        <div id="bar-fill-phantom" class="h-full bg-gradient-to-r from-red-500 to-red-700 rounded-r-full transition-all duration-500 flex items-center justify-start pl-2 text-[9px] font-bold text-white shadow-lg" style="width: 50%;"></div>
+        <div id="bar-fill-a" class="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-l-full transition-all duration-500 flex items-center justify-end pr-2 text-[9px] font-bold text-slate-950 shadow-lg" style="width: 50%;"></div>
+        <div id="bar-fill-b" class="h-full bg-gradient-to-r from-red-500 to-red-700 rounded-r-full transition-all duration-500 flex items-center justify-start pl-2 text-[9px] font-bold text-white shadow-lg" style="width: 50%;"></div>
       </div>
     </div>
 
@@ -256,223 +272,271 @@
 
   <!-- Footer -->
   <footer class="w-full bg-[#080d1a]/95 border-t border-amber-500/20 px-4 py-1.5 text-center text-[10px] text-gray-400 flex-shrink-0">
-    Musical Bracket Championship Hub &bull; Designed for Classroom Smartboards
+    Musical Bracket Championship Hub &bull; Elite 8 Quarterfinals &bull; Designed for Classroom Smartboards
   </footer>
 
-
-  <!-- ================================================= -->
-  <!-- PRESHOW ROSTER MODALS (Playbills)                 -->
-  <!-- ================================================= -->
-
-  <!-- Les Mis Modal -->
-  <div id="modal-lesmis" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="card-glass rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col border border-amber-500/40 shadow-2xl overflow-hidden">
+  <!-- Synopsis Modal -->
+  <div id="modal-synopsis" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="card-glass rounded-3xl max-w-2xl w-full flex flex-col border border-amber-500/40 shadow-2xl overflow-hidden">
       <div class="p-4 border-b border-amber-500/20 flex items-center justify-between bg-[#080d1a]">
         <div class="flex items-center space-x-3">
-          <div class="w-2.5 h-6 bg-blue-600 rounded-sm"></div>
-          <h3 class="cinzel text-lg font-bold text-amber-100">Les Misérables: Preshow Character Roster</h3>
+          <div class="w-2.5 h-6 bg-amber-400 rounded-sm"></div>
+          <h3 id="modal-title" class="cinzel text-lg font-bold text-amber-100">Show Synopsis</h3>
         </div>
-        <button onclick="closeRosterModal('lesmis')" class="text-gray-400 hover:text-amber-300 p-1.5 text-base">
+        <button onclick="closeSynopsisModal()" class="text-gray-400 hover:text-amber-300 p-1.5 text-base">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
-
-      <div class="p-5 overflow-y-auto modal-scroll space-y-4">
-        <p class="text-gray-300 text-xs">Review these characters with your students before starting the song so they can spot each musical theme as it enters:</p>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          <!-- Valjean -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/valjean.jpg" alt="Jean Valjean" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Jean Valjean</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Hugh Jackman</p>
-            <p class="text-gray-300 text-[10px] mt-1">Ex-convict running to protect his adopted daughter.</p>
-          </div>
-          <!-- Marius & Cosette -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="flex gap-1.5 mb-2">
-              <div class="w-12 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
-                <img src="images/marius.jpg" alt="Marius" onerror="handleImgError(this)" class="w-full h-full object-cover">
-              </div>
-              <div class="w-12 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50">
-                <img src="images/cosette.jpg" alt="Cosette" onerror="handleImgError(this)" class="w-full h-full object-cover">
-              </div>
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Marius & Cosette</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Redmayne & Seyfried</p>
-            <p class="text-gray-300 text-[10px] mt-1">Star-crossed lovers facing forced separation.</p>
-          </div>
-          <!-- Éponine -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/eponine.jpg" alt="Éponine" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Éponine</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Samantha Barks</p>
-            <p class="text-gray-300 text-[10px] mt-1">Secretly in love with Marius, walking alone.</p>
-          </div>
-          <!-- Enjolras -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/enjolras.jpg" alt="Enjolras" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Enjolras</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Aaron Tveit</p>
-            <p class="text-gray-300 text-[10px] mt-1">Passionate student commander leading rebellion.</p>
-          </div>
-          <!-- Javert -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/javert.jpg" alt="Javert" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Inspector Javert</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Russell Crowe</p>
-            <p class="text-gray-300 text-[10px] mt-1">Strict police inspector planning to infiltrate.</p>
-          </div>
-          <!-- Thénardiers -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/thenardiers.jpg" alt="Thénardiers" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Thénardiers</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Cohen & Bonham Carter</p>
-            <p class="text-gray-300 text-[10px] mt-1">Crooked innkeepers plotting to loot the chaos.</p>
-          </div>
-        </div>
+      <div class="p-5 text-xs sm:text-sm text-gray-300 space-y-3 leading-relaxed">
+        <p id="modal-content"></p>
       </div>
     </div>
   </div>
 
-  <!-- Phantom Modal -->
-  <div id="modal-phantom" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="card-glass rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col border border-amber-500/40 shadow-2xl overflow-hidden">
-      <div class="p-4 border-b border-amber-500/20 flex items-center justify-between bg-[#080d1a]">
-        <div class="flex items-center space-x-3">
-          <div class="w-2.5 h-6 bg-red-600 rounded-sm"></div>
-          <h3 class="cinzel text-lg font-bold text-amber-100">The Phantom of the Opera: Preshow Character Roster</h3>
-        </div>
-        <button onclick="closeRosterModal('phantom')" class="text-gray-400 hover:text-amber-300 p-1.5 text-base">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="p-5 overflow-y-auto modal-scroll space-y-4">
-        <p class="text-gray-300 text-xs">Review these key figures before launching the title track so students can track the dramatic opera house rivalry:</p>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-          <!-- Phantom -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/phantom.jpg" alt="The Phantom" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">The Phantom</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Gerard Butler</p>
-            <p class="text-gray-300 text-[10px] mt-1">The masked musical genius haunting the opera vaults.</p>
-          </div>
-          <!-- Christine -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/christine.jpg" alt="Christine Daaé" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Christine Daaé</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Emmy Rossum</p>
-            <p class="text-gray-300 text-[10px] mt-1">Young chorus girl drawn through the mirror.</p>
-          </div>
-          <!-- Raoul -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/raoul.jpg" alt="Viscount Raoul" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Viscount Raoul</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Patrick Wilson</p>
-            <p class="text-gray-300 text-[10px] mt-1">Christine's childhood sweetheart and protector.</p>
-          </div>
-          <!-- Carlotta -->
-          <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 flex flex-col items-center text-center">
-            <div class="w-24 h-32 roster-portrait rounded-xl overflow-hidden bg-slate-950 border border-amber-400/50 mb-2">
-              <img src="images/carlotta.jpg" alt="Carlotta Guidicelli" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
-            </div>
-            <h4 class="cinzel font-bold text-amber-100 text-xs">Carlotta</h4>
-            <p class="text-[10px] text-red-400 font-semibold uppercase">Minnie Driver</p>
-            <p class="text-gray-300 text-[10px] mt-1">The opera house's reigning prima donna diva.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Script for Voting, Dynamic Visual Bar, Fullscreen, & Modals -->
+  <!-- Quarterfinal Matchups Data & Script -->
   <script>
-    function handleImgError(img) {
-      img.onerror = null;
-      img.parentElement.innerHTML = '<div class="w-full h-full img-fallback"><i class="fa-solid fa-image"></i></div>';
+    const matchups = [
+      {
+        id: "qf1",
+        num: 1,
+        title: "Hamilton vs Footloose",
+        desc: "Elite 8 • Matchup 1: Rap/Hip-Hop History vs 80s Pop-Rock Rebellion",
+        showA: {
+          name: "Hamilton",
+          subtitle: "Hip-Hop History Phenomenon",
+          poster: "images/hamiltonposter.jpg",
+          composer: "Lin-Manuel Miranda",
+          premiere: "Broadway (2015)",
+          accolades: "11 Tony Awards, Pulitzer Prize, Grammy",
+          style: "Revolutionary blend of hip-hop, R&B, and traditional showtunes with rapid-fire lyrical density and polyphonic motifs.",
+          link: "hamilton.html",
+          synopsis: "The story of American Founding Father Alexander Hamilton, an immigrant from the Caribbean who rose to become George Washington's right-hand man and the first Secretary of the Treasury. The musical revolutionized Broadway through its hip-hop, pop, and R&B score."
+        },
+        showB: {
+          name: "Footloose",
+          subtitle: "80s Pop-Rock Dance Explosion",
+          poster: "images/footlooseposter.jpg",
+          composer: "Tom Snow, Dean Pitchford & Kenny Loggins",
+          premiere: "Broadway (1998)",
+          accolades: "4 Tony Nominations, Multi-Platinum Soundtrack",
+          style: "High-octane 1980s pop-rock celebration filled with driving rhythm sections, soaring synthesizers, and athletic dance breaks.",
+          link: "footloose.html",
+          synopsis: "When city teenager Ren McCormack moves from Chicago to the small town of Bomont, he is shocked to discover that dancing and rock music have been banned by the local town council. Ren rallies his classmates to stand up for freedom of expression and hold a high school prom."
+        }
+      },
+      {
+        id: "qf2",
+        num: 2,
+        title: "Hadestown vs In the Heights",
+        desc: "Elite 8 • Matchup 2: Folk-Blues Underworld vs Latin-Pop Barrio Celebration",
+        showA: {
+          name: "Hadestown",
+          subtitle: "New Orleans Folk-Blues Myth",
+          poster: "images/hadestownposter.jpg",
+          composer: "Anaïs Mitchell",
+          premiere: "Broadway (2019)",
+          accolades: "8 Tony Awards including Best Musical, Grammy",
+          style: "Haunting mix of New Orleans jazz, American folk, and Appalachian blues with growling trombones and poetic vocal harmonies.",
+          link: "hadestown.html",
+          synopsis: "An intertwining of the ancient Greek myths of Orpheus & Eurydice and Hades & Persephone. Set in a post-apocalyptic, Great Depression-inspired world, young musician Orpheus embarks on a dangerous quest to the industrial underworld to rescue his love."
+        },
+        showB: {
+          name: "In the Heights",
+          subtitle: "Washington Heights Latin-Pop",
+          poster: "images/intheheightsposter.jpg",
+          composer: "Lin-Manuel Miranda",
+          premiere: "Broadway (2008)",
+          accolades: "4 Tony Awards including Best Musical, Grammy",
+          style: "Vibrant fusion of salsa, merengue, hip-hop, and pop storytelling capturing the heartbeat of a close-knit Manhattan neighborhood.",
+          link: "intheheights.html",
+          synopsis: "Set over three sweltering summer days in Washington Heights, Manhattan. Bodega owner Usnavi and his neighbors navigate changing family dreams, romance, financial struggles, and community pride against an infectious Latin rhythm."
+        }
+      },
+      {
+        id: "qf3",
+        num: 3,
+        title: "Shrek the Musical vs SIX",
+        desc: "Elite 8 • Matchup 3: Fairytale Satire vs Tudor Queen Pop Concert",
+        showA: {
+          name: "Shrek the Musical",
+          subtitle: "Irreverent Fairytale Comedy",
+          poster: "images/shrekposter.jpg",
+          composer: "Jeanine Tesori & David Lindsay-Abaire",
+          premiere: "Broadway (2008)",
+          accolades: "8 Tony Nominations, 1 Tony Award, Drama Desk",
+          style: "Upbeat Broadway show-comedy infused with brassy vaudeville marches, tap battles, and an empowering anthem for underdogs.",
+          link: "shrek.html",
+          synopsis: "Based on the DreamWorks film, an ogre named Shrek finds his peaceful swamp invaded by banished fairytale creatures. To reclaim his land, he makes a deal to rescue the feisty Princess Fiona, discovering friendship and self-acceptance along the journey."
+        },
+        showB: {
+          name: "SIX",
+          subtitle: "Tudor Pop Concert Phenomenon",
+          poster: "images/sixposter.jpg",
+          composer: "Toby Marlow & Lucy Moss",
+          premiere: "West End (2019) / Broadway (2021)",
+          accolades: "2 Tony Awards, 5 Olivier Nominations",
+          style: "High-energy modern pop concert modeled after modern divas (Beyoncé, Ariana Grande, Britney) trading fierce vocal solos.",
+          link: "six.html",
+          synopsis: "The six wives of King Henry VIII take the microphone to remix 500 years of historical heartbreak into an empowering girl-group pop concert, competing to see who had the worst experience before uniting to reclaim their own historical narratives."
+        }
+      },
+      {
+        id: "qf4",
+        num: 4,
+        title: "Newsies vs Les Misérables",
+        desc: "Elite 8 • Matchup 4: Brooklyn Paperboy Strike vs Parisian Barricade March",
+        showA: {
+          name: "Newsies",
+          subtitle: "High-Flying Strike Anthem",
+          poster: "images/newsiesposter.jpg",
+          composer: "Alan Menken & Jack Feldman",
+          premiere: "Broadway (2012)",
+          accolades: "2 Tony Awards including Best Original Score",
+          style: "Inspiring Disney Broadway anthem power with dynamic brass fanfares, percussive paper-boy rhythms, and synchronized ensemble power.",
+          link: "newsies.html",
+          synopsis: "Based on the real-life Newsboys Strike of 1899 in New York City. Charismatic paperboy Jack Kelly rallies hundreds of orphan and runaway delivery boys to take a stand against newspaper giants Joseph Pulitzer and William Randolph Hearst."
+        },
+        showB: {
+          name: "Les Misérables",
+          subtitle: "Round 1 Heavyweight Champion",
+          poster: "images/lesmisposter.jpg",
+          composer: "Claude-Michel Schönberg & Alain Boublil",
+          premiere: "Paris (1980) / London (1985)",
+          accolades: "8 Tony Awards, World's Longest-Running Musical",
+          style: "Sweeping historical revolutionary march driven by a 5-part polyphonic vocal puzzle where every character sings simultaneously.",
+          link: "les-mis.html",
+          synopsis: "Set against 19th-century France, ex-convict Jean Valjean seeks redemption while hunted by the relentless Inspector Javert, culminating in the 1832 Paris student uprising behind the barricades."
+        }
+      }
+    ];
+
+    let currentMatchupIdx = 0;
+    let votes = {};
+
+    function loadVotes() {
+      matchups.forEach((m) => {
+        votes[m.id] = {
+          a: parseInt(localStorage.getItem(`bracket_${m.id}_a`) || '0'),
+          b: parseInt(localStorage.getItem(`bracket_${m.id}_b`) || '0')
+        };
+      });
     }
 
-    function openRosterModal(show) {
-      document.getElementById(`modal-${show}`).classList.remove('hidden');
-      document.getElementById(`modal-${show}`).classList.add('flex');
+    function selectMatchup(idx) {
+      currentMatchupIdx = idx;
+      
+      // Update Tab Styles
+      for (let i = 0; i < 4; i++) {
+        const tab = document.getElementById(`tab-${i}`);
+        if (i === idx) {
+          tab.classList.add('active');
+          tab.classList.remove('text-gray-300');
+        } else {
+          tab.classList.remove('active');
+          tab.classList.add('text-gray-300');
+        }
+      }
+
+      const m = matchups[idx];
+
+      // Update Header Text
+      document.getElementById('matchup-header-title').innerHTML = `${m.showA.name} <span class="text-red-500 font-normal mx-2">VS</span> ${m.showB.name}`;
+      document.getElementById('matchup-header-desc').innerText = m.desc;
+
+      // Update Contender A Card
+      document.getElementById('title-show-a').innerText = m.showA.name;
+      document.getElementById('subtitle-show-a').innerText = m.showA.subtitle;
+      document.getElementById('poster-show-a').src = m.showA.poster;
+      document.getElementById('composer-show-a').innerText = m.showA.composer;
+      document.getElementById('premiere-show-a').innerText = m.showA.premiere;
+      document.getElementById('accolades-show-a').innerText = m.showA.accolades;
+      document.getElementById('style-show-a').innerText = m.showA.style;
+      document.getElementById('vote-btn-label-a').innerText = `Vote ${m.showA.name}:`;
+      document.getElementById('launch-link-a').href = m.showA.link;
+
+      // Update Contender B Card
+      document.getElementById('title-show-b').innerText = m.showB.name;
+      document.getElementById('subtitle-show-b').innerText = m.showB.subtitle;
+      document.getElementById('poster-show-b').src = m.showB.poster;
+      document.getElementById('composer-show-b').innerText = m.showB.composer;
+      document.getElementById('premiere-show-b').innerText = m.showB.premiere;
+      document.getElementById('accolades-show-b').innerText = m.showB.accolades;
+      document.getElementById('style-show-b').innerText = m.showB.style;
+      document.getElementById('vote-btn-label-b').innerText = `Vote ${m.showB.name}:`;
+      document.getElementById('launch-link-b').href = m.showB.link;
+
+      // Update Bottom Bar Labels
+      document.getElementById('bar-name-a').innerText = m.showA.name;
+      document.getElementById('bar-name-b').innerText = m.showB.name;
+
+      renderVotes();
     }
 
-    function closeRosterModal(show) {
-      document.getElementById(`modal-${show}`).classList.remove('flex');
-      document.getElementById(`modal-${show}`).classList.add('hidden');
-    }
+    function renderVotes() {
+      const m = matchups[currentMatchupIdx];
+      const countA = votes[m.id].a;
+      const countB = votes[m.id].b;
+      const total = countA + countB;
 
-    // Voting Logic with localStorage
-    let votes = {
-      lesmis: parseInt(localStorage.getItem('bracket_lesmis') || '0'),
-      phantom: parseInt(localStorage.getItem('bracket_phantom') || '0')
-    };
-
-    function updateVoteDisplay() {
-      const lesmis = votes.lesmis;
-      const phantom = votes.phantom;
-      const total = lesmis + phantom;
-
-      document.getElementById('vote-count-lesmis').innerText = lesmis;
-      document.getElementById('vote-count-phantom').innerText = phantom;
+      document.getElementById('vote-count-a').innerText = countA;
+      document.getElementById('vote-count-b').innerText = countB;
       document.getElementById('vote-total-count').innerText = total;
 
-      let lesmisPct = 50;
-      let phantomPct = 50;
+      let pctA = 50;
+      let pctB = 50;
 
       if (total > 0) {
-        lesmisPct = Math.round((lesmis / total) * 100);
-        phantomPct = 100 - lesmisPct;
+        pctA = Math.round((countA / total) * 100);
+        pctB = 100 - pctA;
       }
 
-      const fillLesMis = document.getElementById('bar-fill-lesmis');
-      const fillPhantom = document.getElementById('bar-fill-phantom');
-      const pctLabelLesMis = document.getElementById('bar-pct-lesmis');
-      const pctLabelPhantom = document.getElementById('bar-pct-phantom');
+      const fillA = document.getElementById('bar-fill-a');
+      const fillB = document.getElementById('bar-fill-b');
+      fillA.style.width = `${pctA}%`;
+      fillB.style.width = `${pctB}%`;
 
-      fillLesMis.style.width = `${lesmisPct}%`;
-      fillPhantom.style.width = `${phantomPct}%`;
+      document.getElementById('bar-pct-a').innerText = `${pctA}%`;
+      document.getElementById('bar-pct-b').innerText = `${pctB}%`;
 
-      pctLabelLesMis.innerText = `${lesmisPct}%`;
-      pctLabelPhantom.innerText = `${phantomPct}%`;
-
-      fillLesMis.innerText = lesmisPct >= 15 ? `${lesmis}` : '';
-      fillPhantom.innerText = phantomPct >= 15 ? `${phantom}` : '';
+      fillA.innerText = pctA >= 15 ? `${countA}` : '';
+      fillB.innerText = pctB >= 15 ? `${countB}` : '';
     }
 
-    function addVote(show, amount) {
-      votes[show] = Math.max(0, votes[show] + amount);
-      localStorage.setItem(`bracket_${show}`, votes[show]);
-      updateVoteDisplay();
+    function addVote(contender, amount) {
+      const m = matchups[currentMatchupIdx];
+      votes[m.id][contender] = Math.max(0, votes[m.id][contender] + amount);
+      localStorage.setItem(`bracket_${m.id}_${contender}`, votes[m.id][contender]);
+      renderVotes();
     }
 
-    function resetVotes() {
-      if (confirm("Reset the ballot box for a new class?")) {
-        votes.lesmis = 0;
-        votes.phantom = 0;
-        localStorage.setItem('bracket_lesmis', '0');
-        localStorage.setItem('bracket_phantom', '0');
-        updateVoteDisplay();
+    function resetCurrentVotes() {
+      const m = matchups[currentMatchupIdx];
+      if (confirm(`Reset the ballot box for ${m.showA.name} vs ${m.showB.name}?`)) {
+        votes[m.id].a = 0;
+        votes[m.id].b = 0;
+        localStorage.setItem(`bracket_${m.id}_a`, '0');
+        localStorage.setItem(`bracket_${m.id}_b`, '0');
+        renderVotes();
       }
+    }
+
+    function showShowSynopsis(contender) {
+      const m = matchups[currentMatchupIdx];
+      const show = contender === 'a' ? m.showA : m.showB;
+      document.getElementById('modal-title').innerText = `${show.name} Synopsis`;
+      document.getElementById('modal-content').innerText = show.synopsis;
+      document.getElementById('modal-synopsis').classList.remove('hidden');
+      document.getElementById('modal-synopsis').classList.add('flex');
+    }
+
+    function closeSynopsisModal() {
+      document.getElementById('modal-synopsis').classList.remove('flex');
+      document.getElementById('modal-synopsis').classList.add('hidden');
+    }
+
+    function handleImgError(img) {
+      img.onerror = null;
+      img.parentElement.innerHTML = '<div class="w-full h-full img-fallback"><i class="fa-solid fa-masks-theater"></i></div>';
     }
 
     function toggleFullScreen() {
@@ -484,7 +548,8 @@
     }
 
     window.onload = () => {
-      updateVoteDisplay();
+      loadVotes();
+      selectMatchup(0);
     };
   </script>
 </body>
