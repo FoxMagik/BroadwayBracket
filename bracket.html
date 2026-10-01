@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Musical Theater Championship: Interactive Tournament Tree</title>
+  <title>Musical Bracket Championship: Tournament Tree</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -25,55 +25,57 @@
                   url('https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=2000&q=80') center/cover fixed;
     }
     .glass-slot {
-      background: rgba(14, 20, 36, 0.85);
+      background: rgba(14, 20, 36, 0.88);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(212, 175, 55, 0.22);
       transition: all 0.2s ease-in-out;
     }
-    .glass-slot:hover:not(.empty):not(.eliminated) {
+    .glass-slot:hover:not(.eliminated):not(.empty) {
       border-color: rgba(212, 175, 55, 0.7);
       background: rgba(26, 36, 62, 0.95);
       transform: scale(1.02);
     }
     .glass-slot.winner {
       border-color: #f59e0b;
-      background: linear-gradient(135deg, rgba(30, 41, 68, 0.9), rgba(180, 83, 9, 0.3));
-      box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+      background: linear-gradient(135deg, rgba(30, 41, 68, 0.95), rgba(180, 83, 9, 0.35));
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
     }
     .glass-slot.eliminated {
-      opacity: 0.45;
-      text-decoration: line-through;
-      filter: grayscale(80%);
+      opacity: 0.4;
+      filter: grayscale(85%);
     }
-    /* Connecting branch lines */
-    .connector-line {
-      background: rgba(212, 175, 55, 0.25);
+    .poster-thumb {
+      box-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      border: 1px solid rgba(212, 175, 55, 0.35);
     }
-    .connector-active {
-      background: rgba(245, 158, 11, 0.75);
-      box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+    .img-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #10182c;
+      color: #d4af37;
     }
   </style>
 </head>
 <body class="bracket-backdrop h-screen flex flex-col justify-between overflow-hidden select-none">
 
-  <!-- Header Bar -->
+  <!-- Top Header Bar -->
   <header class="w-full bg-[#080d1a]/95 border-b border-amber-500/25 px-4 md:px-6 py-2 flex items-center justify-between z-30 flex-shrink-0">
     <div class="flex items-center space-x-3">
       <a href="index.html" class="w-7 h-7 rounded-lg bg-slate-900 border border-amber-500/30 text-amber-300 flex items-center justify-center hover:bg-slate-800 transition">
         <i class="fa-solid fa-arrow-left text-xs"></i>
       </a>
       <div>
-        <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">Interactive Tournament Tree</h1>
-        <p class="text-[10px] text-amber-400/80 font-medium">Click any active show to advance it to the next round</p>
+        <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">Musical Theater Championship</h1>
+        <p class="text-[10px] text-amber-400/80 font-medium">Tournament Bracket</p>
       </div>
     </div>
 
     <div class="flex items-center space-x-3">
-      <button onclick="resetBracket()" title="Reset Bracket" class="px-2.5 py-1 bg-red-950/60 hover:bg-red-900 border border-red-500/40 text-red-200 text-xs rounded-lg transition flex items-center gap-1.5">
-        <i class="fa-solid fa-arrow-rotate-right text-[10px]"></i>
-        <span>Reset Tree</span>
-      </button>
+      <a href="index.html" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 text-xs font-bold rounded-lg transition flex items-center gap-1.5">
+        <i class="fa-solid fa-layer-group text-xs"></i>
+        <span>Quarterfinals Hub</span>
+      </a>
       <button onclick="toggleFullScreen()" class="text-gray-400 hover:text-amber-300 transition p-1">
         <i class="fa-solid fa-expand text-sm"></i>
       </button>
@@ -85,106 +87,126 @@
     
     <!-- Stage Header Indicators -->
     <div class="grid grid-cols-7 gap-2 text-center cinzel text-xs font-bold text-amber-300/80 uppercase tracking-widest mb-1">
-      <div>Round of 16 (West)</div>
+      <div>Round of 16</div>
       <div>Quarterfinals</div>
       <div>Semifinals</div>
       <div class="text-amber-300 font-extrabold flex items-center justify-center gap-1">
-        <i class="fa-solid fa-trophy text-amber-400"></i> Champion
+        <i class="fa-solid fa-trophy text-amber-400"></i> Championship
       </div>
       <div>Semifinals</div>
       <div>Quarterfinals</div>
-      <div>Round of 16 (East)</div>
+      <div>Round of 16</div>
     </div>
 
     <!-- Symmetrical 16-Team Bracket Viewport -->
-    <div class="grid grid-cols-7 gap-2 items-center flex-1 min-h-0 py-1">
+    <div class="grid grid-cols-7 gap-2.5 items-center flex-1 min-h-0 py-1">
 
-      <!-- COL 1: West Round of 16 (4 pairings = 8 teams) -->
+      <!-- COL 1: Round of 16 (Left Bracket: 8 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-1">
         <!-- Match 1 -->
         <div class="space-y-0.5">
-          <div id="slot-r16-1" onclick="advanceToQuarter(1, 'hamilton')" class="glass-slot winner rounded-lg p-2 text-xs cursor-pointer flex justify-between items-center">
-            <span class="font-bold text-amber-100">Hamilton</span>
-            <i class="fa-solid fa-check text-amber-400 text-[10px]"></i>
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/hamiltonposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="font-bold text-amber-100 truncate">Hamilton</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
-          <div id="slot-r16-2" class="glass-slot eliminated rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="text-gray-400" id="name-r16-2">[Round 1 Seed 16]</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
+            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">16</div>
+            <span class="text-gray-400 line-through truncate">[Contender 16]</span>
           </div>
         </div>
+
         <!-- Match 2 -->
         <div class="space-y-0.5">
-          <div id="slot-r16-3" onclick="advanceToQuarter(2, 'footloose')" class="glass-slot winner rounded-lg p-2 text-xs cursor-pointer flex justify-between items-center">
-            <span class="font-bold text-amber-100">Footloose</span>
-            <i class="fa-solid fa-check text-amber-400 text-[10px]"></i>
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="font-bold text-amber-100 truncate">Footloose</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
-          <div id="slot-r16-4" class="glass-slot eliminated rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="text-gray-400" id="name-r16-4">[Round 1 Seed 9]</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
+            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">9</div>
+            <span class="text-gray-400 line-through truncate">[Contender 9]</span>
           </div>
         </div>
+
         <!-- Match 3 -->
         <div class="space-y-0.5">
-          <div id="slot-r16-5" onclick="advanceToQuarter(3, 'hadestown')" class="glass-slot winner rounded-lg p-2 text-xs cursor-pointer flex justify-between items-center">
-            <span class="font-bold text-amber-100">Hadestown</span>
-            <i class="fa-solid fa-check text-amber-400 text-[10px]"></i>
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/hadestownposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="font-bold text-amber-100 truncate">Hadestown</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
-          <div id="slot-r16-6" class="glass-slot eliminated rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="text-gray-400" id="name-r16-6">[Round 1 Seed 12]</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
+            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">12</div>
+            <span class="text-gray-400 line-through truncate">[Contender 12]</span>
           </div>
         </div>
+
         <!-- Match 4 -->
         <div class="space-y-0.5">
-          <div id="slot-r16-7" onclick="advanceToQuarter(4, 'in-the-heights')" class="glass-slot winner rounded-lg p-2 text-xs cursor-pointer flex justify-between items-center">
-            <span class="font-bold text-amber-100">In the Heights</span>
-            <i class="fa-solid fa-check text-amber-400 text-[10px]"></i>
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="font-bold text-amber-100 truncate">In the Heights</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
-          <div id="slot-r16-8" class="glass-slot eliminated rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="text-gray-400" id="name-r16-8">[Round 1 Seed 13]</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
+            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">13</div>
+            <span class="text-gray-400 line-through truncate">[Contender 13]</span>
           </div>
         </div>
       </div>
 
-      <!-- COL 2: West Quarterfinals (Elite 8: 2 pairings = 4 teams) -->
-      <div class="flex flex-col justify-around h-full space-y-4 py-6">
+      <!-- COL 2: Quarterfinals (Left: 2 Pairings = 4 Shows) -->
+      <div class="flex flex-col justify-around h-full space-y-4 py-5">
         <!-- QF Match 1 -->
         <div class="space-y-1">
-          <div id="qf-1" onclick="advanceToSemi(1, this.innerText)" class="glass-slot rounded-xl p-2.5 text-xs cursor-pointer font-bold flex justify-between items-center">
-            <span id="qf-1-text">Hamilton</span>
-            <i class="fa-solid fa-arrow-right text-[10px] text-amber-400 opacity-60"></i>
+          <div id="qf-1" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
+            <img id="qf-1-img" src="images/hamiltonposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-1-text" class="truncate">Hamilton</span>
           </div>
-          <div id="qf-2" onclick="advanceToSemi(1, this.innerText)" class="glass-slot rounded-xl p-2.5 text-xs cursor-pointer font-bold flex justify-between items-center">
-            <span id="qf-2-text">Footloose</span>
-            <i class="fa-solid fa-arrow-right text-[10px] text-amber-400 opacity-60"></i>
+          <div id="qf-2" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
+            <img id="qf-2-img" src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-2-text" class="truncate">Footloose</span>
           </div>
         </div>
+
         <!-- QF Match 2 -->
         <div class="space-y-1">
-          <div id="qf-3" onclick="advanceToSemi(2, this.innerText)" class="glass-slot rounded-xl p-2.5 text-xs cursor-pointer font-bold flex justify-between items-center">
-            <span id="qf-3-text">Hadestown</span>
-            <i class="fa-solid fa-arrow-right text-[10px] text-amber-400 opacity-60"></i>
+          <div id="qf-3" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
+            <img id="qf-3-img" src="images/hadestownposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-3-text" class="truncate">Hadestown</span>
           </div>
-          <div id="qf-4" onclick="advanceToSemi(2, this.innerText)" class="glass-slot rounded-xl p-2.5 text-xs cursor-pointer font-bold flex justify-between items-center">
-            <span id="qf-4-text">In the Heights</span>
-            <i class="fa-solid fa-arrow-right text-[10px] text-amber-400 opacity-60"></i>
+          <div id="qf-4" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
+            <img id="qf-4-img" src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-4-text" class="truncate">In the Heights</span>
           </div>
         </div>
       </div>
 
-      <!-- COL 3: West Semifinals (Final Four: 1 pairing = 2 teams) -->
-      <div class="flex flex-col justify-center h-full space-y-3 py-10">
+      <!-- COL 3: Semifinals (Left: 1 Pairing = 2 Shows) -->
+      <div class="flex flex-col justify-center h-full space-y-3 py-8">
         <div class="space-y-2">
-          <div id="semi-1" onclick="advanceToFinals('west', this.innerText)" class="glass-slot rounded-xl p-3 text-xs sm:text-sm cursor-pointer font-bold flex justify-between items-center">
+          <div id="semi-1" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
+            <img id="semi-1-img" src="" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0 hidden">
             <span id="semi-1-text" class="text-gray-400 italic">QF 1 Winner</span>
-            <i class="fa-solid fa-arrow-right text-[10px] text-amber-400 opacity-60"></i>
           </div>
-          <div id="semi-2" onclick="advanceToFinals('west', this.innerText)" class="glass-slot rounded-xl p-3 text-xs sm:text-sm cursor-pointer font-bold flex justify-between items-center">
+          <div id="semi-2" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
+            <img id="semi-2-img" src="" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0 hidden">
             <span id="semi-2-text" class="text-gray-400 italic">QF 2 Winner</span>
-            <i class="fa-solid fa-arrow-right text-[10px] text-amber-400 opacity-60"></i>
           </div>
         </div>
       </div>
 
-      <!-- COL 4: Championship Centerpiece (Finals & Winner Podium) -->
-      <div class="flex flex-col items-center justify-center h-full px-2">
+      <!-- COL 4: Championship Centerpiece (Final 2 & Trophy) -->
+      <div class="flex flex-col items-center justify-center h-full px-1">
         <div class="w-full text-center space-y-3 p-4 glass-slot rounded-2xl border-2 border-amber-500/50 shadow-2xl relative">
           <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/20 border border-amber-400/60 flex items-center justify-center text-amber-300 text-xl shadow-lg">
             <i class="fa-solid fa-crown"></i>
@@ -192,103 +214,128 @@
           
           <div>
             <span class="text-[10px] text-amber-400 font-bold uppercase tracking-widest">National Champion</span>
-            <div id="champion-name" class="cinzel text-xl sm:text-2xl font-black text-amber-100 min-h-[2rem] flex items-center justify-center">
-              TBD
+            <div id="champion-name" class="cinzel text-lg sm:text-xl font-black text-amber-100 min-h-[2.5rem] flex items-center justify-center gap-2">
+              <span id="champion-text">TBD</span>
             </div>
           </div>
 
-          <div class="pt-2 border-t border-slate-700/60 flex flex-col gap-1.5 text-xs">
-            <div id="final-west" onclick="crownChampion(this.innerText)" class="glass-slot rounded-lg p-2 font-bold cursor-pointer hover:border-amber-400">
-              <span id="final-west-text" class="text-gray-400 italic">West Champion</span>
+          <div class="pt-2 border-t border-slate-700/60 flex flex-col gap-2 text-xs">
+            <div id="final-left" class="glass-slot rounded-lg p-2 font-bold flex items-center justify-center gap-2">
+              <img id="final-left-img" src="" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb hidden">
+              <span id="final-left-text" class="text-gray-400 italic">Semifinal 1 Winner</span>
             </div>
             <span class="text-amber-500 text-[10px] font-bold">VS</span>
-            <div id="final-east" onclick="crownChampion(this.innerText)" class="glass-slot rounded-lg p-2 font-bold cursor-pointer hover:border-amber-400">
-              <span id="final-east-text" class="text-gray-400 italic">East Champion</span>
+            <div id="final-right" class="glass-slot rounded-lg p-2 font-bold flex items-center justify-center gap-2">
+              <img id="final-right-img" src="" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb hidden">
+              <span id="final-right-text" class="text-gray-400 italic">Semifinal 2 Winner</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- COL 5: East Semifinals (Final Four: 1 pairing = 2 teams) -->
-      <div class="flex flex-col justify-center h-full space-y-3 py-10">
+      <!-- COL 5: Semifinals (Right: 1 Pairing = 2 Shows) -->
+      <div class="flex flex-col justify-center h-full space-y-3 py-8">
         <div class="space-y-2">
-          <div id="semi-3" onclick="advanceToFinals('east', this.innerText)" class="glass-slot rounded-xl p-3 text-xs sm:text-sm cursor-pointer font-bold flex justify-between items-center">
-            <i class="fa-solid fa-arrow-left text-[10px] text-amber-400 opacity-60"></i>
+          <div id="semi-3" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
+            <img id="semi-3-img" src="" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0 hidden">
             <span id="semi-3-text" class="text-gray-400 italic">QF 3 Winner</span>
           </div>
-          <div id="semi-4" onclick="advanceToFinals('east', this.innerText)" class="glass-slot rounded-xl p-3 text-xs sm:text-sm cursor-pointer font-bold flex justify-between items-center">
-            <i class="fa-solid fa-arrow-left text-[10px] text-amber-400 opacity-60"></i>
+          <div id="semi-4" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
+            <img id="semi-4-img" src="" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0 hidden">
             <span id="semi-4-text" class="text-gray-400 italic">QF 4 Winner</span>
           </div>
         </div>
       </div>
 
-      <!-- COL 6: East Quarterfinals (Elite 8: 2 pairings = 4 teams) -->
-      <div class="flex flex-col justify-around h-full space-y-4 py-6">
+      <!-- COL 6: Quarterfinals (Right: 2 Pairings = 4 Shows) -->
+      <div class="flex flex-col justify-around h-full space-y-4 py-5">
         <!-- QF Match 3 -->
         <div class="space-y-1">
-          <div id="qf-5" onclick="advanceToSemi(3, this.innerText)" class="glass-slot rounded-xl p-2.5 text-xs cursor-pointer font-bold flex justify-between items-center">
-            <i class="fa-solid fa-arrow-left text-[10px] text-amber-400 opacity-60"></i>
-            <span id="qf-5-text">Shrek the Musical</span>
+          <div id="qf-5" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
+            <img id="qf-5-img" src="images/shrekposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-5-text" class="truncate">Shrek the Musical</span>
           </div>
-          <div id="qf-6" onclick="advanceToSemi(3, this.innerText)" class="glass-slot rounded-xl p-2.5 text-xs cursor-pointer font-bold flex justify-between items-center">
-            <i class="fa-solid fa-arrow-left text-[10px] text-amber-400 opacity-60"></i>
-            <span id="qf-6-text">SIX</span>
+          <div id="qf-6" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
+            <img id="qf-6-img" src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-6-text" class="truncate">SIX</span>
           </div>
         </div>
+
         <!-- QF Match 4 -->
         <div class="space-y-1">
-          <div id="qf-7" onclick="advanceToSemi(4, this.innerText)" class="glass-slot rounded-xl p-2.5 text-xs cursor-pointer font-bold flex justify-between items-center">
-            <i class="fa-solid fa-arrow-left text-[10px] text-amber-400 opacity-60"></i>
-            <span id="qf-7-text">Newsies</span>
+          <div id="qf-7" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
+            <img id="qf-7-img" src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-7-text" class="truncate">Newsies</span>
           </div>
-          <div id="qf-8" onclick="advanceToSemi(4, this.innerText)" class="glass-slot winner rounded-xl p-2.5 text-xs cursor-pointer font-bold flex justify-between items-center">
-            <i class="fa-solid fa-arrow-left text-[10px] text-amber-400 opacity-60"></i>
-            <span id="qf-8-text">Les Misérables</span>
+          <div id="qf-8" class="glass-slot winner rounded-xl p-2 text-xs font-bold flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img id="qf-8-img" src="images/lesmisposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+              <span id="qf-8-text" class="truncate text-amber-100">Les Misérables</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
         </div>
       </div>
 
-      <!-- COL 7: East Round of 16 (4 pairings = 8 teams) -->
+      <!-- COL 7: Round of 16 (Right Bracket: 8 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-1">
         <!-- Match 5 -->
         <div class="space-y-0.5">
-          <div id="slot-r16-9" onclick="advanceToQuarter(5, 'shrek')" class="glass-slot winner rounded-lg p-2 text-xs cursor-pointer flex justify-between items-center">
-            <span class="font-bold text-amber-100">Shrek</span>
-            <i class="fa-solid fa-check text-amber-400 text-[10px]"></i>
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/shrekposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="font-bold text-amber-100 truncate">Shrek</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
-          <div id="slot-r16-10" class="glass-slot eliminated rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="text-gray-400" id="name-r16-10">[Round 1 Seed 14]</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
+            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">14</div>
+            <span class="text-gray-400 line-through truncate">[Contender 14]</span>
           </div>
         </div>
+
         <!-- Match 6 -->
         <div class="space-y-0.5">
-          <div id="slot-r16-11" onclick="advanceToQuarter(6, 'six')" class="glass-slot winner rounded-lg p-2 text-xs cursor-pointer flex justify-between items-center">
-            <span class="font-bold text-amber-100">SIX</span>
-            <i class="fa-solid fa-check text-amber-400 text-[10px]"></i>
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="font-bold text-amber-100 truncate">SIX</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
-          <div id="slot-r16-12" class="glass-slot eliminated rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="text-gray-400" id="name-r16-12">[Round 1 Seed 11]</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
+            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">11</div>
+            <span class="text-gray-400 line-through truncate">[Contender 11]</span>
           </div>
         </div>
+
         <!-- Match 7 -->
         <div class="space-y-0.5">
-          <div id="slot-r16-13" onclick="advanceToQuarter(7, 'newsies')" class="glass-slot winner rounded-lg p-2 text-xs cursor-pointer flex justify-between items-center">
-            <span class="font-bold text-amber-100">Newsies</span>
-            <i class="fa-solid fa-check text-amber-400 text-[10px]"></i>
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="font-bold text-amber-100 truncate">Newsies</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
-          <div id="slot-r16-14" class="glass-slot eliminated rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="text-gray-400" id="name-r16-14">[Round 1 Seed 10]</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
+            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">10</div>
+            <span class="text-gray-400 line-through truncate">[Contender 10]</span>
           </div>
         </div>
-        <!-- Match 8 (Completed Matchup!) -->
+
+        <!-- Match 8 (Completed Matchup) -->
         <div class="space-y-0.5">
-          <div id="slot-r16-15" class="glass-slot winner rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="font-bold text-amber-100">Les Misérables</span>
-            <i class="fa-solid fa-check text-amber-400 text-[10px]"></i>
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/lesmisposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="font-bold text-amber-100 truncate">Les Mis</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
-          <div id="slot-r16-16" class="glass-slot eliminated rounded-lg p-2 text-xs flex justify-between items-center">
-            <span class="text-gray-400 line-through">Phantom of the Opera</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
+            <img src="images/phantomposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-50">
+            <span class="text-gray-400 line-through truncate">Phantom</span>
           </div>
         </div>
       </div>
@@ -300,101 +347,71 @@
   <!-- Footer -->
   <footer class="w-full bg-[#080d1a]/95 border-t border-amber-500/20 px-4 py-1.5 flex items-center justify-between text-[11px] text-gray-400 flex-shrink-0">
     <div>Musical Bracket Championship &bull; Live Tournament Tree</div>
-    <div class="text-amber-400/80">Interactive Smartboard Board View</div>
+    <div class="text-amber-400/80">Permanent Code Version</div>
   </footer>
 
-  <!-- State & Advancement Script -->
+  <!-- ======================================================== -->
+  <!-- HARDCODED RESULTS CONFIGURATION                          -->
+  <!-- Simply edit this block each week to lock in your winners -->
+  <!-- ======================================================== -->
   <script>
-    let bracketState = JSON.parse(localStorage.getItem('bracket_tree_state')) || {
-      semi1: "",
-      semi2: "",
-      semi3: "",
-      semi4: "",
-      finalWest: "",
-      finalEast: "",
+    const posterMap = {
+      "Hamilton": "images/hamiltonposter.jpg",
+      "Footloose": "images/footlooseposter.jpg",
+      "Hadestown": "images/hadestownposter.jpg",
+      "In the Heights": "images/intheheightsposter.jpg",
+      "Shrek the Musical": "images/shrekposter.jpg",
+      "SIX": "images/sixposter.jpg",
+      "Newsies": "images/newsiesposter.jpg",
+      "Les Misérables": "images/lesmisposter.jpg"
+    };
+
+    // HARDCODE WEEKLY WINNERS HERE:
+    const officialBracketData = {
+      semi1: "", // Winner of Hamilton vs Footloose
+      semi2: "", // Winner of Hadestown vs In the Heights
+      semi3: "", // Winner of Shrek vs SIX
+      semi4: "", // Winner of Newsies vs Les Mis
+      finalLeft: "",
+      finalRight: "",
       champion: ""
     };
 
-    function saveState() {
-      localStorage.setItem('bracket_tree_state', JSON.stringify(bracketState));
-    }
+    function renderOfficialBracket() {
+      // Helper to render a slot
+      function updateSlot(slotId, name) {
+        if (!name) return;
+        const textEl = document.getElementById(`${slotId}-text`);
+        const imgEl = document.getElementById(`${slotId}-img`);
+        const parent = document.getElementById(slotId);
+        
+        textEl.innerText = name;
+        textEl.classList.remove('text-gray-400', 'italic');
+        textEl.classList.add('text-amber-100');
+        parent.classList.add('winner');
+        
+        if (imgEl && posterMap[name]) {
+          imgEl.src = posterMap[name];
+          imgEl.classList.remove('hidden');
+        }
+      }
 
-    function renderBracket() {
-      if (bracketState.semi1) {
-        document.getElementById('semi-1-text').innerText = bracketState.semi1;
-        document.getElementById('semi-1-text').classList.remove('text-gray-400', 'italic');
-        document.getElementById('semi-1').classList.add('winner');
-      }
-      if (bracketState.semi2) {
-        document.getElementById('semi-2-text').innerText = bracketState.semi2;
-        document.getElementById('semi-2-text').classList.remove('text-gray-400', 'italic');
-        document.getElementById('semi-2').classList.add('winner');
-      }
-      if (bracketState.semi3) {
-        document.getElementById('semi-3-text').innerText = bracketState.semi3;
-        document.getElementById('semi-3-text').classList.remove('text-gray-400', 'italic');
-        document.getElementById('semi-3').classList.add('winner');
-      }
-      if (bracketState.semi4) {
-        document.getElementById('semi-4-text').innerText = bracketState.semi4;
-        document.getElementById('semi-4-text').classList.remove('text-gray-400', 'italic');
-        document.getElementById('semi-4').classList.add('winner');
-      }
-      if (bracketState.finalWest) {
-        document.getElementById('final-west-text').innerText = bracketState.finalWest;
-        document.getElementById('final-west-text').classList.remove('text-gray-400', 'italic');
-        document.getElementById('final-west').classList.add('winner');
-      }
-      if (bracketState.finalEast) {
-        document.getElementById('final-east-text').innerText = bracketState.finalEast;
-        document.getElementById('final-east-text').classList.remove('text-gray-400', 'italic');
-        document.getElementById('final-east').classList.add('winner');
-      }
-      if (bracketState.champion) {
-        document.getElementById('champion-name').innerText = bracketState.champion;
+      updateSlot('semi-1', officialBracketData.semi1);
+      updateSlot('semi-2', officialBracketData.semi2);
+      updateSlot('semi-3', officialBracketData.semi3);
+      updateSlot('semi-4', officialBracketData.semi4);
+      updateSlot('final-left', officialBracketData.finalLeft);
+      updateSlot('final-right', officialBracketData.finalRight);
+
+      if (officialBracketData.champion) {
+        document.getElementById('champion-text').innerText = officialBracketData.champion;
         document.getElementById('champion-name').classList.add('text-amber-300', 'drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]');
       }
     }
 
-    function advanceToSemi(qfMatchNum, name) {
-      if (!name || name.includes("Winner")) return;
-      if (qfMatchNum === 1) bracketState.semi1 = name;
-      if (qfMatchNum === 2) bracketState.semi2 = name;
-      if (qfMatchNum === 3) bracketState.semi3 = name;
-      if (qfMatchNum === 4) bracketState.semi4 = name;
-      saveState();
-      renderBracket();
-    }
-
-    function advanceToFinals(side, name) {
-      if (!name || name.includes("Winner") || name.includes("QF")) return;
-      if (side === 'west') bracketState.finalWest = name;
-      if (side === 'east') bracketState.finalEast = name;
-      saveState();
-      renderBracket();
-    }
-
-    function crownChampion(name) {
-      if (!name || name.includes("Champion")) return;
-      bracketState.champion = name;
-      saveState();
-      renderBracket();
-    }
-
-    function resetBracket() {
-      if (confirm("Reset the tournament tree progression?")) {
-        bracketState = {
-          semi1: "",
-          semi2: "",
-          semi3: "",
-          semi4: "",
-          finalWest: "",
-          finalEast: "",
-          champion: ""
-        };
-        saveState();
-        location.reload();
-      }
+    function handleImgError(img) {
+      img.onerror = null;
+      img.style.display = 'none';
     }
 
     function toggleFullScreen() {
@@ -405,7 +422,7 @@
       }
     }
 
-    window.onload = renderBracket;
+    window.onload = renderOfficialBracket;
   </script>
 </body>
 </html>
