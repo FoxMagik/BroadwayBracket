@@ -48,13 +48,6 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.8);
       border: 1px solid rgba(212, 175, 55, 0.35);
     }
-    .img-fallback {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #10182c;
-      color: #d4af37;
-    }
   </style>
 </head>
 <body class="bracket-backdrop h-screen flex flex-col justify-between overflow-hidden select-none">
@@ -67,7 +60,7 @@
       </a>
       <div>
         <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">Musical Theater Championship</h1>
-        <p class="text-[10px] text-amber-400/80 font-medium">Tournament Bracket</p>
+        <p class="text-[10px] text-amber-400/80 font-medium">Official 16-Show Tournament Bracket</p>
       </div>
     </div>
 
@@ -101,9 +94,9 @@
     <!-- Symmetrical 16-Team Bracket Viewport -->
     <div class="grid grid-cols-7 gap-2.5 items-center flex-1 min-h-0 py-1">
 
-      <!-- COL 1: Round of 16 (Left Bracket: 8 Shows) -->
+      <!-- COL 1: Round of 16 (Left: 8 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-1">
-        <!-- Match 1 -->
+        <!-- Match 1: Hamilton vs Wicked -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -113,12 +106,12 @@
             <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
           <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">16</div>
-            <span class="text-gray-400 line-through truncate">[Contender 16]</span>
+            <img src="images/wickedposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
+            <span class="text-gray-400 line-through truncate">Wicked</span>
           </div>
         </div>
 
-        <!-- Match 2 -->
+        <!-- Match 2: Footloose vs The Wiz -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -128,12 +121,12 @@
             <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
           <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">9</div>
-            <span class="text-gray-400 line-through truncate">[Contender 9]</span>
+            <img src="images/thewizposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
+            <span class="text-gray-400 line-through truncate">The Wiz</span>
           </div>
         </div>
 
-        <!-- Match 3 -->
+        <!-- Match 3: Hadestown vs Dear Evan Hansen -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -143,12 +136,12 @@
             <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
           <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">12</div>
-            <span class="text-gray-400 line-through truncate">[Contender 12]</span>
+            <img src="images/dearevanhansenposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
+            <span class="text-gray-400 line-through truncate">Dear Evan Hansen</span>
           </div>
         </div>
 
-        <!-- Match 4 -->
+        <!-- Match 4: In the Heights vs Moulin Rouge -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -158,13 +151,13 @@
             <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
           <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">13</div>
-            <span class="text-gray-400 line-through truncate">[Contender 13]</span>
+            <img src="images/moulinrougeposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
+            <span class="text-gray-400 line-through truncate">Moulin Rouge!</span>
           </div>
         </div>
       </div>
 
-      <!-- COL 2: Quarterfinals (Left: 2 Pairings = 4 Shows) -->
+      <!-- COL 2: Quarterfinals (Left: 4 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-4 py-5">
         <!-- QF Match 1 -->
         <div class="space-y-1">
@@ -191,7 +184,7 @@
         </div>
       </div>
 
-      <!-- COL 3: Semifinals (Left: 1 Pairing = 2 Shows) -->
+      <!-- COL 3: Semifinals (Left: 2 Shows) -->
       <div class="flex flex-col justify-center h-full space-y-3 py-8">
         <div class="space-y-2">
           <div id="semi-1" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
@@ -205,7 +198,7 @@
         </div>
       </div>
 
-      <!-- COL 4: Championship Centerpiece (Final 2 & Trophy) -->
+      <!-- COL 4: Championship Centerpiece -->
       <div class="flex flex-col items-center justify-center h-full px-1">
         <div class="w-full text-center space-y-3 p-4 glass-slot rounded-2xl border-2 border-amber-500/50 shadow-2xl relative">
           <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/20 border border-amber-400/60 flex items-center justify-center text-amber-300 text-xl shadow-lg">
@@ -213,7 +206,7 @@
           </div>
           
           <div>
-            <span class="text-[20px] text-amber-400 font-bold uppercase tracking-widest">Champion</span>
+            <span class="text-[10px] text-amber-400 font-bold uppercase tracking-widest">National Champion</span>
             <div id="champion-name" class="cinzel text-lg sm:text-xl font-black text-amber-100 min-h-[2.5rem] flex items-center justify-center gap-2">
               <span id="champion-text">TBD</span>
             </div>
@@ -233,7 +226,7 @@
         </div>
       </div>
 
-      <!-- COL 5: Semifinals (Right: 1 Pairing = 2 Shows) -->
+      <!-- COL 5: Semifinals (Right: 2 Shows) -->
       <div class="flex flex-col justify-center h-full space-y-3 py-8">
         <div class="space-y-2">
           <div id="semi-3" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
@@ -247,7 +240,7 @@
         </div>
       </div>
 
-      <!-- COL 6: Quarterfinals (Right: 2 Pairings = 4 Shows) -->
+      <!-- COL 6: Quarterfinals (Right: 4 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-4 py-5">
         <!-- QF Match 3 -->
         <div class="space-y-1">
@@ -277,9 +270,9 @@
         </div>
       </div>
 
-      <!-- COL 7: Round of 16 (Right Bracket: 8 Shows) -->
+      <!-- COL 7: Round of 16 (Right: 8 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-1">
-        <!-- Match 5 -->
+        <!-- Match 5: Shrek vs SpongeBob -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -289,12 +282,12 @@
             <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
           <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">14</div>
-            <span class="text-gray-400 line-through truncate">[Contender 14]</span>
+            <img src="images/spongebobposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
+            <span class="text-gray-400 line-through truncate">SpongeBob</span>
           </div>
         </div>
 
-        <!-- Match 6 -->
+        <!-- Match 6: SIX vs Legally Blonde -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -304,12 +297,12 @@
             <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
           <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">11</div>
-            <span class="text-gray-400 line-through truncate">[Contender 11]</span>
+            <img src="images/legallyblondeposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
+            <span class="text-gray-400 line-through truncate">Legally Blonde</span>
           </div>
         </div>
 
-        <!-- Match 7 -->
+        <!-- Match 7: Newsies vs The Lion King -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -319,12 +312,12 @@
             <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
           <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <div class="w-6 h-8 rounded bg-slate-900 flex-shrink-0 poster-thumb flex items-center justify-center text-[10px] text-gray-500">10</div>
-            <span class="text-gray-400 line-through truncate">[Contender 10]</span>
+            <img src="images/lionkingposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
+            <span class="text-gray-400 line-through truncate">The Lion King</span>
           </div>
         </div>
 
-        <!-- Match 8 (Completed Matchup) -->
+        <!-- Match 8: Les Mis vs Phantom -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -334,7 +327,7 @@
             <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
           </div>
           <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/phantomposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-50">
+            <img src="images/phantomposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
             <span class="text-gray-400 line-through truncate">Phantom</span>
           </div>
         </div>
@@ -363,7 +356,15 @@
       "Shrek the Musical": "images/shrekposter.jpg",
       "SIX": "images/sixposter.jpg",
       "Newsies": "images/newsiesposter.jpg",
-      "Les Misérables": "images/lesmisposter.jpg"
+      "Les Misérables": "images/lesmisposter.jpg",
+      "Wicked": "images/wickedposter.jpg",
+      "The Wiz": "images/thewizposter.jpg",
+      "Dear Evan Hansen": "images/dearevanhansenposter.jpg",
+      "Moulin Rouge!": "images/moulinrougeposter.jpg",
+      "SpongeBob": "images/spongebobposter.jpg",
+      "Legally Blonde": "images/legallyblondeposter.jpg",
+      "The Lion King": "images/lionkingposter.jpg",
+      "Phantom": "images/phantomposter.jpg"
     };
 
     // HARDCODE WEEKLY WINNERS HERE:
@@ -378,7 +379,6 @@
     };
 
     function renderOfficialBracket() {
-      // Helper to render a slot
       function updateSlot(slotId, name) {
         if (!name) return;
         const textEl = document.getElementById(`${slotId}-text`);
