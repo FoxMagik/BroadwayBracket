@@ -40,9 +40,11 @@
       background: linear-gradient(135deg, rgba(30, 41, 68, 0.95), rgba(180, 83, 9, 0.35));
       box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
     }
+    /* Softened elimination: posters stay clearly visible and colorful */
     .glass-slot.eliminated {
-      opacity: 0.4;
-      filter: grayscale(85%);
+      opacity: 0.72;
+      filter: grayscale(35%);
+      border-color: rgba(148, 163, 184, 0.2);
     }
     .poster-thumb {
       box-shadow: 0 2px 6px rgba(0,0,0,0.8);
@@ -76,15 +78,15 @@
   </header>
 
   <!-- Main Tournament Tree Grid -->
-  <main class="flex-1 w-full max-w-[1900px] mx-auto p-3 flex flex-col justify-center min-h-0">
+  <main class="flex-1 w-full max-w-[1920px] mx-auto p-2.5 md:p-3 flex flex-col justify-center min-h-0">
     
     <!-- Stage Header Indicators -->
     <div class="grid grid-cols-7 gap-2 text-center cinzel text-xs font-bold text-amber-300/80 uppercase tracking-widest mb-1">
       <div>Round of 16</div>
       <div>Quarterfinals</div>
       <div>Semifinals</div>
-      <div class="text-amber-300 font-extrabold flex items-center justify-center gap-1">
-        <i class="fa-solid fa-trophy text-amber-400"></i> Championship
+      <div class="text-amber-300 font-extrabold flex items-center justify-center gap-1.5">
+        <i class="fa-solid fa-trophy text-amber-400"></i> Champion
       </div>
       <div>Semifinals</div>
       <div>Quarterfinals</div>
@@ -92,94 +94,94 @@
     </div>
 
     <!-- Symmetrical 16-Team Bracket Viewport -->
-    <div class="grid grid-cols-7 gap-2.5 items-center flex-1 min-h-0 py-1">
+    <div class="grid grid-cols-7 gap-2 md:gap-3 items-center flex-1 min-h-0 py-1">
 
       <!-- COL 1: Round of 16 (Left: 8 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-1">
         <!-- Match 1: Hamilton vs Wicked -->
         <div class="space-y-0.5">
-          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img src="images/hamiltonposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <img src="images/hamiltonposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
               <span class="font-bold text-amber-100 truncate">Hamilton</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
-          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/wickedposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
-            <span class="text-gray-400 line-through truncate">Wicked</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs md:text-sm flex items-center gap-2">
+            <img src="images/wickedposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="text-gray-300 line-through truncate">Wicked</span>
           </div>
         </div>
 
         <!-- Match 2: Footloose vs The Wiz -->
         <div class="space-y-0.5">
-          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <img src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
               <span class="font-bold text-amber-100 truncate">Footloose</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
-          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/thewizposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
-            <span class="text-gray-400 line-through truncate">The Wiz</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs md:text-sm flex items-center gap-2">
+            <img src="images/thewizposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="text-gray-300 line-through truncate">The Wiz</span>
           </div>
         </div>
 
         <!-- Match 3: Hadestown vs Dear Evan Hansen -->
         <div class="space-y-0.5">
-          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img src="images/hadestownposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <img src="images/hadestownposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
               <span class="font-bold text-amber-100 truncate">Hadestown</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
-          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/dearevanhansenposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
-            <span class="text-gray-400 line-through truncate">Dear Evan Hansen</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs md:text-sm flex items-center gap-2">
+            <img src="images/dearevanhansenposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="text-gray-300 line-through truncate">Dear Evan Hansen</span>
           </div>
         </div>
 
         <!-- Match 4: In the Heights vs Moulin Rouge -->
         <div class="space-y-0.5">
-          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <img src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
               <span class="font-bold text-amber-100 truncate">In the Heights</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
-          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/moulinrougeposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
-            <span class="text-gray-400 line-through truncate">Moulin Rouge!</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs md:text-sm flex items-center gap-2">
+            <img src="images/moulinrougeposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="text-gray-300 line-through truncate">Moulin Rouge!</span>
           </div>
         </div>
       </div>
 
       <!-- COL 2: Quarterfinals (Left: 4 Shows) -->
-      <div class="flex flex-col justify-around h-full space-y-4 py-5">
+      <div class="flex flex-col justify-around h-full space-y-4 py-4">
         <!-- QF Match 1 -->
         <div class="space-y-1">
-          <div id="qf-1" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
-            <img id="qf-1-img" src="images/hamiltonposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-1-text" class="truncate">Hamilton</span>
+          <div id="qf-1" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img id="qf-1-img" src="images/hamiltonposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-1-text" class="truncate text-amber-100">Hamilton</span>
           </div>
-          <div id="qf-2" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
-            <img id="qf-2-img" src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-2-text" class="truncate">Footloose</span>
+          <div id="qf-2" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img id="qf-2-img" src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-2-text" class="truncate text-amber-100">Footloose</span>
           </div>
         </div>
 
         <!-- QF Match 2 -->
         <div class="space-y-1">
-          <div id="qf-3" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
-            <img id="qf-3-img" src="images/hadestownposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-3-text" class="truncate">Hadestown</span>
+          <div id="qf-3" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img id="qf-3-img" src="images/hadestownposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-3-text" class="truncate text-amber-100">Hadestown</span>
           </div>
-          <div id="qf-4" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
-            <img id="qf-4-img" src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-4-text" class="truncate">In the Heights</span>
+          <div id="qf-4" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img id="qf-4-img" src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-4-text" class="truncate text-amber-100">In the Heights</span>
           </div>
         </div>
       </div>
@@ -187,18 +189,18 @@
       <!-- COL 3: Semifinals (Left: 2 Shows) -->
       <div class="flex flex-col justify-center h-full space-y-3 py-8">
         <div class="space-y-2">
-          <div id="semi-1" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
-            <img id="semi-1-img" src="" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0 hidden">
+          <div id="semi-1" class="glass-slot rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center gap-2.5">
+            <img id="semi-1-img" src="" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0 hidden">
             <span id="semi-1-text" class="text-gray-400 italic">QF 1 Winner</span>
           </div>
-          <div id="semi-2" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
-            <img id="semi-2-img" src="" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0 hidden">
+          <div id="semi-2" class="glass-slot rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center gap-2.5">
+            <img id="semi-2-img" src="" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0 hidden">
             <span id="semi-2-text" class="text-gray-400 italic">QF 2 Winner</span>
           </div>
         </div>
       </div>
 
-      <!-- COL 4: Championship Centerpiece -->
+      <!-- COL 4: Championship Centerpiece (20pt Champion) -->
       <div class="flex flex-col items-center justify-center h-full px-1">
         <div class="w-full text-center space-y-3 p-4 glass-slot rounded-2xl border-2 border-amber-500/50 shadow-2xl relative">
           <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/20 border border-amber-400/60 flex items-center justify-center text-amber-300 text-xl shadow-lg">
@@ -206,20 +208,20 @@
           </div>
           
           <div>
-            <span class="text-[20px] text-amber-400 font-bold uppercase tracking-widest">Champion</span>
-            <div id="champion-name" class="cinzel text-lg sm:text-xl font-black text-amber-100 min-h-[2.5rem] flex items-center justify-center gap-2">
+            <h3 class="cinzel text-[20px] font-bold text-amber-300 uppercase tracking-widest leading-none">Champion</h3>
+            <div id="champion-name" class="cinzel text-lg sm:text-xl font-black text-amber-100 min-h-[2.5rem] flex items-center justify-center gap-2 mt-1">
               <span id="champion-text">TBD</span>
             </div>
           </div>
 
-          <div class="pt-2 border-t border-slate-700/60 flex flex-col gap-2 text-xs">
+          <div class="pt-2 border-t border-slate-700/60 flex flex-col gap-2 text-xs md:text-sm">
             <div id="final-left" class="glass-slot rounded-lg p-2 font-bold flex items-center justify-center gap-2">
-              <img id="final-left-img" src="" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb hidden">
+              <img id="final-left-img" src="" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb hidden">
               <span id="final-left-text" class="text-gray-400 italic">Semifinal 1 Winner</span>
             </div>
-            <span class="text-amber-500 text-[10px] font-bold">VS</span>
+            <span class="text-amber-500 text-xs font-bold">VS</span>
             <div id="final-right" class="glass-slot rounded-lg p-2 font-bold flex items-center justify-center gap-2">
-              <img id="final-right-img" src="" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb hidden">
+              <img id="final-right-img" src="" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb hidden">
               <span id="final-right-text" class="text-gray-400 italic">Semifinal 2 Winner</span>
             </div>
           </div>
@@ -229,43 +231,43 @@
       <!-- COL 5: Semifinals (Right: 2 Shows) -->
       <div class="flex flex-col justify-center h-full space-y-3 py-8">
         <div class="space-y-2">
-          <div id="semi-3" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
-            <img id="semi-3-img" src="" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0 hidden">
+          <div id="semi-3" class="glass-slot rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center gap-2.5">
+            <img id="semi-3-img" src="" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0 hidden">
             <span id="semi-3-text" class="text-gray-400 italic">QF 3 Winner</span>
           </div>
-          <div id="semi-4" class="glass-slot rounded-xl p-2.5 text-xs font-bold flex items-center gap-2">
-            <img id="semi-4-img" src="" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0 hidden">
+          <div id="semi-4" class="glass-slot rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center gap-2.5">
+            <img id="semi-4-img" src="" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0 hidden">
             <span id="semi-4-text" class="text-gray-400 italic">QF 4 Winner</span>
           </div>
         </div>
       </div>
 
       <!-- COL 6: Quarterfinals (Right: 4 Shows) -->
-      <div class="flex flex-col justify-around h-full space-y-4 py-5">
+      <div class="flex flex-col justify-around h-full space-y-4 py-4">
         <!-- QF Match 3 -->
         <div class="space-y-1">
-          <div id="qf-5" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
-            <img id="qf-5-img" src="images/shrekposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-5-text" class="truncate">Shrek the Musical</span>
+          <div id="qf-5" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img id="qf-5-img" src="images/shrekposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-5-text" class="truncate text-amber-100">Shrek the Musical</span>
           </div>
-          <div id="qf-6" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
-            <img id="qf-6-img" src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-6-text" class="truncate">SIX</span>
+          <div id="qf-6" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img id="qf-6-img" src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-6-text" class="truncate text-amber-100">SIX</span>
           </div>
         </div>
 
         <!-- QF Match 4 -->
         <div class="space-y-1">
-          <div id="qf-7" class="glass-slot rounded-xl p-2 text-xs font-bold flex items-center gap-2">
-            <img id="qf-7-img" src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-7-text" class="truncate">Newsies</span>
+          <div id="qf-7" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img id="qf-7-img" src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span id="qf-7-text" class="truncate text-amber-100">Newsies</span>
           </div>
-          <div id="qf-8" class="glass-slot winner rounded-xl p-2 text-xs font-bold flex items-center justify-between">
+          <div id="qf-8" class="glass-slot winner rounded-xl p-2 text-xs md:text-sm font-bold flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img id="qf-8-img" src="images/lesmisposter.jpg" onerror="handleImgError(this)" class="w-7 h-9 rounded object-cover poster-thumb flex-shrink-0">
+              <img id="qf-8-img" src="images/lesmisposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
               <span id="qf-8-text" class="truncate text-amber-100">Les Misérables</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
         </div>
       </div>
@@ -274,61 +276,61 @@
       <div class="flex flex-col justify-around h-full space-y-1">
         <!-- Match 5: Shrek vs SpongeBob -->
         <div class="space-y-0.5">
-          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img src="images/shrekposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <img src="images/shrekposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
               <span class="font-bold text-amber-100 truncate">Shrek</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
-          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/spongebobposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
-            <span class="text-gray-400 line-through truncate">SpongeBob</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs md:text-sm flex items-center gap-2">
+            <img src="images/spongebobposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="text-gray-300 line-through truncate">SpongeBob</span>
           </div>
         </div>
 
         <!-- Match 6: SIX vs Legally Blonde -->
         <div class="space-y-0.5">
-          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <img src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
               <span class="font-bold text-amber-100 truncate">SIX</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
-          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/legallyblondeposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
-            <span class="text-gray-400 line-through truncate">Legally Blonde</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs md:text-sm flex items-center gap-2">
+            <img src="images/legallyblondeposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="text-gray-300 line-through truncate">Legally Blonde</span>
           </div>
         </div>
 
         <!-- Match 7: Newsies vs The Lion King -->
         <div class="space-y-0.5">
-          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <img src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
               <span class="font-bold text-amber-100 truncate">Newsies</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
-          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/lionkingposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
-            <span class="text-gray-400 line-through truncate">The Lion King</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs md:text-sm flex items-center gap-2">
+            <img src="images/lionkingposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="text-gray-300 line-through truncate">The Lion King</span>
           </div>
         </div>
 
         <!-- Match 8: Les Mis vs Phantom -->
         <div class="space-y-0.5">
-          <div class="glass-slot winner rounded-lg p-1.5 text-xs flex items-center justify-between">
+          <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img src="images/lesmisposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0">
+              <img src="images/lesmisposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
               <span class="font-bold text-amber-100 truncate">Les Mis</span>
             </div>
-            <i class="fa-solid fa-check text-amber-400 text-[10px] ml-1"></i>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
-          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs flex items-center gap-2">
-            <img src="images/phantomposter.jpg" onerror="handleImgError(this)" class="w-6 h-8 rounded object-cover poster-thumb flex-shrink-0 opacity-40">
-            <span class="text-gray-400 line-through truncate">Phantom</span>
+          <div class="glass-slot eliminated rounded-lg p-1.5 text-xs md:text-sm flex items-center gap-2">
+            <img src="images/phantomposter.jpg" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="text-gray-300 line-through truncate">Phantom</span>
           </div>
         </div>
       </div>
@@ -345,7 +347,6 @@
 
   <!-- ======================================================== -->
   <!-- HARDCODED RESULTS CONFIGURATION                          -->
-  <!-- Simply edit this block each week to lock in your winners -->
   <!-- ======================================================== -->
   <script>
     const posterMap = {
