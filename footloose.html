@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footloose - "Let's Hear It for the Boy" Classroom Companion</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #0a0608;
+      color: #f3f4f6;
+    }
+    .cinzel {
+      font-family: 'Cinzel', serif;
+    }
+    .footloose-backdrop {
+      background: radial-gradient(circle at 50% 20%, rgba(65, 18, 28, 0.85) 0%, rgba(10, 6, 8, 0.98) 100%),
+                  url('https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=2000&q=80') center/cover fixed;
+    }
+    .card-glass {
+      background: rgba(18, 10, 14, 0.94);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(220, 38, 38, 0.32);
+    }
+    .portrait-frame {
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.9), 0 0 12px rgba(220, 38, 38, 0.3);
+    }
+    .img-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1c0d12;
+      color: #f87171;
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+<body class="footloose-backdrop h-screen flex flex-col justify-between overflow-hidden select-none">
+
+  <!-- Top Navigation Bar -->
+  <header class="w-full bg-[#0d0709]/95 border-b border-red-500/25 px-4 md:px-6 py-2 flex items-center justify-between z-30 flex-shrink-0">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" title="Back to Championship Hub" class="w-7 h-7 rounded-lg bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-200 flex items-center justify-center transition">
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+      </a>
+      <div>
+        <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">Footloose</h1>
+        <p class="text-[10px] text-red-400 font-medium leading-none">Classroom Listening Guide: "Let's Hear It for the Boy"</p>
+      </div>
+    </div>
+
+    <!-- Hub Link & Fullscreen -->
+    <div class="flex items-center space-x-2">
+      <a href="index.html" class="px-2.5 py-1 bg-[#1c0d12] hover:bg-[#2c131a] border border-red-500/30 text-amber-300 text-xs font-semibold rounded-lg transition flex items-center gap-1.5">
+        <i class="fa-solid fa-trophy text-[11px]"></i>
+        <span>Bracket Hub</span>
+      </a>
+      <button onclick="toggleFullScreen()" title="Toggle Fullscreen" class="text-gray-400 hover:text-red-300 transition p-1">
+        <i class="fa-solid fa-expand text-sm"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Stage: 75% Video, 25% Zero-Scroll Info Dossier -->
+  <main class="flex-1 w-full max-w-[2000px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-3 p-3 md:p-4 items-stretch min-h-0">
+    
+    <!-- Left Column: 75% Video Container -->
+    <div class="lg:col-span-9 flex flex-col justify-center min-h-0">
+      <div class="w-full card-glass rounded-2xl p-2.5 md:p-3 shadow-2xl relative border border-red-500/35 my-auto">
+        <!-- 16:9 Video Box -->
+        <div class="relative w-full pb-[56.25%] rounded-xl overflow-hidden bg-black shadow-inner">
+          <iframe 
+            id="yt-player"
+            class="absolute top-0 left-0 w-full h-full"
+            src="https://www.youtube.com/embed/p70o9g5gcdY?enablejsapi=1&playsinline=1&rel=0" 
+            title="Footloose - Let's Hear It for the Boy" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- Musical Cue Bar -->
+        <div class="mt-2 flex items-center justify-between text-xs text-amber-200/90 bg-[#0d0709]/85 px-3.5 py-1.5 rounded-lg border border-red-500/25">
+          <div class="flex items-center space-x-2 truncate mr-2">
+            <i class="fa-solid fa-compact-disc text-red-400 flex-shrink-0 text-xs"></i>
+            <span id="active-cue-label" class="truncate font-medium text-[11px] sm:text-xs">Barbie Boombox &bull; Step-by-Step Dance Practice</span>
+          </div>
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <span id="video-time-clock" class="font-mono text-amber-300 font-bold bg-red-950/40 px-2 py-0.5 rounded border border-red-500/30 text-xs">0:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: 25% Fixed Zero-Scroll Character & Listening Dossier -->
+    <div class="lg:col-span-3 flex flex-col justify-center min-h-0">
+      <div class="card-glass rounded-2xl p-3.5 md:p-4 shadow-2xl h-full max-h-[720px] flex flex-col justify-between overflow-hidden border border-red-500/30 my-auto">
+        
+        <!-- Header Tag -->
+        <div class="text-center pb-1.5 border-b border-red-950/80 flex-shrink-0">
+          <span class="inline-block px-2 py-0.5 bg-red-950/80 border border-red-500/40 text-red-300 text-[9px] font-bold rounded-full uppercase tracking-wider">
+            Featured Duo
+          </span>
+          <h2 class="cinzel text-base font-bold text-amber-100 mt-0.5 leading-tight">Teaching the Beat</h2>
+          <p class="text-[10px] text-gray-400">Tom Snow & Dean Pitchford</p>
+        </div>
+
+        <!-- Characters: Side-by-Side Compact Portraits -->
+        <div class="grid grid-cols-2 gap-2 my-auto py-1 flex-shrink-0">
+          
+          <!-- Ren McCormack -->
+          <div class="flex flex-col items-center text-center">
+            <div class="w-24 h-32 portrait-frame rounded-xl overflow-hidden border-2 border-red-500/60 bg-slate-950 flex-shrink-0">
+              <img src="images/ren.jpg" alt="Ren McCormack" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <h3 class="cinzel text-xs font-bold text-amber-100 mt-1 leading-tight">Ren McCormack</h3>
+            <p class="text-[9px] text-red-400 font-semibold uppercase tracking-wider">Kenny Wormald</p>
+          </div>
+
+          <!-- Willard Hewitt -->
+          <div class="flex flex-col items-center text-center">
+            <div class="w-24 h-32 portrait-frame rounded-xl overflow-hidden border-2 border-amber-400/60 bg-slate-950 flex-shrink-0">
+              <img src="images/willard.jpg" alt="Willard Hewitt" onerror="handleImgError(this)" class="w-full h-full object-cover object-top">
+            </div>
+            <h3 class="cinzel text-xs font-bold text-amber-100 mt-1 leading-tight">Willard Hewitt</h3>
+            <p class="text-[9px] text-red-400 font-semibold uppercase tracking-wider">Miles Teller</p>
+          </div>
+
+        </div>
+
+        <!-- Persistent Listening Prompts -->
+        <div class="space-y-1.5 pt-1.5 border-t border-red-950/80 text-left flex-shrink-0">
+          
+          <div class="p-2 bg-black/40 rounded-lg border border-red-900/40">
+            <p class="text-amber-300 font-bold text-[10px] flex items-center gap-1 mb-0.5">
+              <i class="fa-solid fa-drum text-red-400 text-[10px]"></i> The Dance Beat (4/4 Time)
+            </p>
+            <p class="text-gray-300 text-[10px] leading-snug">
+              Listen to the crisp drum snare on beats 2 and 4 that drives the energetic 1980s pop bounce.
+            </p>
+          </div>
+
+          <div class="p-2 bg-black/40 rounded-lg border border-red-900/40">
+            <p class="text-amber-300 font-bold text-[10px] flex items-center gap-1 mb-0.5">
+              <i class="fa-solid fa-person-walking text-red-400 text-[10px]"></i> Rhythm & Muscle Memory
+            </p>
+            <p class="text-gray-300 text-[10px] leading-snug">
+              Notice how Ren uses hand-snaps and steady head nods to help Willard feel the groove before moving his feet.
+            </p>
+          </div>
+
+          <div class="p-2 bg-black/40 rounded-lg border border-red-900/40">
+            <p class="text-amber-300 font-bold text-[10px] flex items-center gap-1 mb-0.5">
+              <i class="fa-solid fa-arrow-trend-up text-red-400 text-[10px]"></i> Confidence Montage
+            </p>
+            <p class="text-gray-300 text-[10px] leading-snug">
+              Watch how the editing shows Willard practicing everywhere until his stiff moves turn into smooth freestyle footwork.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Bar with Matchup Quick Switch -->
+  <footer class="w-full bg-[#0d0709]/95 border-t border-red-500/20 px-4 md:px-6 py-1.5 flex items-center justify-between text-xs flex-shrink-0">
+    <div class="flex items-center space-x-2">
+      <a href="index.html" class="px-3 py-1 rounded-lg bg-[#1c0d12] hover:bg-[#2c131a] border border-red-500/30 text-amber-200 font-semibold transition flex items-center space-x-1.5 text-xs">
+        <i class="fa-solid fa-arrow-left text-[10px]"></i>
+        <span>Back to Ballot Box</span>
+      </a>
+    </div>
+
+    <div class="text-gray-400 hidden sm:block text-[11px]">
+      Quarterfinal 1: <span class="text-amber-400 font-semibold">Hamilton</span> vs. <span class="text-red-400 font-semibold">Footloose</span>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <a href="hamilton.html" class="px-3 py-1 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-300 font-semibold transition flex items-center space-x-1.5 text-xs">
+        <span>Go to Hamilton</span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </a>
+    </div>
+  </footer>
+
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    function handleImgError(img) {
+      img.onerror = null;
+      img.parentElement.innerHTML = '<div class="w-full h-full img-fallback"><i class="fa-solid fa-shoe-prints"></i></div>';
+    }
+
+    let ytPlayer = null;
+    let timeTrackingInterval = null;
+
+    // Milestone cues for "Let's Hear It for the Boy" scene [00:00:00 - 00:02:11]
+    const cues = [
+      { time: 0, text: "Barbie Boombox • Don't tell the football team!" },
+      { time: 24, text: "The Girls Lead the Way • Finding the First Step" },
+      { time: 48, text: "Ren & Friends Coach Willard • 'Less hips, feel the beat!'" },
+      { time: 70, text: "Garage Practice & Hand-Snap Rhythms" },
+      { time: 77, text: "Diner Parking Lot • 'Don't dance, just bounce!'" },
+      { time: 104, text: "Solo Practice with Earbuds • The Junkyard Dance Break" },
+      { time: 122, text: "Triumph & Coordination • Willard Nails the Routine!" }
+    ];
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('yt-player', {
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        startTimeTracking();
+      } else {
+        stopTimeTracking();
+      }
+    }
+
+    function startTimeTracking() {
+      stopTimeTracking();
+      timeTrackingInterval = setInterval(() => {
+        if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+        const currentSec = Math.floor(ytPlayer.getCurrentTime());
+        
+        // Digital clock
+        const mins = Math.floor(currentSec / 60);
+        const secs = currentSec % 60;
+        document.getElementById('video-time-clock').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+        // Dynamic banner cue
+        for (let i = cues.length - 1; i >= 0; i--) {
+          if (currentSec >= cues[i].time) {
+            document.getElementById('active-cue-label').innerText = cues[i].text;
+            break;
+          }
+        }
+      }, 500);
+    }
+
+    function stopTimeTracking() {
+      if (timeTrackingInterval) {
+        clearInterval(timeTrackingInterval);
+        timeTrackingInterval = null;
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  </script>
+</body>
+</html>
