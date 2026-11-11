@@ -30,20 +30,20 @@
       border: 1px solid rgba(212, 175, 55, 0.22);
       transition: all 0.2s ease-in-out;
     }
-    .glass-slot:hover:not(.eliminated):not(.empty) {
-      border-color: rgba(212, 175, 55, 0.7);
-      background: rgba(26, 36, 62, 0.95);
+    .glass-slot.interactive:hover {
+      border-color: rgba(245, 158, 11, 0.8);
+      background: rgba(30, 42, 70, 0.95);
       transform: scale(1.02);
+      cursor: pointer;
     }
     .glass-slot.winner {
       border-color: #f59e0b;
       background: linear-gradient(135deg, rgba(30, 41, 68, 0.95), rgba(180, 83, 9, 0.35));
       box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
     }
-    /* Softened elimination: posters stay clearly visible and colorful */
     .glass-slot.eliminated {
-      opacity: 0.72;
-      filter: grayscale(35%);
+      opacity: 0.65;
+      filter: grayscale(40%);
       border-color: rgba(148, 163, 184, 0.2);
     }
     .poster-thumb {
@@ -62,14 +62,18 @@
       </a>
       <div>
         <h1 class="cinzel text-base md:text-lg font-bold tracking-wide text-amber-100 leading-tight">Musical Theater Championship</h1>
-        <p class="text-[10px] text-amber-400/80 font-medium">Official 16-Show Tournament Bracket</p>
+        <p class="text-[10px] text-amber-400/80 font-medium">Semifinal Round &bull; Click to Advance Finalists</p>
       </div>
     </div>
 
     <div class="flex items-center space-x-3">
+      <button onclick="resetSemifinalPicks()" title="Clear Semifinal & Champion picks" class="px-2.5 py-1 bg-red-950/60 hover:bg-red-900 border border-red-500/40 text-red-200 text-xs rounded-lg transition flex items-center gap-1.5">
+        <i class="fa-solid fa-arrow-rotate-right text-[10px]"></i>
+        <span>Reset Picks</span>
+      </button>
       <a href="index.html" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 text-xs font-bold rounded-lg transition flex items-center gap-1.5">
         <i class="fa-solid fa-layer-group text-xs"></i>
-        <span>Quarterfinals Hub</span>
+        <span>Voting Hub</span>
       </a>
       <button onclick="toggleFullScreen()" class="text-gray-400 hover:text-amber-300 transition p-1">
         <i class="fa-solid fa-expand text-sm"></i>
@@ -84,11 +88,11 @@
     <div class="grid grid-cols-7 gap-2 text-center cinzel text-xs font-bold text-amber-300/80 uppercase tracking-widest mb-1">
       <div>Round of 16</div>
       <div>Quarterfinals</div>
-      <div>Semifinals</div>
+      <div class="text-amber-400">Semifinals</div>
       <div class="text-amber-300 font-extrabold flex items-center justify-center gap-1.5">
         <i class="fa-solid fa-trophy text-amber-400"></i> Champion
       </div>
-      <div>Semifinals</div>
+      <div class="text-amber-400">Semifinals</div>
       <div>Quarterfinals</div>
       <div>Round of 16</div>
     </div>
@@ -98,7 +102,7 @@
 
       <!-- COL 1: Round of 16 (Left: 8 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-1">
-        <!-- Match 1: Hamilton vs Wicked -->
+        <!-- Match 1 -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -113,7 +117,7 @@
           </div>
         </div>
 
-        <!-- Match 2: Footloose vs The Wiz -->
+        <!-- Match 2 -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -128,7 +132,7 @@
           </div>
         </div>
 
-        <!-- Match 3: Hadestown vs Dear Evan Hansen -->
+        <!-- Match 3 -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -143,7 +147,7 @@
           </div>
         </div>
 
-        <!-- Match 4: In the Heights vs Moulin Rouge -->
+        <!-- Match 4 -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -163,39 +167,53 @@
       <div class="flex flex-col justify-around h-full space-y-4 py-4">
         <!-- QF Match 1 -->
         <div class="space-y-1">
-          <div id="qf-1" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
-            <img id="qf-1-img" src="images/hamiltonposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-1-text" class="truncate text-amber-100">Hamilton</span>
+          <div class="glass-slot eliminated rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img src="images/hamiltonposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="truncate line-through text-gray-300">Hamilton</span>
           </div>
-          <div id="qf-2" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
-            <img id="qf-2-img" src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-2-text" class="truncate text-amber-100">Footloose</span>
+          <div class="glass-slot winner rounded-xl p-2 text-xs md:text-sm font-bold flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="truncate text-amber-100">Footloose</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
         </div>
 
         <!-- QF Match 2 -->
         <div class="space-y-1">
-          <div id="qf-3" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
-            <img id="qf-3-img" src="images/hadestownposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-3-text" class="truncate text-amber-100">Hadestown</span>
+          <div class="glass-slot eliminated rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img src="images/hadestownposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="truncate line-through text-gray-300">Hadestown</span>
           </div>
-          <div id="qf-4" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
-            <img id="qf-4-img" src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-4-text" class="truncate text-amber-100">In the Heights</span>
+          <div class="glass-slot winner rounded-xl p-2 text-xs md:text-sm font-bold flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="truncate text-amber-100">In the Heights</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
         </div>
       </div>
 
-      <!-- COL 3: Semifinals (Left: 2 Shows) -->
+      <!-- COL 3: Semifinals (Left / Semifinal 1 - CLICKABLE) -->
       <div class="flex flex-col justify-center h-full space-y-3 py-8">
         <div class="space-y-2">
-          <div id="semi-1" class="glass-slot rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center gap-2.5">
-            <img id="semi-1-img" src="" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0 hidden">
-            <span id="semi-1-text" class="text-gray-400 italic">QF 1 Winner</span>
+          <!-- Footloose -->
+          <div id="semi-slot-1" onclick="selectFinalist('left', 'Footloose')" class="glass-slot interactive winner rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center justify-between">
+            <div class="flex items-center gap-2.5 truncate">
+              <img src="images/footlooseposter.jpg" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="text-amber-100 truncate">Footloose</span>
+            </div>
+            <i id="semi-check-1" class="fa-solid fa-arrow-right text-amber-400 text-xs ml-1 flex-shrink-0 opacity-60"></i>
           </div>
-          <div id="semi-2" class="glass-slot rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center gap-2.5">
-            <img id="semi-2-img" src="" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0 hidden">
-            <span id="semi-2-text" class="text-gray-400 italic">QF 2 Winner</span>
+          <!-- In the Heights -->
+          <div id="semi-slot-2" onclick="selectFinalist('left', 'In the Heights')" class="glass-slot interactive winner rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center justify-between">
+            <div class="flex items-center gap-2.5 truncate">
+              <img src="images/intheheightsposter.jpg" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="text-amber-100 truncate">In the Heights</span>
+            </div>
+            <i id="semi-check-2" class="fa-solid fa-arrow-right text-amber-400 text-xs ml-1 flex-shrink-0 opacity-60"></i>
           </div>
         </div>
       </div>
@@ -215,29 +233,41 @@
           </div>
 
           <div class="pt-2 border-t border-slate-700/60 flex flex-col gap-2 text-xs md:text-sm">
-            <div id="final-left" class="glass-slot rounded-lg p-2 font-bold flex items-center justify-center gap-2">
-              <img id="final-left-img" src="" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb hidden">
+            <!-- Finalist Left -->
+            <div id="final-left-slot" onclick="selectChampion('left')" class="glass-slot interactive rounded-lg p-2 font-bold flex items-center justify-center gap-2 min-h-[44px]">
+              <img id="final-left-img" src="" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb hidden flex-shrink-0">
               <span id="final-left-text" class="text-gray-400 italic">Semifinal 1 Winner</span>
             </div>
+            
             <span class="text-amber-500 text-xs font-bold">VS</span>
-            <div id="final-right" class="glass-slot rounded-lg p-2 font-bold flex items-center justify-center gap-2">
-              <img id="final-right-img" src="" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb hidden">
+            
+            <!-- Finalist Right -->
+            <div id="final-right-slot" onclick="selectChampion('right')" class="glass-slot interactive rounded-lg p-2 font-bold flex items-center justify-center gap-2 min-h-[44px]">
+              <img id="final-right-img" src="" onerror="handleImgError(this)" class="w-7 h-10 rounded object-cover poster-thumb hidden flex-shrink-0">
               <span id="final-right-text" class="text-gray-400 italic">Semifinal 2 Winner</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- COL 5: Semifinals (Right: 2 Shows) -->
+      <!-- COL 5: Semifinals (Right / Semifinal 2 - CLICKABLE) -->
       <div class="flex flex-col justify-center h-full space-y-3 py-8">
         <div class="space-y-2">
-          <div id="semi-3" class="glass-slot rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center gap-2.5">
-            <img id="semi-3-img" src="" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0 hidden">
-            <span id="semi-3-text" class="text-gray-400 italic">QF 3 Winner</span>
+          <!-- SIX -->
+          <div id="semi-slot-3" onclick="selectFinalist('right', 'SIX')" class="glass-slot interactive winner rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center justify-between">
+            <i id="semi-check-3" class="fa-solid fa-arrow-left text-amber-400 text-xs mr-1 flex-shrink-0 opacity-60"></i>
+            <div class="flex items-center gap-2.5 truncate">
+              <span class="text-amber-100 truncate">SIX</span>
+              <img src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0">
+            </div>
           </div>
-          <div id="semi-4" class="glass-slot rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center gap-2.5">
-            <img id="semi-4-img" src="" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0 hidden">
-            <span id="semi-4-text" class="text-gray-400 italic">QF 4 Winner</span>
+          <!-- Newsies -->
+          <div id="semi-slot-4" onclick="selectFinalist('right', 'Newsies')" class="glass-slot interactive winner rounded-xl p-2.5 text-xs md:text-sm font-bold flex items-center justify-between">
+            <i id="semi-check-4" class="fa-solid fa-arrow-left text-amber-400 text-xs mr-1 flex-shrink-0 opacity-60"></i>
+            <div class="flex items-center gap-2.5 truncate">
+              <span class="text-amber-100 truncate">Newsies</span>
+              <img src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-9 h-12 rounded object-cover poster-thumb flex-shrink-0">
+            </div>
           </div>
         </div>
       </div>
@@ -246,35 +276,38 @@
       <div class="flex flex-col justify-around h-full space-y-4 py-4">
         <!-- QF Match 3 -->
         <div class="space-y-1">
-          <div id="qf-5" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
-            <img id="qf-5-img" src="images/shrekposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-5-text" class="truncate text-amber-100">Shrek the Musical</span>
+          <div class="glass-slot eliminated rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img src="images/shrekposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="truncate line-through text-gray-300">Shrek the Musical</span>
           </div>
-          <div id="qf-6" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
-            <img id="qf-6-img" src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-6-text" class="truncate text-amber-100">SIX</span>
+          <div class="glass-slot winner rounded-xl p-2 text-xs md:text-sm font-bold flex items-center justify-between">
+            <div class="flex items-center gap-2 truncate">
+              <img src="images/sixposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="truncate text-amber-100">SIX</span>
+            </div>
+            <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
           </div>
         </div>
 
         <!-- QF Match 4 -->
         <div class="space-y-1">
-          <div id="qf-7" class="glass-slot rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
-            <img id="qf-7-img" src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
-            <span id="qf-7-text" class="truncate text-amber-100">Newsies</span>
-          </div>
-          <div id="qf-8" class="glass-slot winner rounded-xl p-2 text-xs md:text-sm font-bold flex items-center justify-between">
+          <div class="glass-slot winner rounded-xl p-2 text-xs md:text-sm font-bold flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
-              <img id="qf-8-img" src="images/lesmisposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
-              <span id="qf-8-text" class="truncate text-amber-100">Les Misérables</span>
+              <img src="images/newsiesposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+              <span class="truncate text-amber-100">Newsies</span>
             </div>
             <i class="fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0"></i>
+          </div>
+          <div class="glass-slot eliminated rounded-xl p-2 text-xs md:text-sm font-bold flex items-center gap-2">
+            <img src="images/lesmisposter.jpg" onerror="handleImgError(this)" class="w-8 h-11 rounded object-cover poster-thumb flex-shrink-0">
+            <span class="truncate line-through text-gray-300">Les Misérables</span>
           </div>
         </div>
       </div>
 
       <!-- COL 7: Round of 16 (Right: 8 Shows) -->
       <div class="flex flex-col justify-around h-full space-y-1">
-        <!-- Match 5: Shrek vs SpongeBob -->
+        <!-- Match 5 -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -289,7 +322,7 @@
           </div>
         </div>
 
-        <!-- Match 6: SIX vs Legally Blonde -->
+        <!-- Match 6 -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -304,7 +337,7 @@
           </div>
         </div>
 
-        <!-- Match 7: Newsies vs The Lion King -->
+        <!-- Match 7 -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -319,7 +352,7 @@
           </div>
         </div>
 
-        <!-- Match 8: Les Mis vs Phantom -->
+        <!-- Match 8 -->
         <div class="space-y-0.5">
           <div class="glass-slot winner rounded-lg p-1.5 text-xs md:text-sm flex items-center justify-between">
             <div class="flex items-center gap-2 truncate">
@@ -342,71 +375,152 @@
   <!-- Footer -->
   <footer class="w-full bg-[#080d1a]/95 border-t border-amber-500/20 px-4 py-1.5 flex items-center justify-between text-[11px] text-gray-400 flex-shrink-0">
     <div>Musical Bracket Championship &bull; Live Tournament Tree</div>
-    <div class="text-amber-400/80">Permanent Code Version</div>
+    <div class="text-amber-400/80">Interactive Semifinals Mode</div>
   </footer>
 
-  <!-- ======================================================== -->
-  <!-- HARDCODED RESULTS CONFIGURATION                          -->
-  <!-- ======================================================== -->
+  <!-- State & Dynamic Interaction Script -->
   <script>
     const posterMap = {
-      "Hamilton": "images/hamiltonposter.jpg",
       "Footloose": "images/footlooseposter.jpg",
-      "Hadestown": "images/hadestownposter.jpg",
       "In the Heights": "images/intheheightsposter.jpg",
-      "Shrek the Musical": "images/shrekposter.jpg",
       "SIX": "images/sixposter.jpg",
-      "Newsies": "images/newsiesposter.jpg",
-      "Les Misérables": "images/lesmisposter.jpg",
-      "Wicked": "images/wickedposter.jpg",
-      "The Wiz": "images/thewizposter.jpg",
-      "Dear Evan Hansen": "images/dearevanhansenposter.jpg",
-      "Moulin Rouge!": "images/moulinrougeposter.jpg",
-      "SpongeBob": "images/spongebobposter.jpg",
-      "Legally Blonde": "images/legallyblondeposter.jpg",
-      "The Lion King": "images/lionkingposter.jpg",
-      "Phantom": "images/phantomposter.jpg"
+      "Newsies": "images/newsiesposter.jpg"
     };
 
-    // HARDCODE WEEKLY WINNERS HERE:
-    const officialBracketData = {
-      semi1: "Footloose", // Winner of Hamilton vs Footloose
-      semi2: "In The Heights", // Winner of Hadestown vs In the Heights
-      semi3: "Six", // Winner of Shrek vs SIX
-      semi4: "Newsies", // Winner of Newsies vs Les Mis
+    let picks = JSON.parse(localStorage.getItem('bracket_semifinal_picks')) || {
       finalLeft: "",
       finalRight: "",
       champion: ""
     };
 
-    function renderOfficialBracket() {
-      function updateSlot(slotId, name) {
-        if (!name) return;
-        const textEl = document.getElementById(`${slotId}-text`);
-        const imgEl = document.getElementById(`${slotId}-img`);
-        const parent = document.getElementById(slotId);
-        
-        textEl.innerText = name;
-        textEl.classList.remove('text-gray-400', 'italic');
-        textEl.classList.add('text-amber-100');
-        parent.classList.add('winner');
-        
-        if (imgEl && posterMap[name]) {
-          imgEl.src = posterMap[name];
-          imgEl.classList.remove('hidden');
+    function savePicks() {
+      localStorage.setItem('bracket_semifinal_picks', JSON.stringify(picks));
+    }
+
+    function selectFinalist(side, name) {
+      if (side === 'left') {
+        picks.finalLeft = name;
+        if (picks.champion && picks.champion !== picks.finalLeft && picks.champion !== picks.finalRight) {
+          picks.champion = "";
+        }
+      } else if (side === 'right') {
+        picks.finalRight = name;
+        if (picks.champion && picks.champion !== picks.finalLeft && picks.champion !== picks.finalRight) {
+          picks.champion = "";
         }
       }
+      savePicks();
+      renderInteractivePicks();
+    }
 
-      updateSlot('semi-1', officialBracketData.semi1);
-      updateSlot('semi-2', officialBracketData.semi2);
-      updateSlot('semi-3', officialBracketData.semi3);
-      updateSlot('semi-4', officialBracketData.semi4);
-      updateSlot('final-left', officialBracketData.finalLeft);
-      updateSlot('final-right', officialBracketData.finalRight);
+    function selectChampion(side) {
+      const chosen = side === 'left' ? picks.finalLeft : picks.finalRight;
+      if (!chosen) return;
+      picks.champion = chosen;
+      savePicks();
+      renderInteractivePicks();
+    }
 
-      if (officialBracketData.champion) {
-        document.getElementById('champion-text').innerText = officialBracketData.champion;
-        document.getElementById('champion-name').classList.add('text-amber-300', 'drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]');
+    function renderInteractivePicks() {
+      // Semifinal 1 (Left) visual feedback
+      const slot1 = document.getElementById('semi-slot-1');
+      const slot2 = document.getElementById('semi-slot-2');
+      const icon1 = document.getElementById('semi-check-1');
+      const icon2 = document.getElementById('semi-check-2');
+
+      slot1.classList.remove('eliminated');
+      slot2.classList.remove('eliminated');
+      icon1.className = "fa-solid fa-arrow-right text-amber-400 text-xs ml-1 flex-shrink-0 opacity-60";
+      icon2.className = "fa-solid fa-arrow-right text-amber-400 text-xs ml-1 flex-shrink-0 opacity-60";
+
+      if (picks.finalLeft === 'Footloose') {
+        slot2.classList.add('eliminated');
+        icon1.className = "fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0";
+      } else if (picks.finalLeft === 'In the Heights') {
+        slot1.classList.add('eliminated');
+        icon2.className = "fa-solid fa-check text-amber-400 text-xs ml-1 flex-shrink-0";
+      }
+
+      // Semifinal 2 (Right) visual feedback
+      const slot3 = document.getElementById('semi-slot-3');
+      const slot4 = document.getElementById('semi-slot-4');
+      const icon3 = document.getElementById('semi-check-3');
+      const icon4 = document.getElementById('semi-check-4');
+
+      slot3.classList.remove('eliminated');
+      slot4.classList.remove('eliminated');
+      icon3.className = "fa-solid fa-arrow-left text-amber-400 text-xs mr-1 flex-shrink-0 opacity-60";
+      icon4.className = "fa-solid fa-arrow-left text-amber-400 text-xs mr-1 flex-shrink-0 opacity-60";
+
+      if (picks.finalRight === 'SIX') {
+        slot4.classList.add('eliminated');
+        icon3.className = "fa-solid fa-check text-amber-400 text-xs mr-1 flex-shrink-0";
+      } else if (picks.finalRight === 'Newsies') {
+        slot3.classList.add('eliminated');
+        icon4.className = "fa-solid fa-check text-amber-400 text-xs mr-1 flex-shrink-0";
+      }
+
+      // Centerpiece Finalists Slots
+      const leftText = document.getElementById('final-left-text');
+      const leftImg = document.getElementById('final-left-img');
+      const leftSlot = document.getElementById('final-left-slot');
+
+      if (picks.finalLeft) {
+        leftText.innerText = picks.finalLeft;
+        leftText.classList.remove('text-gray-400', 'italic');
+        leftText.classList.add('text-amber-100');
+        leftImg.src = posterMap[picks.finalLeft] || '';
+        leftImg.classList.remove('hidden');
+        leftSlot.classList.add('winner');
+      } else {
+        leftText.innerText = "Semifinal 1 Winner";
+        leftText.classList.add('text-gray-400', 'italic');
+        leftText.classList.remove('text-amber-100');
+        leftImg.classList.add('hidden');
+        leftSlot.classList.remove('winner');
+      }
+
+      const rightText = document.getElementById('final-right-text');
+      const rightImg = document.getElementById('final-right-img');
+      const rightSlot = document.getElementById('final-right-slot');
+
+      if (picks.finalRight) {
+        rightText.innerText = picks.finalRight;
+        rightText.classList.remove('text-gray-400', 'italic');
+        rightText.classList.add('text-amber-100');
+        rightImg.src = posterMap[picks.finalRight] || '';
+        rightImg.classList.remove('hidden');
+        rightSlot.classList.add('winner');
+      } else {
+        rightText.innerText = "Semifinal 2 Winner";
+        rightText.classList.add('text-gray-400', 'italic');
+        rightText.classList.remove('text-amber-100');
+        rightImg.classList.add('hidden');
+        rightSlot.classList.remove('winner');
+      }
+
+      // Champion Podium
+      const champText = document.getElementById('champion-text');
+      const champBox = document.getElementById('champion-name');
+
+      if (picks.champion) {
+        champText.innerText = picks.champion;
+        champBox.classList.add('text-amber-300', 'drop-shadow-[0_0_12px_rgba(245,158,11,0.9)]');
+      } else {
+        champText.innerText = "TBD";
+        champBox.classList.remove('text-amber-300', 'drop-shadow-[0_0_12px_rgba(245,158,11,0.9)]');
+      }
+    }
+
+    function resetSemifinalPicks() {
+      if (confirm("Reset the Semifinal and Championship picks back to TBD?")) {
+        picks = {
+          finalLeft: "",
+          finalRight: "",
+          champion: ""
+        };
+        savePicks();
+        renderInteractivePicks();
       }
     }
 
@@ -423,7 +537,7 @@
       }
     }
 
-    window.onload = renderOfficialBracket;
+    window.onload = renderInteractivePicks;
   </script>
 </body>
 </html>
